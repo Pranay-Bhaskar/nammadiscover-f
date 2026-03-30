@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
-const videoApi = axios.create({ baseURL: BASE_URL });
+const videoApi = axios.create({ baseURL: `${BASE_URL}/api` });
 
 // Inject auth token on every request
 videoApi.interceptors.request.use((config) => {
