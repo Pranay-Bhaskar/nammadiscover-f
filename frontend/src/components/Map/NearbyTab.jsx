@@ -55,7 +55,7 @@ export default function NearbyTab({ locationId, defaultCategory = '' }) {
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "../../store/AppContext";
-import { fetchNearby } from "../../services/api";
+import { fetchNearby } from "../../services/mapApi";  //changed from /pai to /mapApi
 
 /* CATEGORY FALLBACK IMAGES */
 
