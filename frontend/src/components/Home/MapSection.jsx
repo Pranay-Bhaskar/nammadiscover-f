@@ -41,7 +41,7 @@ const MapSection = () => {
                     lang: language
                 };
                 if (selectedCity) params.city = selectedCity;
-                const res = await axios.get(`${import.meta.env.VITE_API_URL}/locations`, { params });
+                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/locations`, { params });
                 setLocations(res.data);
             } catch (err) {
                 console.error('Fetch locations:', err);

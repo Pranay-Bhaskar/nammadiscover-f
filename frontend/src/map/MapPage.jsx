@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import { useApp } from '../store/AppContext';
-import { fetchLocations } from '../services/api';
+import { fetchLocations } from '../services/locationService';
 import { useGeolocation } from '../hooks/useGeolocation';
 import { useDebounce } from '../hooks/useDebounce';
 import MapController from './MapController';
