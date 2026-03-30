@@ -28,7 +28,7 @@ const DiscoverGrid = () => {
                 if (selectedCategory && selectedCategory !== 'all') params.category = selectedCategory;
                 if (verifiedOnly) params.verifiedOnly = true;
 
-                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/locations`, { params });
+                const res = await axios.get(`${import.meta.env.VITE_API_URL}/locations`, { params });
                 setFiltered(res.data);
             } catch (err) {
                 console.error('Error fetching filtered spots:', err);
