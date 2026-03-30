@@ -23,7 +23,7 @@ const GeoSection = () => {
             if (!coords) return;
             setLoading(true);
             try {
-                const res = await axios.get(`http://localhost:5001/api/locations`, {
+                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/locations`, {
                     params: {
                         lat: coords.lat,
                         lng: coords.lng,

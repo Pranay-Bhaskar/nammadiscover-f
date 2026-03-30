@@ -35,7 +35,7 @@ const ExplorerForm = ({ onClose }) => {
                     website: formData.website
                 }
             };
-            await axios.post('http://localhost:5001/api/explorers/apply', data, {
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/explorers/apply`, data, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             toast.success(t('Application submitted successfully!', 'ಅರ್ಜಿಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ!'));
