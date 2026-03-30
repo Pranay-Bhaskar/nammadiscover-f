@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NammaDiscover — Discover Karnataka's Soul</title>
+    <meta name="description"
+        content="Discover hidden gems, family-run businesses, authentic food and heritage spots across Karnataka.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav id="main-nav" role="navigation">
+        <div class="container nav-inner">
+            <a href="#" class="nav-logo" id="nav-logo-text">Namma<span>Discover</span></a>
+            <div class="nav-links">
+                <a href="#discover" class="nav-link active" data-en="Discover" data-kn="ಅನ್ವೇಷಿಸಿ">Discover</a>
+                <a href="#map-section" class="nav-link" data-en="Map" data-kn="ನಕ್ಷೆ">Map</a>
+                <a href="#ai-section" class="nav-link" data-en="AI Picks" data-kn="AI ಆಯ್ಕೆಗಳು">AI Picks</a>
+                <a href="#budget-section" class="nav-link" data-en="Budget Trip" data-kn="ಬಜೆಟ್ ಪ್ರವಾಸ">Budget Trip</a>
+                <a href="#itinerary-section" class="nav-link" data-en="Trip Planner" data-kn="ಪ್ರಯಾಣ ಯೋಜಕ">Trip
+                <a href="#explorer-section" class="nav-link" data-en="Explore" data-kn="ಅನ್ವೇಷಿಸಿ">Explore</a>
+                    Planner</a>
+                <a href="#investor-section" class="nav-link" data-en="Investors" data-kn="ಹೂಡಿಕೆದಾರರು">Investors</a>
+            </div>
+            <div class="nav-actions">
+                <select class="city-select" id="nav-city-sel" aria-label="Filter by city"></select>
+                <button class="lang-toggle" id="lang-btn" onclick="toggleLanguage()">🇮🇳 ಕನ್ನಡ</button>
+                <button class="icon-toggle" id="theme-toggle" title="Toggle theme">☀️</button>
+                <button id="hamburger" class="icon-toggle" aria-label="Open menu">☰</button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="container hidden"
+            style="padding:.75rem 0;display:flex;flex-direction:column;gap:.5rem">
+            <a href="#discover" class="nav-link">Discover</a>
+            <a href="#map-section" class="nav-link">Map</a>
+            <a href="#ai-section" class="nav-link">AI Picks</a>
+            <a href="#budget-section" class="nav-link">Budget Trip</a>
+            <a href="#explorer-section" class="nav-link">Explore</a>
+            <a href="#itinerary-section" class="nav-link">Trip Planner</a>
+            <a href="#investor-section" class="nav-link">Investors</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero" aria-label="Hero">
+        <div class="hero-video-wrap">
+            <video autoplay muted loop playsinline id="hero-video">
+                <source src="🌏_KARNATAKA__Culture,_Food___Heritage(1440p60).webm" type="video/mp4">
+            </video>
+            <div class="hero-video-overlay"></div>
+        </div>
+        <div class="container hero-inner">
+            <div class="hero-content">
+                <div class="hero-tag">🇮🇳 <span data-en="Karnataka's Local Discovery Platform"
+                        data-kn="ಕರ್ನಾಟಕದ ಸ್ಥಳೀಯ ಅನ್ವೇಷಣ ವೇದಿಕೆ">Karnataka's Local Discovery Platform</span></div>
+                <h1 class="hero-title">
+                    <span data-en="Discover" data-kn="ಅನ್ವೇಷಿಸಿ">Discover</span>
+                    <span class="highlight"> Karnataka's</span><br>
+                    <span data-en="Hidden Soul" data-kn="ಅಡಗಿದ ಆತ್ಮ">Hidden Soul</span>
+                </h1>
+                <p class="hero-desc"
+                    data-en="Go beyond guidebooks. Find century-old restaurants, sacred hidden waterfalls, and authentic homestays — all verified by local residents."
+                    data-kn="ಮಾರ್ಗದರ್ಶಿ ಪುಸ್ತಕಗಳನ್ನು ಮೀರಿ ಹೋಗಿ. ಶತಮಾನ ಹಳೆಯ ರೆಸ್ಟೋರೆಂಟ್‌ಗಳು, ಪವಿತ್ರ ಜಲಪಾತಗಳು ಮತ್ತು ಅಧಿಕೃತ ಹೋಂಸ್ಟೇಗಳನ್ನು ಕಂಡುಕೊಳ್ಳಿ.">
+                    Go beyond guidebooks. Find century-old restaurants, sacred hidden waterfalls, and authentic
+                    homestays — all verified by local residents.</p>
+                <div class="hero-ctas">
+                    <button class="btn btn-primary" onclick="requestGeolocation()" id="geo-btn">📍 <span
+                            data-en="Find Near Me" data-kn="ನನ್ನ ಬಳಿ ಹುಡುಕಿ">Find Near Me</span></button>
+                    <a href="#discover" class="btn btn-ghost">🗺️ <span data-en="Explore All Spots"
+                            data-kn="ಎಲ್ಲ ತಾಣಗಳನ್ನು ಅನ್ವೇಷಿಸಿ">Explore All Spots</span></a>
+                    <button class="btn btn-gold"
+                        onclick="document.getElementById('budget-section').scrollIntoView({behavior:'smooth'})">💰 <span
+                            data-en="Plan Within Budget" data-kn="ಬಜೆಟ್‌ನಲ್ಲಿ ಯೋಜಿಸಿ">Plan Within Budget</span></button>
+                    <button class="btn btn-secondary" onclick="expandRadius()" id="expand-btn">📡 <span
+                            data-en="Expand Range +10km" data-kn="ವ್ಯಾಪ್ತಿ ಹೆಚ್ಚಿಸಿ +10km">Expand Range
+                            +10km</span></button>
+                </div>
+                <div class="hero-radius-wrap">
+                    <label data-en="Explore radius:" data-kn="ಶೋಧನಾ ತ್ರಿಜ್ಯ:">Explore radius:</label>
+                    <input type="range" id="radius-slider" min="1" max="100" value="5"
+                        oninput="updateRadius(this.value)">
+                    <span id="radius-val">5 km</span>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-num">17+</div>
+                        <div class="hero-stat-label" data-en="Curated Spots" data-kn="ಆಯ್ದ ತಾಣಗಳು">Curated Spots</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-num">5</div>
+                        <div class="hero-stat-label" data-en="Cities Covered" data-kn="ನಗರಗಳು">Cities Covered</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-num">100%</div>
+                        <div class="hero-stat-label" data-en="Locally Verified" data-kn="ಸ್ಥಳೀಯವಾಗಿ ಪರಿಶೀಲಿತ">Locally
+                            Verified</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-num">50+</div>
+                        <div class="hero-stat-label" data-en="Yr Old Businesses" data-kn="ವರ್ಷ ಹಳೆಯ ವ್ಯವಹಾರಗಳು">Yr Old
+                            Businesses</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="hero-know-more-btn" onclick="toggleLocationSummary()" id="know-more-btn">👉 <span
+                data-en="Know More About This Place" data-kn="ಈ ಸ್ಥಳದ ಬಗ್ಗೆ ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ">Know More About This
+                Place</span></button>
+        <div class="location-summary-panel" id="location-summary">
+            <div class="lsp-title" id="lsp-title">📍 Karnataka</div>
+            <div class="lsp-subtitle" id="lsp-subtitle">Explore this incredible region</div>
+            <ul class="lsp-highlights" id="lsp-highlights">
+                <li>🏛️ UNESCO World Heritage Sites</li>
+                <li>🌿 Western Ghats Biodiversity</li>
+                <li>🍛 Legendary Local Cuisine</li>
+                <li>☕ World's Finest Coffee</li>
+            </ul>
+            <div class="lsp-best-time" id="lsp-best-time">🗓️ Best time: October – March</div>
+            <div style="display:flex;gap:.5rem">
+                <button class="btn btn-primary btn-sm" onclick="visitNow()">🗺️ Visit Now</button>
+                <button class="btn btn-ghost btn-sm" onclick="toggleLocationSummary()">✕ Close</button>
+            </div>
+        </div>
+        <div class="hero-search-wrap">
+            <div class="hero-search">
+                <span>🔍</span>
+                <input type="text" id="spots-search" placeholder="Search spots, cities, food, heritage…"
+                    aria-label="Search">
+                <div class="divider"></div>
+                <select aria-label="Filter by category"
+                    onchange="document.querySelector('.cat-chip[data-cat=\''+this.value+'\']')?.click()">
+                    <option value="all">All Categories</option>
+                    <option value="Restaurant">Restaurants</option>
+                    <option value="Nature">Nature</option>
+                    <option value="Heritage">Heritage</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Adventure">Adventure</option>
+                    <option value="Homestay">Homestays</option>
+                </select>
+                <button class="btn btn-primary btn-sm">Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- GEO SECTION -->
+    <section id="geo-section" class="section">
+        <div class="container">
+            <div class="geo-card" id="geo-card">
+                <div class="geo-icon">📡</div>
+                <div class="geo-text">
+                    <h3 data-en="Discover What's Around You" data-kn="ನಿಮ್ಮ ಸುತ್ತ ಏನಿದೆ ಅನ್ವೇಷಿಸಿ">Discover What's
+                        Around You</h3>
+                    <p data-en="Grant location permission and we'll show you authentic local spots sorted by real distance."
+                        data-kn="ಸ್ಥಳ ಅನುಮತಿ ನೀಡಿ, ನಿಜ ದೂರದ ಪ್ರಕಾರ ವಿಂಗಡಿಸಿದ ಸ್ಥಳೀಯ ತಾಣಗಳನ್ನು ತೋರಿಸುತ್ತೇವೆ.">Grant
+                        location permission and we'll show you authentic local spots sorted by real distance.</p>
+                    <button class="btn btn-secondary" id="geo-btn-2" onclick="requestGeolocation()">📍 <span
+                            data-en="Enable Location" data-kn="ಸ್ಥಳ ಸಕ್ರಿಯಗೊಳಿಸಿ">Enable Location</span></button>
+                </div>
+            </div>
+            <div id="nearby-section" class="hidden" style="margin-top:2rem">
+                <div class="section-head">
+                    <div class="section-label" data-en="Near You" data-kn="ನಿಮ್ಮ ಬಳಿ">Near You</div>
+                    <h2 class="section-title" data-en="Places Within Your Radius" data-kn="ನಿಮ್ಮ ತ್ರಿಜ್ಯದಲ್ಲಿ ಸ್ಥಳಗಳು">
+                        Places Within Your Radius</h2>
+                </div>
+                <div class="nearby-grid" id="nearby-grid"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DISCOVER -->
+    <section id="discover" class="section section-alt">
+        <div class="container">
+            <div class="section-head">
+                <div class="section-label" data-en="Explore" data-kn="ಅನ್ವೇಷಿಸಿ">Explore</div>
+                <h2 class="section-title" data-en="All Verified Spots" data-kn="ಎಲ್ಲ ಪರಿಶೀಲಿತ ತಾಣಗಳು">All Verified Spots
+                </h2>
+                <p class="section-sub" data-en="Browse authentic places across Karnataka — filtered by your interests."
+                    data-kn="ಕರ್ನಾಟಕದಾದ್ಯಂತ ಅಧಿಕೃತ ಸ್ಥಳಗಳನ್ನು ಬ್ರೌಸ್ ಮಾಡಿ.">Browse authentic places across Karnataka —
+                    filtered by your interests.</p>
+            </div>
+            <div class="spots-controls">
+                <div class="filter-chips" role="group">
+                    <div class="chip cat-chip active" data-cat="all">All</div>
+                    <div class="chip cat-chip" data-cat="Restaurant">🍽️ Food</div>
+                    <div class="chip cat-chip" data-cat="Nature">🌿 Nature</div>
+                    <div class="chip cat-chip" data-cat="Heritage">🏛️ Heritage</div>
+                    <div class="chip cat-chip" data-cat="Adventure">🧗 Adventure</div>
+                    <div class="chip cat-chip" data-cat="Shopping">🛍️ Shopping</div>
+                    <div class="chip cat-chip" data-cat="Homestay">🏡 Homestay</div>
+                    <div class="chip cat-chip" data-cat="Boutique Stay">🏨 Boutique</div>
+                    <div class="chip cat-chip" data-cat="Eco Stay">🌱 Eco Stay</div>
+                </div>
+                <div class="verified-filter-wrap">
+                    <input type="checkbox" id="verified-only" onchange="renderSpots()">
+                    <label for="verified-only">✅ <span data-en="Show Verified Only" data-kn="ಪರಿಶೀಲಿತ ಮಾತ್ರ ತೋರಿಸಿ">Show
+                            Verified Only</span></label>
+                </div>
+            </div>
+            <div class="spots-grid" id="spots-grid" role="list"></div>
+        </div>
+    </section>
+
+    <!-- MAP -->
+    <section id="map-section" class="section">
+        <div class="container">
+            <div class="section-head">
+                <div class="section-label" data-en="Map View" data-kn="ನಕ್ಷೆ ನೋಟ">Map View</div>
+                <h2 class="section-title" data-en="Explore the Interactive Map" data-kn="ಸಂವಾದಾತ್ಮಕ ನಕ್ಷೆ ಅನ್ವೇಷಿಸಿ">
+                    Explore the Interactive Map</h2>
+                <p class="section-sub" data-en="Click any marker to view details. Filter by category. See your radius."
+                    data-kn="ವಿವರಗಳನ್ನು ನೋಡಲು ಯಾವುದೇ ಮಾರ್ಕರ್ ಕ್ಲಿಕ್ ಮಾಡಿ.">Click any marker to view details. Filter by
+                    category. See your radius.</p>
+            </div>
+            <div class="map-layout">
+                <div class="map-filters-panel">
+                    <h4 data-en="Filter by Type" data-kn="ಪ್ರಕಾರದ ಮೂಲಕ ಫಿಲ್ಟರ್">Filter by Type</h4>
+                    <div class="map-filter-group">
+                        <label>Category</label>
+                        <button class="map-cat-btn active" data-cat="all" onclick="setMapFilter('all',this)">🗺️ All
+                            Places</button>
+                        <button class="map-cat-btn" data-cat="Restaurant" onclick="setMapFilter('Restaurant',this)">🍽️
+                            Food &amp; Restaurants</button>
+                        <button class="map-cat-btn" data-cat="Nature" onclick="setMapFilter('Nature',this)">🌿 Nature
+                            &amp; Parks</button>
+                        <button class="map-cat-btn" data-cat="Heritage" onclick="setMapFilter('Heritage',this)">🏛️
+                            Historical Sites</button>
+                        <button class="map-cat-btn" data-cat="Shopping" onclick="setMapFilter('Shopping',this)">🛍️
+                            Shopping</button>
+                        <button class="map-cat-btn" data-cat="Adventure" onclick="setMapFilter('Adventure',this)">🧗
+                            Adventure</button>
+                        <button class="map-cat-btn" data-cat="Homestay" onclick="setMapFilter('Homestay',this)">🏡
+                            Stays</button>
+                    </div>
+                    <hr style="border:none;border-top:1px solid var(--border);margin:1rem 0">
+                    <div class="map-filter-group">
+                        <label>Quick City Jump</label>
+                        <div style="display:flex;flex-direction:column;gap:.4rem;margin-top:.3rem">
+                            <button class="btn btn-sm btn-ghost" onclick="window._map?.setView([12.97,77.59],12)">🏙️
+                                Bengaluru</button>
+                            <button class="btn btn-sm btn-ghost" onclick="window._map?.setView([12.30,76.64],13)">🏰
+                                Mysuru</button>
+                            <button class="btn btn-sm btn-ghost" onclick="window._map?.setView([15.34,76.46],13)">🗿
+                                Hampi</button>
+                            <button class="btn btn-sm btn-ghost" onclick="window._map?.setView([12.42,75.74],12)">☕
+                                Coorg</button>
+                            <button class="btn btn-sm btn-ghost" onclick="window._map?.setView([13.34,74.74],13)">🌊
+                                Udupi</button>
+                        </div>
+                    </div>
+                    <hr style="border:none;border-top:1px solid var(--border);margin:1rem 0">
+                    <div class="map-legend">
+                        <div
+                            style="font-size:.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:.5rem">
+                            Legend</div>
+                        <div class="map-legend-item">
+                            <div class="legend-dot" style="background:#FFD166"></div> ⭐ Highly Rated
+                        </div>
+                        <div class="map-legend-item">
+                            <div class="legend-dot" style="background:#00D4AA"></div> ✅ Verified Spot
+                        </div>
+                        <div class="map-legend-item">
+                            <div class="legend-dot" style="background:#7C3AED"></div> 🌿 Hidden Gem
+                        </div>
+                    </div>
+                </div>
+                <div id="leaflet-map" aria-label="Interactive map of Karnataka"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI SECTION -->
+    <section id="ai-section" class="section section-alt">
+        <div class="container">
+            <div class="section-head text-center">
+                <div class="section-label">AI-Powered</div>
+                <h2 class="section-title" data-en="Your Personalized Karnataka" data-kn="ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಕರ್ನಾಟಕ">Your
+                    Personalized Karnataka</h2>
+                <p class="section-sub" style="margin:0 auto">Tell us what you love. Our AI engine curates spots just for
+                    you.</p>
+            </div>
+            <div class="quiz-card">
+                <div class="quiz-title" data-en="What excites you most? (Pick all that apply)"
+                    data-kn="ನಿಮ್ಮನ್ನು ಹೆಚ್ಚು ಉತ್ಸಾಹಗೊಳಿಸುವುದೇನು?">What excites you most? (Pick all that apply)</div>
+                <div class="quiz-sub">Your selections are remembered for future visits.</div>
+                <div class="quiz-options" role="group">
+                    <button class="quiz-option" data-pref="Heritage" onclick="togglePref(this)">🏛️ Heritage &amp;
+                        History</button>
+                    <button class="quiz-option" data-pref="Food" onclick="togglePref(this)">🍽️ Local Food</button>
+                    <button class="quiz-option" data-pref="Nature" onclick="togglePref(this)">🌿 Nature &amp;
+                        Wildlife</button>
+                    <button class="quiz-option" data-pref="Shopping" onclick="togglePref(this)">🛍️ Local
+                        Markets</button>
+                    <button class="quiz-option" data-pref="Stays" onclick="togglePref(this)">🏡 Unique Stays</button>
+                    <button class="quiz-option" data-pref="Adventure" onclick="togglePref(this)">🧗 Adventure</button>
+                </div>
+                <button class="btn btn-primary" onclick="generateAIRecommendations()">✨ Generate My Picks</button>
+            </div>
+            <div id="ai-picks-section" class="ai-picks hidden" style="margin-top:2.5rem">
+                <h3 style="margin-bottom:1rem">✨ Personalized Picks For You</h3>
+                <div id="ai-picks-list"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BUDGET PLANNER -->
+    <section id="budget-section" class="section">
+        <div class="container">
+            <div class="section-head">
+                <div class="section-label">Smart Planning</div>
+                <h2 class="section-title" data-en="Plan Your Trip Within Your Budget"
+                    data-kn="ನಿಮ್ಮ ಬಜೆಟ್‌ನಲ್ಲಿ ಪ್ರಯಾಣ ಯೋಜಿಸಿ">Plan Your Trip Within Your Budget</h2>
+                <p class="section-sub">Set your daily budget and get curated recommendations that fit your pocket.</p>
+            </div>
+            <div class="budget-card">
+                <div class="budget-range-wrap">
+                    <label>Daily Budget:</label>
+                    <input type="range" id="budget-slider" min="500" max="20000" step="500" value="2000"
+                        oninput="updateBudget(this.value)">
+                    <span id="budget-val">₹2,000/day</span>
+                </div>
+                <div id="budget-results" style="margin-top:1.5rem"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCAL BUSINESS -->
+    <section id="business-section" class="section section-alt">
+        <div class="container">
+            <div class="section-head">
+                <div class="section-label">Community</div>
+                <h2 class="section-title" data-en="The Living Legacy of Karnataka" data-kn="ಕರ್ನಾಟಕದ ಜೀವಂತ ಪರಂಪರೆ">The
+                    Living Legacy of Karnataka</h2>
+                <p class="section-sub">Generational establishments and family-run businesses that keep culture alive.
+                </p>
+            </div>
+            <div class="grid-3" id="business-grid" role="list"></div>
+        </div>
+    </section>
+
+    <!-- STAYS -->
+    <section id="stays-section" class="section">
+        <div class="container">
+            <div class="section-head">
+                <div class="section-label">Curated Stays</div>
+                <h2 class="section-title" data-en="Where You Sleep Matters" data-kn="ನೀವು ಮಲಗುವ ಸ್ಥಳ ಮುಖ್ಯ">Where You
+                    Sleep Matters</h2>
+                <p class="section-sub">From coffee-plantation homestays to Maharaja's heritage hotels.</p>
+            </div>
+            <div class="grid-3" id="stays-grid" role="list"></div>
+        </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section id="reviews-section" class="section section-alt">
+        <div class="container">
+            <div class="section-head">
+                <div class="section-label">Community Reviews</div>
+                <h2 class="section-title" data-en="What Locals &amp; Travellers Say"
+                    data-kn="ಸ್ಥಳೀಯರು ಮತ್ತು ಪ್ರಯಾಣಿಕರು ಏನು ಹೇಳುತ್ತಾರೆ">What Locals &amp; Travellers Say</h2>
+            </div>
+            <div class="grid-2">
+                <div>
+                    <div class="review-form">
+                        <h4 data-en="Share Your Experience" data-kn="ನಿಮ್ಮ ಅನುಭವ ಹಂಚಿಕೊಳ್ಳಿ">Share Your Experience</h4>
+                        <form id="review-form" novalidate>
+                            <div class="form-group"><label>Your Name</label><input type="text" id="review-author"
+                                    class="form-control" placeholder="Preethi N." required></div>
+                            <div class="form-group"><label>Place Visited</label><select id="review-place"
+                                    class="form-control">
+                                    <option value="">Select a spot…</option>
+                                    <option>CTR (Shivaji Military Hotel)</option>
+                                    <option>Mysore Palace Night View</option>
+                                    <option>Virupaksha Temple</option>
+                                    <option>Coorg Coffee Estate Homestay</option>
+                                    <option>Hotel Woodlands (Udupi Cuisine)</option>
+                                    <option>Abbey Falls</option>
+                                    <option>Diana's Beach (Kapu)</option>
+                                </select></div>
+                            <div class="form-group"><label>Your Review</label><textarea id="review-text"
+                                    class="form-control" placeholder="Describe your experience honestly…"
+                                    required></textarea></div>
+                            <button type="submit" class="btn btn-primary">Submit Review</button>
+                        </form>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="margin-bottom:1rem">Recent Reviews</h4>
+                    <div id="reviews-list"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ITINERARY -->
+    <section id="itinerary-section" class="section">
+        <div class="container">
+            <div class="section-head">
+                <div class="section-label">Trip Planner</div>
+                <h2 class="section-title" data-en="Build Your Karnataka Itinerary"
+                    data-kn="ನಿಮ್ಮ ಕರ್ನಾಟಕ ಪ್ರಯಾಣ ಕ್ರಮ ಆಯ್ಕೆ ಮಾಡಿ">Build Your Karnataka Itinerary</h2>
+            </div>
+            <div class="itinerary-layout">
+                <div class="iti-panel">
+                    <h4>Day-by-Day Planner</h4>
+                    <p style="font-size:.83rem;color:var(--text-muted);margin-bottom:1rem">Select a day then click "Add
+                        to Itinerary" on any spot card.</p>
+                    <div class="day-tabs">
+                        <button class="day-tab-btn day-tab active" data-day="day1">Day 1</button>
+                        <button class="day-tab-btn day-tab" data-day="day2">Day 2</button>
+                        <button class="day-tab-btn day-tab" data-day="day3">Day 3</button>
+                    </div>
+                    <div class="add-spot-row">
+                        <select class="form-control" id="iti-spot-sel"></select>
+                        <button class="btn btn-secondary btn-sm" onclick="addSpotFromDropdown()">+ Add</button>
+                    </div>
+                    <div id="iti-items"></div>
+                    <div class="iti-actions">
+                        <button class="btn btn-primary btn-sm" onclick="exportItinerary()">📥 Export</button>
+                        <button class="btn btn-ghost btn-sm" onclick="shareItinerary()">🔗 Share</button>
+                        <button class="btn btn-ghost btn-sm" onclick="clearItinerary()">🗑 Clear</button>
+                    </div>
+                </div>
+                <div>
+                    <div class="iti-panel" style="margin-bottom:1.5rem">
+                        <h4>📋 Summary</h4>
+                        <div style="font-size:1.6rem;font-weight:700;color:var(--primary);margin:.5rem 0"
+                            id="iti-count">0 stops</div>
+                        <div style="font-size:.8rem;color:var(--text-muted)">on active day</div>
+                    </div>
+                    <div class="iti-panel">
+                        <h4>💡 Suggested Route</h4>
+                        <p style="font-size:.83rem;color:var(--text-muted);margin-top:.5rem">Day 1 Bengaluru → Day 2
+                            Mysuru → Day 3 Coorg for a classic Karnataka weekend.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPLORER SECTION -->
+    <section id="explorer-section" class="section section-alt">
+        <div class="container">
+            <div class="section-head">
+                <div class="section-label">Community</div>
+                <h2 class="section-title" data-en="Connect with Locals &amp; Become an Explorer"
+                    data-kn="ಸ್ಥಳೀಯರೊಂದಿಗೆ ಸಂಪರ್ಕ ಮತ್ತು ಅನ್ವೇಷಕರಾಗಿ">Connect with Locals &amp; Become an Explorer</h2>
+                <p class="section-sub">Join guides, contribute hidden gems, and earn your explorer badge.</p>
+            </div>
+            <div class="explorer-hero-band">
+                <div class="explorer-icon">🧭</div>
+                <div>
+                    <h3 style="margin-bottom:.5rem">Become a NammaDiscover Explorer</h3>
+                    <p style="color:var(--text-muted);font-size:.9rem;margin-bottom:1rem">Add new places, upload images,
+                        tag hidden gems, and mark explored/unexplored spots. Earn badges and build your explorer
+                        profile.</p>
+                    <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+                        <button class="btn btn-primary" onclick="openModal('explorer-form-modal')">🧭 Become an
+                            Explorer</button>
+                        <button class="btn btn-ghost" onclick="openModal('locals-modal')">👥 Connect with
+                            Locals</button>
+                    </div>
+                </div>
+            </div>
+            <div class="explorer-profiles" id="explorer-grid"></div>
+        </div>
+    </section>
+
+    <!-- INVESTOR -->
+    <section id="investor-section">
+        <div class="container inv-inner">
+            <div class="inv-label">Investor Overview</div>
+            <h2 class="inv-title">Why NammaDiscover?<br>A Platform Built for Scale</h2>
+            <p class="inv-sub">Karnataka alone receives 200M+ domestic tourists annually. NammaDiscover monetises the
+                long tail — the hidden, the authentic, the local.</p>
+            <div class="inv-kpi">
+                <div class="kpi-card">
+                    <div class="kpi-num">₹3.2T</div>
+                    <div class="kpi-label">India Travel Market (2025)</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-num">200M+</div>
+                    <div class="kpi-label">Karnataka Tourists/year</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-num">82%</div>
+                    <div class="kpi-label">Demand for Authentic Experiences</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-num">64K+</div>
+                    <div class="kpi-label">Family Businesses Unlisted</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-num">18M</div>
+                    <div class="kpi-label">Gen Z Travellers in India</div>
+                </div>
+            </div>
+            <div class="inv-cards">
+                <div class="inv-card">
+                    <div class="inv-card-icon">📈</div>
+                    <div class="inv-card-title">Growing Market</div>
+                    <div class="inv-card-body">Experiential travel is the fastest growing segment in India. Tourists
+                        seek authentic off-the-beaten-path experiences.</div>
+                </div>
+                <div class="inv-card">
+                    <div class="inv-card-icon">🏘️</div>
+                    <div class="inv-card-title">Underserved Supply</div>
+                    <div class="inv-card-body">Tens of thousands of authentic family businesses and hidden spots have
+                        zero digital presence. We aggregate and verify them.</div>
+                </div>
+                <div class="inv-card">
+                    <div class="inv-card-icon">🤖</div>
+                    <div class="inv-card-title">AI &amp; Data Moat</div>
+                    <div class="inv-card-body">Every review and itinerary builds training data for a proprietary
+                        recommendation engine impossible to replicate.</div>
+                </div>
+                <div class="inv-card">
+                    <div class="inv-card-icon">🌏</div>
+                    <div class="inv-card-title">State-by-State Scale</div>
+                    <div class="inv-card-body">Built for Karnataka first — instant replication to Rajasthan, Kerala,
+                        Tamil Nadu using the same model.</div>
+                </div>
+            </div>
+            <div class="inv-cta">
+                <button class="btn btn-primary" onclick="showToast('📧 pitchdeck@nammadiscover.in (Demo)')">📧 Request
+                    Pitch Deck</button>
+                <button class="btn btn-ghost" onclick="showToast('Demo investor call flow (simulated)')">📅 Book Demo
+                    Call</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODERATION -->
+    <section id="moderation-section" class="section">
+        <div class="container">
+            <div class="section-head flex-between">
+                <div>
+                    <div class="section-label">Admin Panel</div>
+                    <h2 class="section-title">Moderation Dashboard</h2>
+                </div>
+                <button class="btn btn-ghost" onclick="renderModeration()">🔄 Refresh</button>
+            </div>
+            <div id="mod-list"></div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer role="contentinfo">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-logo">Namma<span>Discover</span></div>
+                    <p class="footer-tagline">Karnataka's first community-driven, AI-assisted tourism discovery
+                        platform. Built by locals. For the world.</p>
+                    <div class="footer-social">
+                        <button class="social-btn" aria-label="Twitter">𝕏</button>
+                        <button class="social-btn" aria-label="Instagram">📸</button>
+                        <button class="social-btn" aria-label="LinkedIn">in</button>
+                        <button class="social-btn" aria-label="YouTube">▶</button>
+                    </div>
+                </div>
+                <div>
+                    <div class="footer-col-title">Explore</div>
+                    <ul class="footer-links">
+                        <li><a href="#discover">All Spots</a></li>
+                        <li><a href="#map-section">Interactive Map</a></li>
+                        <li><a href="#stays-section">Curated Stays</a></li>
+                        <li><a href="#business-section">Local Businesses</a></li>
+                        <li><a href="#itinerary-section">Trip Planner</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="footer-col-title">Company</div>
+                    <ul class="footer-links">
+                        <li><a href="#investor-section">Investors</a></li>
+                        <li><a href="#"
+                                onclick="document.getElementById('moderation-section').style.display='block'">Admin
+                                Login</a></li>
+                        <li><a href="#" onclick="showToast('Privacy Policy – DPDP compliant (demo)')">Privacy Policy</a>
+                        </li>
+                        <li><a href="#" onclick="showToast('Terms of Service (demo)')">Terms of Service</a></li>
+                        <li><a href="#" onclick="openModal('tutorial-modal')">🎥 How to Use</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="footer-col-title">Stay Updated</div>
+                    <p style="font-size:.83rem;color:var(--text-muted);margin-bottom:.75rem">Weekly local discoveries in
+                        your inbox.</p>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="your@email.com" aria-label="Email">
+                        <button class="btn btn-primary btn-sm"
+                            onclick="showToast('📨 Subscribed! (Demo)')">Join</button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copy">© 2026 NammaDiscover. Built with ❤️ in Karnataka.</div>
+                <div class="footer-bottom-links"><a href="#">Privacy</a><a href="#">Terms</a><a
+                        href="#">Accessibility</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SPOT MODAL -->
+    <div id="spot-modal" class="modal-overlay" role="dialog" aria-modal="true">
+        <div class="modal-box modal-wide">
+            <button class="modal-close" onclick="closeModal('spot-modal')">✕</button>
+            <div id="spot-modal-body"></div>
+        </div>
+    </div>
+
+    <!-- EXPLORER FORM MODAL -->
+    <div id="explorer-form-modal" class="modal-overlay" role="dialog">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModal('explorer-form-modal')">✕</button>
+            <h3 style="margin-bottom:1rem">🧭 Become an Explorer</h3>
+            <div class="form-group"><label>Your Name</label><input type="text" class="form-control" id="exp-name"
+                    placeholder="Kavya Reddy"></div>
+            <div class="form-group"><label>Place Name</label><input type="text" class="form-control" id="exp-place"
+                    placeholder="Hidden Waterfall, Agumbe"></div>
+            <div class="form-group"><label>Category</label>
+                <select class="form-control" id="exp-cat">
+                    <option>Nature</option>
+                    <option>Heritage</option>
+                    <option>Restaurant</option>
+                    <option>Shopping</option>
+                    <option>Adventure</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Short Summary</label><textarea class="form-control" id="exp-summary"
+                    placeholder="Describe this hidden gem…"></textarea></div>
+            <div class="form-group">
+                <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer"><input type="checkbox"
+                        id="exp-gem" style="accent-color:var(--primary)"> Mark as Hidden Gem 🌿</label>
+            </div>
+            <button class="btn btn-primary" onclick="submitExplorer()">🚀 Submit Place</button>
+        </div>
+    </div>
+
+    <!-- LOCALS MODAL -->
+    <div id="locals-modal" class="modal-overlay" role="dialog">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeModal('locals-modal')">✕</button>
+            <h3 style="margin-bottom:1rem">👥 Connect with Locals</h3>
+            <p style="color:var(--text-muted);font-size:.88rem;margin-bottom:1.5rem">Meet verified local guides and
+                contributors across Karnataka.</p>
+            <div id="locals-list"></div>
+        </div>
+    </div>
+
+    <!-- TUTORIAL MODAL -->
+    <div id="tutorial-modal" class="modal-overlay" role="dialog">
+        <div class="modal-box modal-wide">
+            <button class="modal-close" onclick="closeModal('tutorial-modal')">✕</button>
+            <h3 style="margin-bottom:.5rem">🎥 How to Use NammaDiscover</h3>
+            <p style="color:var(--text-muted);font-size:.85rem;margin-bottom:1.5rem">Learn how to explore, filter, and
+                connect with locals in 2 minutes.</p>
+            <div
+                style="aspect-ratio:16/9;background:rgba(255,107,53,0.1);border-radius:var(--radius);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;border:1px solid var(--border)">
+                <div style="font-size:4rem">🎬</div>
+                <div style="text-align:center">
+                    <div style="font-weight:700;margin-bottom:.5rem">Platform Tutorial Video</div>
+                    <div style="font-size:.83rem;color:var(--text-muted)">How to explore → filter → connect with locals
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top:1.5rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1rem">
+                <div style="text-align:center;padding:1rem;background:var(--glass);border-radius:var(--radius-sm)">
+                    <div style="font-size:1.5rem;margin-bottom:.4rem">🗺️</div>
+                    <div style="font-size:.8rem;font-weight:600">Explore Spots</div>
+                </div>
+                <div style="text-align:center;padding:1rem;background:var(--glass);border-radius:var(--radius-sm)">
+                    <div style="font-size:1.5rem;margin-bottom:.4rem">🔍</div>
+                    <div style="font-size:.8rem;font-weight:600">Filter & Search</div>
+                </div>
+                <div style="text-align:center;padding:1rem;background:var(--glass);border-radius:var(--radius-sm)">
+                    <div style="font-size:1.5rem;margin-bottom:.4rem">👥</div>
+                    <div style="font-size:.8rem;font-weight:600">Connect Locally</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHATBOT -->
+    <button class="chatbot-fab" onclick="toggleChatbot()" aria-label="Open chatbot"
+        title="Chat with NammaBot">💬</button>
+    <div class="chatbot-panel" id="chatbot-panel">
+        <div class="chatbot-header">
+            <div>
+                <h4>🤖 NammaBot</h4>
+                <p>● Online — Ask me anything!</p>
+            </div>
+            <button class="chatbot-close" onclick="toggleChatbot()">✕</button>
+        </div>
+        <div class="chatbot-messages" id="chat-messages"></div>
+        <div class="chatbot-input">
+            <input type="text" id="chat-input" placeholder="Ask about places, food, heritage…"
+                onkeydown="if(event.key==='Enter')sendChat()">
+            <button onclick="sendChat()">➤</button>
+        </div>
+    </div>
+
+    <!-- TUTORIAL HELP BUTTON -->
+    <button class="tutorial-btn" onclick="openModal('tutorial-modal')">🎥 How to Use</button>
+
+    <!-- TOAST -->
+    <div id="toast" role="status" aria-live="polite"></div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
