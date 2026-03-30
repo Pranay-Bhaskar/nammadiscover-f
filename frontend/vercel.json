@@ -1,7 +1,11 @@
 {
   "routes": [
     {
-      "src": "/api/(.*)",
+      "src": "^/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "^/api/(.*)",
       "dest": "https://namma-discover.onrender.com/api/$1"
     },
     {
