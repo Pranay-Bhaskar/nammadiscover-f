@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { uploadVideo } from '../services/videoService';
+import { uploadVideo } from '../api/services/videoService';
 import toast from 'react-hot-toast';
 
 const CATEGORIES = ['Nature', 'Culture', 'Food', 'Travel', 'Events', 'Sports', 'Education', 'Other'];
