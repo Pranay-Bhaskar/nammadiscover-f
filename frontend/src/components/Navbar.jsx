@@ -55,7 +55,7 @@ const Navbar = () => {
 
                 {/* Section links */}
                 <div className="nav-links">
-                    <Link to="/" className={`nav-link${isHome ? ' active' : ''}`}>Home</Link>
+                    <Link to="/dashboard" className={`nav-link${isHome ? ' active' : ''}`}>Home</Link>
                     <button className="nav-link" onClick={() => goToSection('discover-section')}>{t('Discover', 'ಅನ್ವೇಷಿಸಿ')}</button>
                     {/* <Link to="/#gallery-section" className="nav-link" onClick={(e) => {
                         e.preventDefault();
