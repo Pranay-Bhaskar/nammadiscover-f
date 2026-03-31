@@ -13,6 +13,13 @@ api.interceptors.request.use(
     if (config.url && !config.url.startsWith('/api')) {
       config.url = `/api${config.url}`;
     }
+
+    // JWT Token
+    const token = localStorage.getItem('nammadiscover_token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
     return config;
   },
   (error) => Promise.reject(error)
