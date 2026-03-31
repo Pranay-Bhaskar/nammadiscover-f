@@ -135,7 +135,7 @@ const Hero = () => {
                     autoPlay muted loop playsInline key={currentCity.name}
                     style={{ transform: `translate(-50%,-50%) scale(1.08) translateY(${scrollY * 0.18}px)` }}
                 >
-                    <source src="https://assets.mixkit.co/videos/preview/mixkit-forest-stream-in-the-sunlight-529-large.mp4" type="video/mp4" />
+                    <source src="https://youtu.be/UB2Tbi_h_lw?si=3HGZ-wogF4ppOZ7K" type="video/mp4" />
                 </video>
                 <div className="hero-video-overlay" />
 
