@@ -52,7 +52,7 @@ const DiscoverGrid = () => {
                     display: flex;
                     gap: 1.5rem;
                     width: max-content;
-                    animation: scrollLoop 120s linear infinite;
+                    animation: scrollLoop 150s linear infinite;
                     will-change: transform;
                 }
 
@@ -107,7 +107,7 @@ const DiscoverGrid = () => {
                 /* MOBILE */
                 @media (max-width: 768px) {
                     .spots-grid {
-                        /* animation: none;*/
+                        animation: scrollLoop 120s linear infinite;
                         overflow-x: auto;
                         width: 100%;
                         scroll-behavior: smooth;
