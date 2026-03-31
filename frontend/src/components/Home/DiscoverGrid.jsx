@@ -105,43 +105,30 @@ const DiscoverGrid = () => {
                 }
 
                 /* MOBILE */
-@media (max-width: 768px) {
-    .spots-grid {
-        width: max-content;              /* keep marquee effect */
-        overflow-x: hidden;              /* prevent manual scroll if you want pure auto-slide */
-        scroll-behavior: smooth;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .spots-grid-wrapper::before,
-    .spots-grid-wrapper::after {
-        display: none;                   /* remove edge fades */
-    }
-
-    .spots-grid > * {
-        min-width: 80%;
-        max-width: 85%;
-        backface-visibility: hidden;     /* ✅ prevents blur on transforms */
-        transform: translateZ(0);        /* ✅ forces GPU compositing */
-        will-change: transform, opacity; /* ✅ keeps animations sharp */
-    }
-
-    /* Remove heavy blur glow on mobile */
-    .spots-grid > *:hover::after {
-        filter: none;                    /* ✅ no fuzzy glow */
-        box-shadow: 0 0 20px rgba(255,107,53,0.6),
-                    0 0 40px rgba(255,62,108,0.4); /* ✅ sharp glow */
-    }
+           .spots-grid-wrapper::before,
+.spots-grid-wrapper::after {
+    display: none;
 }
 
-@media (max-width: 480px) {
-    .spots-grid > * {
-        min-width: 85%;
-        max-width: 90%;
-    }
-    .spots-grid > *:hover {
-        transform: none;                 /* disable hover lift on very small devices */
-    }
+.spots-grid > * {
+    min-width: 80%;
+    max-width: 85%;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    will-change: transform, opacity;
+}
+
+/* ✅ Sharp glow instead of blur */
+.spots-grid > *:hover::after {
+    filter: none;
+    box-shadow: 0 0 20px rgba(255,107,53,0.6),
+                0 0 40px rgba(255,62,108,0.4);
+}
+
+/* ✅ Remove backdrop-filter blur on mobile */
+.spot-card {
+    backdrop-filter: none;
+    background: rgba(255,255,255,0.08); /* subtle glass look without blur */
 }
             `}</style>
 
