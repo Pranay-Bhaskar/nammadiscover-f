@@ -105,31 +105,35 @@ const DiscoverGrid = () => {
                 }
 
                 /* MOBILE */
-           .spots-grid-wrapper::before,
-.spots-grid-wrapper::after {
-    display: none;
-}
+            @media (max-width: 768px) {
+                .spots-grid {
+                    /* ✅ keep animation active */
+                    width: max-content;              /* same as desktop so animation works */
+                    overflow-x: hidden;              /* optional: hide manual scroll if you want pure auto-slide */
+                    scroll-behavior: smooth;
+                    -webkit-overflow-scrolling: touch;
+                }
 
-.spots-grid > * {
-    min-width: 80%;
-    max-width: 85%;
-    backface-visibility: hidden;
-    transform: translateZ(0);
-    will-change: transform, opacity;
-}
+                .spots-grid-wrapper::before,
+                .spots-grid-wrapper::after {
+                    display: none;                   /* remove edge fades on mobile */
+                }
 
-/* ✅ Sharp glow instead of blur */
-.spots-grid > *:hover::after {
-    filter: none;
-    box-shadow: 0 0 20px rgba(255,107,53,0.6),
-                0 0 40px rgba(255,62,108,0.4);
-}
+                .spots-grid > * {
+                    min-width: 80%;                  /* cards resize for smaller screens */
+                    max-width: 85%;
+                }
+            }
 
-/* ✅ Remove backdrop-filter blur on mobile */
-.spot-card {
-    backdrop-filter: none;
-    background: rgba(255,255,255,0.08); /* subtle glass look without blur */
-}
+            @media (max-width: 480px) {
+                .spots-grid > * {
+                    min-width: 85%;
+                    max-width: 90%;
+                }
+                .spots-grid > *:hover {
+                    transform: none;                 /* disable hover lift on very small devices */
+                }
+            }
             `}</style>
 
             <section id="discover-section" className="section">
