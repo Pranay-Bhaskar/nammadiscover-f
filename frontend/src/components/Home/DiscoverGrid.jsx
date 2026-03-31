@@ -120,17 +120,73 @@ const DiscoverGrid = () => {
                 }
 
                 /* MOBILE */
-                @media (max-width: 768px) {
-                    .spots-grid > * {
-                        min-width: 260px;
-                    }
-                }
+                /* ================= MOBILE OPTIMIZATION ================= */
+@media (max-width: 768px) {
 
-                @media (max-width: 480px) {
-                    .spots-grid > * {
-                        min-width: 85%;
-                    }
-                }
+    /* ❌ Disable auto animation (main cause of blur) */
+    .spots-grid {
+        animation: none !important;
+        transform: none !important;
+
+        /* ✅ Enable smooth horizontal scroll instead */
+        overflow-x: auto;
+        width: 100%;
+
+        /* Smooth scrolling */
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* ❌ Remove glow blur effect (GPU heavy) */
+    .spots-grid > *:hover::after {
+        display: none !important;
+    }
+
+    /* ❌ Reduce heavy transforms */
+    .spots-grid > *:hover {
+        transform: translateY(-4px) scale(1.01); /* subtle only */
+    }
+
+    /* ✅ Ensure cards stay sharp */
+    .spots-grid > * {
+        backface-visibility: hidden;
+        transform: translateZ(0);
+        will-change: auto;
+    }
+
+    /* ❌ Remove edge fade (can look like blur on mobile) */
+    .spots-grid-wrapper::before,
+    .spots-grid-wrapper::after {
+        display: none;
+    }
+
+    /* ✅ Better card sizing for mobile */
+    .spots-grid > * {
+        min-width: 80%;
+        max-width: 85%;
+    }
+
+    /* Optional: spacing tweak */
+    .spots-grid {
+        gap: 1rem;
+        padding: 0 1rem;
+    }
+}
+
+
+/* ================= EXTRA SMALL DEVICES ================= */
+@media (max-width: 480px) {
+
+    .spots-grid > * {
+        min-width: 85%;
+        max-width: 90%;
+    }
+
+    /* Even lighter hover (or remove entirely if needed) */
+    .spots-grid > *:hover {
+        transform: none;
+    }
+}
             `}</style>
 
             <section id="discover-section" className="section">
