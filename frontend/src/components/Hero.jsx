@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../store/AppContext';
+import heroVideo from '../assets/bg video.mp4';
 
 const particleCount = 18;
 
@@ -132,11 +133,25 @@ const Hero = () => {
             {/* ── Video + atmosphere layer ── */}
             <div className="hero-video-wrap">
                 <video
-                    autoPlay muted loop playsInline key={currentCity.name}
-                    style={{ transform: `translate(-50%,-50%) scale(1.08) translateY(${scrollY * 0.18}px)` }}
-                >
-                    <source src="https://youtu.be/UB2Tbi_h_lw?si=3HGZ-wogF4ppOZ7K" type="video/mp4" />
-                </video>
+    autoPlay
+    muted
+    loop
+    playsInline
+    style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        minWidth: '100%',
+        minHeight: '100%',
+        width: 'auto',
+        height: 'auto',
+        transform: `translate(-50%, -50%) scale(1.08) translateY(${scrollY * 0.18}px)`,
+        objectFit: 'cover',
+        zIndex: 1,
+    }}
+>
+    <source src={heroVideo} type="video/mp4" />
+</video>
                 <div className="hero-video-overlay" />
 
                 {/* Radial colour bleeds */}
