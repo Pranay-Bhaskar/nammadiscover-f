@@ -486,7 +486,7 @@ const Landing = () => {
                             )}
                         </p>
                         <div className="about-team">
-                            {['Kiran S.', 'Nandini R.', 'Aakash G.'].map((name, i) => (
+                            {['-', '-', '-'].map((name, i) => (
                                 <div key={i} className="about-member">
                                     <div className="about-member__avatar">{['👨', '👩', '🧑'][i]}</div>
                                     <span className="about-member__name">{name}</span>
