@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../services/api'; // adjust path if needed
 import { useApp } from '../../store/AppContext';
 
 const GeoSection = () => {
@@ -23,7 +23,7 @@ const GeoSection = () => {
             if (!coords) return;
             setLoading(true);
             try {
-                const res = await axios.get(`${import.meta.env.VITE_API_URL}/locations`, {
+                const res = await api.get('/locations', {
                     params: {
                         lat: coords.lat,
                         lng: coords.lng,
