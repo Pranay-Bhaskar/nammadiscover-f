@@ -42,7 +42,6 @@ const DiscoverGrid = () => {
 
     return (
         <>
-            {/* 🔥 PREMIUM AUTO-SCROLL CSS */}
             <style>{`
                 .spots-grid-wrapper {
                     overflow: hidden;
@@ -53,48 +52,34 @@ const DiscoverGrid = () => {
                     display: flex;
                     gap: 1.5rem;
                     width: max-content;
-                    animation: scrollLoop 40s linear infinite;
+                    animation: scrollLoop 60s linear infinite;
+                    will-change: transform;
                 }
 
-                /* 🔥 PAUSE ON HOVER */
                 .spots-grid:hover {
                     animation-play-state: paused;
                 }
 
-                /* 🔥 INFINITE LOOP EFFECT */
                 @keyframes scrollLoop {
                     0% { transform: translateX(0); }
                     100% { transform: translateX(-50%); }
                 }
 
-                /* CARD STYLE */
                 .spots-grid > * {
                     min-width: 300px;
                     max-width: 320px;
                     flex-shrink: 0;
-
                     position: relative;
                     border-radius: 18px;
-
                     transition: all 0.4s ease;
+                    backface-visibility: hidden;
+                    transform: translateZ(0);
+                    will-change: transform, opacity;
                 }
 
-                /* HOVER EFFECT */
                 .spots-grid > *:hover {
-                    transform: translateY(-12px) scale(1.04);
+                    transform: translateY(-10px) scale(1.02);
                     z-index: 5;
-                }
-
-                /* GLOW EFFECT */
-                .spots-grid > *:hover::after {
-                    content: "";
-                    position: absolute;
-                    inset: -2px;
-                    border-radius: 20px;
-                    background: linear-gradient(135deg, #ff6b35, #ff3e6c);
-                    z-index: -1;
-                    opacity: 0.7;
-                    filter: blur(14px);
                 }
 
                 /* EDGE FADE */
@@ -120,73 +105,35 @@ const DiscoverGrid = () => {
                 }
 
                 /* MOBILE */
-                /* ================= MOBILE OPTIMIZATION ================= */
-@media (max-width: 768px) {
+                @media (max-width: 768px) {
+                    .spots-grid {
+                        /* animation: none; */
+                        overflow-x: auto;
+                        width: 100%;
+                        scroll-behavior: smooth;
+                        -webkit-overflow-scrolling: touch;
+                    }
 
-    /* ❌ Disable auto animation (main cause of blur) 
-    .spots-grid {
-        animation: none !important;
-        transform: none !important;   
+                    .spots-grid-wrapper::before,
+                    .spots-grid-wrapper::after {
+                        display: none;
+                    }
 
-        /* ✅ Enable smooth horizontal scroll instead */
-        overflow-x: auto;
-        width: 100%;
+                    .spots-grid > * {
+                        min-width: 80%;
+                        max-width: 85%;
+                    }
+                }
 
-        /* Smooth scrolling */
-        scroll-behavior: smooth;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    /* ❌ Remove glow blur effect (GPU heavy) */
-    .spots-grid > *:hover::after {
-        display: none !important;
-    }
-
-    /* ❌ Reduce heavy transforms */
-    .spots-grid > *:hover {
-        transform: translateY(-4px) scale(1.01); /* subtle only */
-    }
-
-    /* ✅ Ensure cards stay sharp */
-    .spots-grid > * {
-        backface-visibility: hidden;
-        transform: translateZ(0);
-        will-change: auto;
-    }
-
-    /* ❌ Remove edge fade (can look like blur on mobile) */
-    .spots-grid-wrapper::before,
-    .spots-grid-wrapper::after {
-        display: none;
-    }
-
-    /* ✅ Better card sizing for mobile */
-    .spots-grid > * {
-        min-width: 80%;
-        max-width: 85%;
-    }
-
-    /* Optional: spacing tweak */
-    .spots-grid {
-        gap: 1rem;
-        padding: 0 1rem;
-    }
-}
-
-
-/* ================= EXTRA SMALL DEVICES ================= */
-@media (max-width: 480px) {
-
-    .spots-grid > * {
-        min-width: 85%;
-        max-width: 90%;
-    }
-
-    /* Even lighter hover (or remove entirely if needed) */
-    .spots-grid > *:hover {
-        transform: none;
-    }
-}
+                @media (max-width: 480px) {
+                    .spots-grid > * {
+                        min-width: 85%;
+                        max-width: 90%;
+                    }
+                    .spots-grid > *:hover {
+                        transform: none;
+                    }
+                }
             `}</style>
 
             <section id="discover-section" className="section">
@@ -229,7 +176,6 @@ const DiscoverGrid = () => {
                     ) : (
                         <div className="spots-grid-wrapper">
                             <div className="spots-grid">
-                                {/* 🔥 DUPLICATE FOR INFINITE LOOP */}
                                 {[...filtered, ...filtered].map((loc, i) => (
                                     <SpotCard key={i} spot={loc} />
                                 ))}

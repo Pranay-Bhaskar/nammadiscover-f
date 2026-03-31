@@ -7,25 +7,25 @@ const SpotCard = ({ spot }) => {
 
     return (
         <>
-            {/* 🔥 PREMIUM CARD CSS */}
             <style>{`
                 .spot-card {
                     border-radius: 20px;
                     overflow: hidden;
                     background: rgba(255,255,255,0.05);
-                    backdrop-filter: blur(18px);
+                    backdrop-filter: blur(12px);
                     border: 1px solid rgba(255,255,255,0.1);
-                    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
                     transition: all 0.4s ease;
                     position: relative;
+                    will-change: transform, opacity;
+                    transform: translateZ(0);
                 }
 
                 .spot-card:hover {
-                    transform: translateY(-12px) scale(1.02);
-                    box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+                    transform: translateY(-10px) scale(1.02);
+                    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
                 }
 
-                /* IMAGE */
                 .spot-card-img {
                     position: relative;
                     height: 200px;
@@ -37,21 +37,21 @@ const SpotCard = ({ spot }) => {
                     height: 100%;
                     object-fit: cover;
                     transition: transform 0.6s ease;
+                    backface-visibility: hidden;
+                    transform: translateZ(0);
                 }
 
                 .spot-card:hover .spot-card-img img {
-                    transform: scale(1.1);
+                    transform: scale(1.05);
                 }
 
-                /* DARK GRADIENT OVERLAY */
                 .spot-card-img::after {
                     content: "";
                     position: absolute;
                     inset: 0;
-                    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+                    background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
                 }
 
-                /* BADGES */
                 .spot-card-badges {
                     position: absolute;
                     top: 10px;
@@ -75,7 +75,6 @@ const SpotCard = ({ spot }) => {
                     background: linear-gradient(135deg, #ff6b35, #ff3e6c);
                 }
 
-                /* FAVORITE BUTTON */
                 .fav-btn {
                     position: absolute;
                     top: 10px;
@@ -99,7 +98,6 @@ const SpotCard = ({ spot }) => {
                     transform: scale(1.2);
                 }
 
-                /* BODY */
                 .spot-card-body {
                     padding: 1rem;
                     color: #fff;
@@ -118,14 +116,12 @@ const SpotCard = ({ spot }) => {
                     margin-bottom: 1rem;
                 }
 
-                /* FOOTER */
                 .spot-card-footer {
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
                 }
 
-                /* PROGRESS BAR */
                 .auth-score-bar {
                     width: 80px;
                     height: 6px;
@@ -146,22 +142,20 @@ const SpotCard = ({ spot }) => {
                     color: #aaa;
                 }
 
-                /* STARS */
                 .stars {
                     font-size: 0.8rem;
                     color: #ffd700;
                 }
 
-                /* GLOW EFFECT */
                 .spot-card::before {
                     content: "";
                     position: absolute;
                     inset: -2px;
                     border-radius: 22px;
-                    background: linear-gradient(135deg, #ff6b35, #ff3e6c);
+                    box-shadow: 0 0 20px rgba(255,107,53,0.6),
+                                0 0 40px rgba(255,62,108,0.4);
                     opacity: 0;
                     z-index: -1;
-                    filter: blur(15px);
                     transition: 0.4s;
                 }
 
@@ -176,7 +170,7 @@ const SpotCard = ({ spot }) => {
 
                     <div className="spot-card-badges">
                         <span className="badge badge-cat">
-                        {typeof spot.category === 'object' ? spot.category.label : spot.category}
+                            {typeof spot.category === 'object' ? spot.category.label : spot.category}
                         </span>
                         {spot.verifiedLocal && <span className="badge badge-verified">✓ Verified Local</span>}
                         {spot.isFamilyRun && <span className="badge badge-family">👨‍👩‍👧 Family Run</span>}
