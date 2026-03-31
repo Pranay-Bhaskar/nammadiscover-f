@@ -239,7 +239,7 @@ const Landing = () => {
                     <div className="hero__left">
                         <div className="badge-primary">
                             <span className="badge-dot" />
-                            {t('Authenticity First · Since 2023', 'ಅಪ್ಪಟತನವೇ ಮೊದಲು · 2023 ರಿಂದ')}
+                            {t('Authenticity First · Since 2026', 'ಅಪ್ಪಟತನವೇ ಮೊದಲು · 2026 ರಿಂದ')}
                         </div>
                         <h1 className="hero__title">
                             <span className="hero__word hero__word--1">{t('Rediscover', 'ಮರುಶೋಧಿಸಿ')}</span>
