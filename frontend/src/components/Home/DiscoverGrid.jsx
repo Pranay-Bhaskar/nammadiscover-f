@@ -44,149 +44,127 @@ const DiscoverGrid = () => {
         <>
             {/* 🔥 PREMIUM AUTO-SCROLL CSS */}
             <style>{`
+                /* 🔥 PREMIUM AUTO-SCROLL CSS */
                 .spots-grid-wrapper {
-                    overflow: hidden;
-                    position: relative;
+                overflow: hidden;
+                position: relative;
                 }
 
                 .spots-grid {
-                    display: flex;
-                    gap: 1.5rem;
-                    width: max-content;
-                    animation: scrollLoop 40s linear infinite;
+                display: flex;
+                gap: 1.5rem;
+                width: max-content;
+                min-width: 200%; /* ensure enough width for loop */
+                animation: scrollLoop 40s linear infinite;
                 }
 
-                /* 🔥 PAUSE ON HOVER */
+                /* 🔥 PAUSE ON HOVER (desktop only) */
                 .spots-grid:hover {
-                    animation-play-state: paused;
+                animation-play-state: paused;
                 }
 
                 /* 🔥 INFINITE LOOP EFFECT */
                 @keyframes scrollLoop {
-                    0% { transform: translateX(0); }
-                    100% { transform: translateX(-50%); }
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-100%); } /* move full duplicated set */
                 }
 
                 /* CARD STYLE */
                 .spots-grid > * {
-                    min-width: 300px;
-                    max-width: 320px;
-                    flex-shrink: 0;
-
-                    position: relative;
-                    border-radius: 18px;
-
-                    transition: all 0.4s ease;
+                min-width: 300px;
+                max-width: 320px;
+                flex-shrink: 0;
+                position: relative;
+                border-radius: 18px;
+                transition: all 0.4s ease;
                 }
 
                 /* HOVER EFFECT */
                 .spots-grid > *:hover {
-                    transform: translateY(-12px) scale(1.04);
-                    z-index: 5;
+                transform: translateY(-12px) scale(1.04);
+                z-index: 5;
                 }
 
                 /* GLOW EFFECT */
                 .spots-grid > *:hover::after {
-                    content: "";
-                    position: absolute;
-                    inset: -2px;
-                    border-radius: 20px;
-                    background: linear-gradient(135deg, #ff6b35, #ff3e6c);
-                    z-index: -1;
-                    opacity: 0.7;
-                    filter: blur(14px);
+                content: "";
+                position: absolute;
+                inset: -2px;
+                border-radius: 20px;
+                background: linear-gradient(135deg, #ff6b35, #ff3e6c);
+                z-index: -1;
+                opacity: 0.7;
+                filter: blur(14px);
                 }
 
                 /* EDGE FADE */
                 .spots-grid-wrapper::before,
                 .spots-grid-wrapper::after {
-                    content: "";
-                    position: absolute;
-                    top: 0;
-                    width: 80px;
-                    height: 100%;
-                    z-index: 10;
-                    pointer-events: none;
+                content: "";
+                position: absolute;
+                top: 0;
+                width: 80px;
+                height: 100%;
+                z-index: 10;
+                pointer-events: none;
                 }
 
                 .spots-grid-wrapper::before {
-                    left: 0;
-                    background: linear-gradient(to right, #0f172a, transparent);
+                left: 0;
+                background: linear-gradient(to right, #0f172a, transparent);
                 }
 
                 .spots-grid-wrapper::after {
-                    right: 0;
-                    background: linear-gradient(to left, #0f172a, transparent);
+                right: 0;
+                background: linear-gradient(to left, #0f172a, transparent);
                 }
 
-                /* MOBILE */
                 /* ================= MOBILE OPTIMIZATION ================= */
-@media (max-width: 768px) {
+                @media (max-width: 768px) {
+                .spots-grid {
+                    animation: scrollLoop 40s linear infinite; /* keep animation */
+                    min-width: 200%;
+                    gap: 1rem;
+                    padding: 0 1rem;
+                    overflow-x: auto; /* allow swipe as well */
+                    scroll-behavior: smooth;
+                    -webkit-overflow-scrolling: touch;
+                }
 
-    /* ❌ Disable auto animation (main cause of blur) */
-    .spots-grid {
-        animation: none !important;
-        transform: none !important;
+                .spots-grid > * {
+                    min-width: 80%;
+                    max-width: 85%;
+                    backface-visibility: hidden;
+                    transform: translateZ(0);
+                    will-change: auto;
+                }
 
-        /* ✅ Enable smooth horizontal scroll instead */
-        overflow-x: auto;
-        width: 100%;
+                /* lighter hover effects */
+                .spots-grid > *:hover {
+                    transform: translateY(-4px) scale(1.01);
+                }
 
-        /* Smooth scrolling */
-        scroll-behavior: smooth;
-        -webkit-overflow-scrolling: touch;
-    }
+                .spots-grid > *:hover::after {
+                    display: none !important;
+                }
 
-    /* ❌ Remove glow blur effect (GPU heavy) */
-    .spots-grid > *:hover::after {
-        display: none !important;
-    }
+                .spots-grid-wrapper::before,
+                .spots-grid-wrapper::after {
+                    display: none;
+                }
+                }
 
-    /* ❌ Reduce heavy transforms */
-    .spots-grid > *:hover {
-        transform: translateY(-4px) scale(1.01); /* subtle only */
-    }
+                /* ================= EXTRA SMALL DEVICES ================= */
+                @media (max-width: 480px) {
+                .spots-grid > * {
+                    min-width: 85%;
+                    max-width: 90%;
+                }
 
-    /* ✅ Ensure cards stay sharp */
-    .spots-grid > * {
-        backface-visibility: hidden;
-        transform: translateZ(0);
-        will-change: auto;
-    }
-
-    /* ❌ Remove edge fade (can look like blur on mobile) */
-    .spots-grid-wrapper::before,
-    .spots-grid-wrapper::after {
-        display: none;
-    }
-
-    /* ✅ Better card sizing for mobile */
-    .spots-grid > * {
-        min-width: 80%;
-        max-width: 85%;
-    }
-
-    /* Optional: spacing tweak */
-    .spots-grid {
-        gap: 1rem;
-        padding: 0 1rem;
-    }
-}
-
-
-/* ================= EXTRA SMALL DEVICES ================= */
-@media (max-width: 480px) {
-
-    .spots-grid > * {
-        min-width: 85%;
-        max-width: 90%;
-    }
-
-    /* Even lighter hover (or remove entirely if needed) */
-    .spots-grid > *:hover {
-        transform: none;
-    }
-}
+                .spots-grid > *:hover {
+                    transform: none;
+                }
+                }
             `}</style>
 
             <section id="discover-section" className="section">
