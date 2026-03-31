@@ -10,12 +10,14 @@ const api = axios.create({
 // 🔥 Interceptor: automatically prepend /api
 api.interceptors.request.use(
   (config) => {
+    // 🔥 Prepend /api if not already there
     if (config.url && !config.url.startsWith('/api')) {
       config.url = `/api${config.url}`;
     }
 
-    // JWT Token
+    // 🔑 JWT Token
     const token = localStorage.getItem('nammadiscover_token');
+    console.log('Interceptor firing for:', config.url, 'Token:', token);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
