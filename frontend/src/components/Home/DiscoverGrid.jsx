@@ -107,20 +107,20 @@ const DiscoverGrid = () => {
                 /* MOBILE */
                 @media (max-width: 768px) {
                     .spots-grid {
-                        /* animation: none; */
-                        overflow-x: auto;
-                        width: 100%;
+                        /* ✅ keep animation active */
+                        width: max-content;              /* same as desktop so animation works */
+                        overflow-x: hidden;              /* optional: hide manual scroll if you want pure auto-slide */
                         scroll-behavior: smooth;
                         -webkit-overflow-scrolling: touch;
                     }
 
                     .spots-grid-wrapper::before,
                     .spots-grid-wrapper::after {
-                        display: none;
+                        display: none;                   /* remove edge fades on mobile */
                     }
 
                     .spots-grid > * {
-                        min-width: 80%;
+                        min-width: 80%;                  /* cards resize for smaller screens */
                         max-width: 85%;
                     }
                 }
@@ -131,7 +131,7 @@ const DiscoverGrid = () => {
                         max-width: 90%;
                     }
                     .spots-grid > *:hover {
-                        transform: none;
+                        transform: none;                 /* disable hover lift on very small devices */
                     }
                 }
             `}</style>
