@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../services/api'; // adjust path if needed
+import axios from 'axios'; //reverted
 import { useApp } from '../../store/AppContext';
 
 const GeoSection = () => {
@@ -30,13 +30,13 @@ const GeoSection = () => {
                         radius: 10 // 10km search
                     }
                 });
-                
+               
                 // Add distance calculation for display since backend $near returns sorted but not the distance value in basic query
                 const withDistance = res.data.map(loc => {
                     const d = Math.sqrt(Math.pow(loc.lat - coords.lat, 2) + Math.pow(loc.lng - coords.lng, 2)) * 111;
                     return { ...loc, distance: d.toFixed(1) };
                 }).slice(0, 4);
-                
+               
                 setNearby(withDistance);
             } catch (err) {
                 console.error('Error fetching nearby spots:', err);
