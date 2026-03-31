@@ -105,35 +105,44 @@ const DiscoverGrid = () => {
                 }
 
                 /* MOBILE */
-                @media (max-width: 768px) {
-                    .spots-grid {
-                        /* ✅ keep animation active */
-                        width: max-content;              /* same as desktop so animation works */
-                        overflow-x: hidden;              /* optional: hide manual scroll if you want pure auto-slide */
-                        scroll-behavior: smooth;
-                        -webkit-overflow-scrolling: touch;
-                    }
+@media (max-width: 768px) {
+    .spots-grid {
+        width: max-content;              /* keep marquee effect */
+        overflow-x: hidden;              /* prevent manual scroll if you want pure auto-slide */
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+    }
 
-                    .spots-grid-wrapper::before,
-                    .spots-grid-wrapper::after {
-                        display: none;                   /* remove edge fades on mobile */
-                    }
+    .spots-grid-wrapper::before,
+    .spots-grid-wrapper::after {
+        display: none;                   /* remove edge fades */
+    }
 
-                    .spots-grid > * {
-                        min-width: 80%;                  /* cards resize for smaller screens */
-                        max-width: 85%;
-                    }
-                }
+    .spots-grid > * {
+        min-width: 80%;
+        max-width: 85%;
+        backface-visibility: hidden;     /* ✅ prevents blur on transforms */
+        transform: translateZ(0);        /* ✅ forces GPU compositing */
+        will-change: transform, opacity; /* ✅ keeps animations sharp */
+    }
 
-                @media (max-width: 480px) {
-                    .spots-grid > * {
-                        min-width: 85%;
-                        max-width: 90%;
-                    }
-                    .spots-grid > *:hover {
-                        transform: none;                 /* disable hover lift on very small devices */
-                    }
-                }
+    /* Remove heavy blur glow on mobile */
+    .spots-grid > *:hover::after {
+        filter: none;                    /* ✅ no fuzzy glow */
+        box-shadow: 0 0 20px rgba(255,107,53,0.6),
+                    0 0 40px rgba(255,62,108,0.4); /* ✅ sharp glow */
+    }
+}
+
+@media (max-width: 480px) {
+    .spots-grid > * {
+        min-width: 85%;
+        max-width: 90%;
+    }
+    .spots-grid > *:hover {
+        transform: none;                 /* disable hover lift on very small devices */
+    }
+}
             `}</style>
 
             <section id="discover-section" className="section">
