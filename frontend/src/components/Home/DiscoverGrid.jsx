@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../api'; 
 import { useApp } from '../../store/AppContext';
 import SpotCard from './SpotCard';
 
@@ -28,7 +28,7 @@ const DiscoverGrid = () => {
                 if (selectedCategory && selectedCategory !== 'all') params.category = selectedCategory;
                 if (verifiedOnly) params.verifiedOnly = true;
 
-                const res = await axios.get(`${import.meta.env.VITE_API_URL}/locations`, { params });
+                const res = await api.get('/locations', { params });
                 setFiltered(res.data);
             } catch (err) {
                 console.error('Error fetching filtered spots:', err);
