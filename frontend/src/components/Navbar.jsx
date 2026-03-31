@@ -49,7 +49,7 @@ const Navbar = () => {
     return (
         <nav id="main-nav" style={{ background: scrolled ? undefined : 'transparent', borderBottom: scrolled ? undefined : 'none' }}>
             <div className="container nav-inner">
-                <Link to="/" className="nav-logo">
+                <Link to="/dashboard" className="nav-logo">
                     Namma<span>Discover</span>
                 </Link>
 
