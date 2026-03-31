@@ -105,35 +105,35 @@ const DiscoverGrid = () => {
                 }
 
                 /* MOBILE */
-            @media (max-width: 768px) {
-                .spots-grid {
-                    /* ✅ keep animation active */
-                    width: max-content;              /* same as desktop so animation works */
-                    overflow-x: hidden;              /* optional: hide manual scroll if you want pure auto-slide */
-                    scroll-behavior: smooth;
-                    -webkit-overflow-scrolling: touch;
+                @media (max-width: 768px) {
+                    .spots-grid {
+                        /* animation: none;*/
+                        overflow-x: auto;
+                        width: 100%;
+                        scroll-behavior: smooth;
+                        -webkit-overflow-scrolling: touch;
+                    }
+
+                    .spots-grid-wrapper::before,
+                    .spots-grid-wrapper::after {
+                        display: none;
+                    }
+
+                    .spots-grid > * {
+                        min-width: 80%;
+                        max-width: 85%;
+                    }
                 }
 
-                .spots-grid-wrapper::before,
-                .spots-grid-wrapper::after {
-                    display: none;                   /* remove edge fades on mobile */
+                @media (max-width: 480px) {
+                    .spots-grid > * {
+                        min-width: 85%;
+                        max-width: 90%;
+                    }
+                    .spots-grid > *:hover {
+                        transform: none;
+                    }
                 }
-
-                .spots-grid > * {
-                    min-width: 80%;                  /* cards resize for smaller screens */
-                    max-width: 85%;
-                }
-            }
-
-            @media (max-width: 480px) {
-                .spots-grid > * {
-                    min-width: 85%;
-                    max-width: 90%;
-                }
-                .spots-grid > *:hover {
-                    transform: none;                 /* disable hover lift on very small devices */
-                }
-            }
             `}</style>
 
             <section id="discover-section" className="section">
