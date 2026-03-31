@@ -52,7 +52,7 @@ const DiscoverGrid = () => {
                     display: flex;
                     gap: 1.5rem;
                     width: max-content;
-                    animation: scrollLoop 60s linear infinite;
+                    animation: scrollLoop 120s linear infinite;
                     will-change: transform;
                 }
 
