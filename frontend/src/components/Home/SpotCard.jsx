@@ -175,7 +175,9 @@ const SpotCard = ({ spot }) => {
                     <img src={spot.images[0]} alt={spot.name} />
 
                     <div className="spot-card-badges">
-                        <span className="badge badge-cat">{spot.category}</span>
+                        <span className="badge badge-cat">
+                        {typeof spot.category === 'object' ? spot.category.label : spot.category}
+                        </span>
                         {spot.verifiedLocal && <span className="badge badge-verified">✓ Verified Local</span>}
                         {spot.isFamilyRun && <span className="badge badge-family">👨‍👩‍👧 Family Run</span>}
                         {spot.authenticityScore > 90 && <span className="badge badge-gem">💎 Gem</span>}
