@@ -64,8 +64,7 @@ const WHY_US = [
     { icon: '📍', label: 'Spot Curation', us: 'Community-vetted gems', them: 'Algorithm + sponsored listings' },
     { icon: '🗣️', label: 'Language', us: 'Kannada-first, bilingual', them: 'English only' },
     { icon: '💰', label: 'Pricing', us: 'Direct, transparent, fair', them: 'Commission-heavy markups' },
-    { icon: '🤖', label: 'AI', us: 'NammaBot — hyper-local AI', them: 'Generic global recommendations' },
-    { icon: '📵', label: 'Offline', us: 'Full offline maps included', them: 'Requires constant data' },
+    { icon: '🤖', label: 'AI', us: 'NammaBot — hyper-local AI', them: 'Generic global recommendations' }
 ];
 
 /* ══ NAVBAR ════════════════════════════════════════════════════════ */
