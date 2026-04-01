@@ -17,15 +17,27 @@ export default function GalleryTab({ images, name, placeName }) {
     ? [...new Set(images)]
     : [];
 
-  // ✅ Fetch videos for place
+  // ✅ Fetch videos for place (FIXED)
   useEffect(() => {
     if (!placeName) return;
 
     setLoadingVideos(true);
 
-    fetch(`/api/videos/place/${encodeURIComponent(placeName)}`)
+    fetch(`/api/videos?search=${encodeURIComponent(placeName)}`)
       .then(res => res.json())
-      .then(data => setVideos(Array.isArray(data) ? data : []))
+      .then(data => {
+        // 🔥 STRICT MATCH (important fix)
+        const filtered = Array.isArray(data)
+          ? data.filter(
+              (vid) =>
+                vid.place_name &&
+                vid.place_name.trim().toLowerCase() ===
+                  placeName.trim().toLowerCase()
+            )
+          : [];
+
+        setVideos(filtered);
+      })
       .catch(() => setVideos([]))
       .finally(() => setLoadingVideos(false));
   }, [placeName]);
@@ -109,13 +121,13 @@ export default function GalleryTab({ images, name, placeName }) {
               />
             ))}
 
-            {/* 🔥 Videos (optimized loading) */}
+            {/* 🔥 Videos */}
             {videos.map((vid) => (
               <video
                 key={vid._id}
                 className="gallery-video"
                 controls
-                preload="metadata"  // 🔥 IMPORTANT (no heavy load)
+                preload="metadata"
                 poster={vid.thumbnail_url}
                 onError={(e) => e.target.style.display = "none"}
               >
@@ -124,7 +136,7 @@ export default function GalleryTab({ images, name, placeName }) {
               </video>
             ))}
 
-            {/* ⏳ Loading indicator */}
+            {/* ⏳ Loading */}
             {loadingVideos && (
               <div className="gallery-loader">
                 🎬 Loading videos...
