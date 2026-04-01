@@ -194,9 +194,9 @@ const Landing = () => {
     const [guidesRef, guidesVisible] = useReveal(0.1);
     const [featRef, featVisible] = useReveal(0.1);
 
-    const c1 = useCounter(340, statsVisible);
-    const c2 = useCounter(1200, statsVisible);
-    const c3 = useCounter(28, statsVisible);
+    const c1 = useCounter(40, statsVisible);
+    const c2 = useCounter(200, statsVisible);
+    const c3 = useCounter(10, statsVisible);
     const c4 = useCounter(96, statsVisible);
 
     useEffect(() => {
@@ -229,9 +229,9 @@ const Landing = () => {
                 <div className="hero__ring hero__ring--2" aria-hidden="true" />
                 <div className="hero__ring hero__ring--3" aria-hidden="true" />
 
-                <div className="hero__float hero__float--1">🏯 Hampi</div>
+                {/* <div className="hero__float hero__float--1">🏯 Hampi</div> */}
                 <div className="hero__float hero__float--2">☕ Coorg</div>
-                <div className="hero__float hero__float--3">★ 4.9</div>
+                {/* <div className="hero__float hero__float--3">★ 4.9</div> */}
                 <div className="hero__float hero__float--4">🛕 Belur</div>
                 <div className="hero__float hero__float--5">🌿 1,200+ Locals</div>
 
@@ -294,10 +294,10 @@ const Landing = () => {
                     </div>
                 </div>
 
-                <div className="hero__scroll-hint">
+                {/* <div className="hero__scroll-hint">
                     <div className="scroll-mouse"><div className="scroll-wheel" /></div>
                     <span>{t('scroll to discover', 'ಕೆಳಗೆ ಸ್ಕ್ರಾಲ್ ಮಾಡಿ')}</span>
-                </div>
+                </div> */}
             </section>
 
             {/* ══ DUAL TICKER ══ */}
@@ -324,7 +324,7 @@ const Landing = () => {
                     {[
                         { val: c1, suffix: '+', label: t('Hidden Gems Listed', 'ರಹಸ್ಯ ತಾಣಗಳು'), icon: '🗺️' },
                         { val: c2, suffix: '+', label: t('Verified Locals', 'ಪರಿಶೀಲಿಸಿದ ಸ್ಥಳೀಯರು'), icon: '🧑‍🤝‍🧑' },
-                        { val: c3, suffix: '', label: t('Districts Covered', 'ಜಿಲ್ಲೆಗಳು'), icon: '📍' },
+                        { val: c3, suffix: '+', label: t('Districts Covered', 'ಜಿಲ್ಲೆಗಳು'), icon: '📍' },
                         { val: c4, suffix: '%', label: t('Satisfaction Rate', 'ತೃಪ್ತಿ ದರ'), icon: '⭐' },
                     ].map((s, i) => (
                         <div key={i} className={`stat-card${statsVisible ? ' stat-card--in' : ''}`}
@@ -346,7 +346,7 @@ const Landing = () => {
                         <p className="section-eyebrow">{t('Curated by Locals', 'ಸ್ಥಳೀಯರಿಂದ ಆಯ್ದ')}</p>
                         <h2 className="section-title">{t('Spots Worth the Detour', 'ದಾರಿ ತಪ್ಪಿ ಹೋಗಲು ಯೋಗ್ಯ ತಾಣಗಳು')}</h2>
                     </div>
-                    <Link to="/login" className="section-link">{t('View all 340+ spots →', 'ಎಲ್ಲ 340+ ತಾಣಗಳು →')}</Link>
+                    <Link to="/login" className="section-link">{t('View all 70+ spots →', 'ಎಲ್ಲ 70+ ತಾಣಗಳು →')}</Link>
                 </div>
                 <div className="category-pills">
                     {categories.map((c, i) => (
@@ -451,7 +451,7 @@ const Landing = () => {
                         { icon: '🧭', title: t('Explorer Network', 'ಅನ್ವೇಷಕರ ಜಾಲ'), desc: t('Connect directly with locals who know the pulse of their city, district, or village.', 'ತಮ್ಮ ನಗರದ ನಾಡಿ ತಿಳಿದ ಸ್ಥಳೀಯರೊಂದಿಗೆ ನೇರ ಸಂಪರ್ಕ.'), accent: '#1a6b4a' },
                         { icon: '🤖', title: 'NammaBot AI', desc: t('Hyper-local AI that understands Kannada culture, festivals, and which darshini opens at 6 AM.', 'ಕನ್ನಡ ಸಂಸ್ಕೃತಿ ಮತ್ತು ಋತುಗಳನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳುವ AI.'), accent: '#7b2d8b' },
                         { icon: '📸', title: t('Community Videos', 'ಸಮುದಾಯ ವೀಡಿಯೊಗಳು'), desc: t('Real short videos by locals — not stock footage or influencer tours. Just honest Karnataka.', 'ಸ್ಥಳೀಯರು ತೆಗೆದ ನಿಜ ವೀಡಿಯೊಗಳು — ಅಪ್ಪಟ ಕರ್ನಾಟಕ.'), accent: '#0d4f6b' },
-                        { icon: '🗺️', title: t('Offline Maps', 'ಆಫ್‌ಲೈನ್ ನಕ್ಷೆಗಳು'), desc: t('Download maps that work in Coorg forests and Kodagu ghats — no data required.', 'ಕೊಡಗಿನ ಕಾಡಿನಲ್ಲೂ ಕೆಲಸ ಮಾಡುವ ಆಫ್‌ಲೈನ್ ನಕ್ಷೆಗಳು.'), accent: '#2d6b1a' },
+                        // { icon: '🗺️', title: t('Offline Maps', 'ಆಫ್‌ಲೈನ್ ನಕ್ಷೆಗಳು'), desc: t('Download maps that work in Coorg forests and Kodagu ghats — no data required.', 'ಕೊಡಗಿನ ಕಾಡಿನಲ್ಲೂ ಕೆಲಸ ಮಾಡುವ ಆಫ್‌ಲೈನ್ ನಕ್ಷೆಗಳು.'), accent: '#2d6b1a' },
                         { icon: '🌐', title: t('Bilingual First', 'ದ್ವಿಭಾಷಿ ಮೊದಲು'), desc: t('Every listing, review, and story in Kannada and English — Karnataka speaks both.', 'ಪ್ರತಿ ಪಟ್ಟಿ ಕನ್ನಡ ಮತ್ತು ಇಂಗ್ಲಿಷ್‌ನಲ್ಲಿ.'), accent: '#b85c0a' },
                     ].map((f, i) => (
                         <div key={i}
@@ -475,13 +475,13 @@ const Landing = () => {
                         <h2 className="section-title">{t('We Got Lost in Karnataka. Then We Stayed.', 'ನಾವು ಕರ್ನಾಟಕದಲ್ಲಿ ದಾರಿ ತಪ್ಪಿದೆವು. ನಂತರ ಉಳಿದೆವು.')}</h2>
                         <p className="about-p">
                             {t(
-                                "NammaDiscover was born on a rainy September evening in Bengaluru, when three friends returned from Hampi frustrated that Google Maps had sent them to a tourist restaurant — instead of the dabbawala who'd been feeding stone-cutters for 40 years.",
+                                "Incredible Karnataka is a hyperlocal discovery platform designed to help users explore authentic experiences across Karnataka. It connects travelers and locals with genuine restaurants, generational businesses, underrated tourist attractions, curated stay options, and trusted local recommendations.",
                                 "ಒಂದು ಮಳೆಯ ಸಂಜೆ, ಮೂರು ಸ್ನೇಹಿತರು ಹಂಪಿಯಿಂದ ತಿರುಗಿ ಬಂದರು — Google Maps 40 ವರ್ಷದ ದಬ್ಬಾವಾಲಾ ಬದಲು ಪ್ರವಾಸಿ ರೆಸ್ಟೋರೆಂಟ್‌ಗೆ ಕರೆದೊಯ್ದಿತ್ತು."
                             )}
                         </p>
                         <p className="about-p">
                             {t(
-                                "So we built the app we always wished existed: curated by locals, spoken in Kannada, and fiercely protective of the places that make Karnataka extraordinary.",
+                                "So we built this to become Karnataka’s most trusted digital platform for discovering authentic culture, food, and hidden destinations.",
                                 "ಹೀಗೆ ನಾವು ಸ್ಥಳೀಯರಿಂದ ಕ್ಯುರೇಟ್ ಮಾಡಲ್ಪಟ್ಟ, ಕನ್ನಡದಲ್ಲಿ ಮಾತನಾಡುವ ಆ್ಯಪ್ ನಿರ್ಮಿಸಿದೆವು."
                             )}
                         </p>
@@ -611,7 +611,7 @@ const Landing = () => {
                             )}
                         </p>
                         <div className="bot-pills">
-                            {[t('Understands Kannada', 'ಕನ್ನಡ'), t('Festival-aware', 'ಹಬ್ಬ-ಅರಿವು'), t('Seasonal tips', 'ಋತು ಸಲಹೆ'), t('Works Offline', 'ಆಫ್‌ಲೈನ್')].map((f, i) =>
+                            {[ t('Festival-aware', 'ಹಬ್ಬ-ಅರಿವು'), t('Seasonal tips', 'ಋತು ಸಲಹೆ')].map((f, i) =>
                                 <span key={i} className="bot-pill">{f}</span>
                             )}
                         </div>
