@@ -37,8 +37,6 @@ const Home = () => {
             <AISection />
             <BudgetSection />
             <ItinerarySection />
-            <ReviewSection />
-            <InvestorSection />
             <Chatbot />
             <Footer />
         </div>
