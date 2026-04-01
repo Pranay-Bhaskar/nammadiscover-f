@@ -12,6 +12,11 @@ const ExplorerLogin = () => {
 
     const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
+
+
+//OLD
+
+    /*
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -38,6 +43,53 @@ const ExplorerLogin = () => {
             setLoading(false);
         }
     };
+*/
+
+
+
+
+//NEW
+
+
+
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+        if (isLogin) {
+            const data = await login(formData.email, formData.password);
+            if (data.role === 'explorer' || data.role === 'admin') {
+                toast.success('Welcome back, Explorer!');
+                navigate('/dashboard');
+            } else {
+                toast.error('You do not have Explorer privileges yet.');
+                navigate('/dashboard');
+            }
+        } else {
+            // Register as user FIRST
+            const data = await register(formData.username, formData.email, formData.password);
+            
+            // THEN login to get token
+            const loginData = await login(formData.email, formData.password);
+            
+            // NOW apply as explorer (token exists)
+            await api.post('/explorers/apply', { 
+                reason: formData.reason, 
+                experience: 'Applied at signup' 
+            });
+            
+            toast.success('Account created & Explorer Application Submitted! Pending Admin Approval.');
+            navigate('/dashboard');
+        }
+    } catch (err) {
+        toast.error(err.response?.data?.error || 'Something went wrong');
+    } finally {
+        setLoading(false);
+    }
+};
+
+
+
 
     return (
         <div className="container" style={{ paddingTop: '120px', maxWidth: '450px', margin: '0 auto' }}>
