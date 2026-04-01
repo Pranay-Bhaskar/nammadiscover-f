@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function GalleryTab({ images, name }) {
+export default function GalleryTab({ images, name, placeName }) {
   const [selectedImg, setSelectedImg] = useState(null);
+  const [videos, setVideos] = useState([]);
+  const [loadingVideos, setLoadingVideos] = useState(false);
 
   const placeholderEmojis = ['🌄','🏛','🌿','🛕','🍛','🏔','💧','🌸','🎭','🗺'];
 
@@ -10,9 +12,25 @@ export default function GalleryTab({ images, name }) {
     e.target.src = "/fallback.jpg";
   };
 
+  // ✅ Remove duplicates safely
   const uniqueImages = Array.isArray(images)
     ? [...new Set(images)]
     : [];
+
+  // ✅ Fetch videos for place
+  useEffect(() => {
+    if (!placeName) return;
+
+    setLoadingVideos(true);
+
+    fetch(`/api/videos/place/${encodeURIComponent(placeName)}`)
+      .then(res => res.json())
+      .then(data => setVideos(Array.isArray(data) ? data : []))
+      .catch(() => setVideos([]))
+      .finally(() => setLoadingVideos(false));
+  }, [placeName]);
+
+  const hasContent = uniqueImages.length > 0 || videos.length > 0;
 
   return (
     <>
@@ -34,9 +52,26 @@ export default function GalleryTab({ images, name }) {
           max-height: 90%;
           border-radius: 12px;
         }
+
+        .gallery-video {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          cursor: pointer;
+          border-radius: 8px;
+          background: #000;
+        }
+
+        .gallery-loader {
+          grid-column: 1/-1;
+          text-align: center;
+          font-size: 0.8rem;
+          color: var(--text-muted);
+          padding: 10px;
+        }
       `}</style>
 
-      {!uniqueImages || uniqueImages.length === 0 ? (
+      {!hasContent && !loadingVideos ? (
         <div className="gallery-grid">
           {placeholderEmojis.map((emoji, i) => (
             <div key={i} className="gallery-placeholder">
@@ -53,12 +88,14 @@ export default function GalleryTab({ images, name }) {
               padding: '8px'
             }}
           >
-            📸 Photos coming soon. Be the first to share!
+            📸 Photos & videos coming soon. Be the first to share!
           </div>
         </div>
       ) : (
         <>
           <div className="gallery-grid">
+
+            {/* ✅ Images */}
             {uniqueImages.map((img, i) => (
               <img
                 key={img || i}
@@ -71,8 +108,32 @@ export default function GalleryTab({ images, name }) {
                 onClick={() => setSelectedImg(img)}
               />
             ))}
+
+            {/* 🔥 Videos (optimized loading) */}
+            {videos.map((vid) => (
+              <video
+                key={vid._id}
+                className="gallery-video"
+                controls
+                preload="metadata"  // 🔥 IMPORTANT (no heavy load)
+                poster={vid.thumbnail_url}
+                onError={(e) => e.target.style.display = "none"}
+              >
+                <source src={vid.video_url} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            ))}
+
+            {/* ⏳ Loading indicator */}
+            {loadingVideos && (
+              <div className="gallery-loader">
+                🎬 Loading videos...
+              </div>
+            )}
+
           </div>
 
+          {/* 🔍 Image modal */}
           {selectedImg && (
             <div
               className="gallery-modal"
