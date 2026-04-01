@@ -18,7 +18,6 @@ const BudgetSection = () => {
                     <h2 className="section-title">{t('Plan by Your Pocket', 'ನಿಮ್ಮ ಜೇಬಿಗೆ ಅನುಗುಣವಾಗಿ ಯೋಜಿಸಿ')}</h2>
                 </div>
 
-             
                 <div className="budget-card" style={{ width: '100%', overflow: 'hidden' }}>
                     
                     <div className="budget-range-wrap">
@@ -38,31 +37,57 @@ const BudgetSection = () => {
                         <span id="budget-val">₹{budget}</span>
                     </div>
 
-            
+                  
                     <div 
-                        className="spots-grid mt-3" 
+                        className="spots-grid mt-3 custom-scrollbar" 
                         style={{ 
                             display: 'flex', 
-                            flexWrap: 'wrap', 
-                            gap: '1.5rem', 
-                            justifyContent: 'center',
-                            width: '100%' 
+                            flexWrap: 'nowrap', 
+                            gap: '1.2rem', 
+                            width: '100%',
+                            overflowX: 'auto',
+                            paddingBottom: '1rem',
+                            WebkitOverflowScrolling: 'touch' 
                         }}
                     >
                         {filtered.length > 0 ? (
                             filtered.map(loc => (
-                                <div key={loc._id} style={{ flex: '1 1 280px', maxWidth: '350px' }}>
+                                <div 
+                                    key={loc._id} 
+                                    style={{ 
+                                        flex: '0 0 auto', 
+                                        width: '300px'    
+                                    }}
+                                >
                                     <SpotCard spot={loc} />
                                 </div>
                             ))
                         ) : (
-                            <p style={{ width: '100%', textAlign: 'center', padding: '2rem' }}>
+                            <p style={{ width: '100%', textAlign: 'center', padding: '2rem', color: 'rgba(255,255,255,0.6)' }}>
                                 {t('No spots found in this budget. Try increasing it!', 'ಈ ಬಜೆಟ್‌ನಲ್ಲಿ ಯಾವುದೇ ಸ್ಥಳಗಳು ಕಂಡುಬಂದಿಲ್ಲ. ಅದನ್ನು ಹೆಚ್ಚಿಸಲು ಪ್ರಯತ್ನಿಸಿ!')}
                             </p>
                         )}
                     </div>
                 </div>
             </div>
+
+            
+            <style>{`
+                .custom-scrollbar::-webkit-scrollbar {
+                    height: 6px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-track {
+                    background: rgba(255, 255, 255, 0.05);
+                    border-radius: 10px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb {
+                    background: rgba(255, 107, 53, 0.3);
+                    border-radius: 10px;
+                }
+                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+                    background: rgba(255, 107, 53, 0.5);
+                }
+            `}</style>
         </section>
     );
 };
