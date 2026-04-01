@@ -10,17 +10,24 @@ export default function GalleryTab({ images, name, placeName }) {
 
   const placeholderEmojis = ['🌄','🏛','🌿','🛕','🍛','🏔','💧','🌸','🎭','🗺'];
 
+  // ✅ FIXED (removed trailing slash)
+  const API_BASE = "https://namma-discover.onrender.com";
+
   const handleError = (e) => {
     e.target.onerror = null;
     e.target.src = "/fallback.jpg";
   };
+
+  // ✅ Robust normalize
+  const normalize = (str) =>
+    str?.toLowerCase().replace(/\s+/g, "").trim();
 
   // ✅ Remove duplicates safely
   const uniqueImages = Array.isArray(images)
     ? [...new Set(images)]
     : [];
 
-  // ✅ Fetch videos for place (FIXED)
+  // ✅ Fetch videos
   useEffect(() => {
     console.log("useEffect TRIGGERED:", placeName);
 
@@ -31,7 +38,7 @@ export default function GalleryTab({ images, name, placeName }) {
 
     setLoadingVideos(true);
 
-    fetch(`/api/videos?search=${encodeURIComponent(placeName)}`)
+    fetch(`${API_BASE}/api/videos?search=${encodeURIComponent(placeName)}`)
       .then(res => res.json())
       .then(data => {
         console.log("API DATA:", data);
@@ -39,11 +46,9 @@ export default function GalleryTab({ images, name, placeName }) {
 
         // ✅ Robust filtering
         const filtered = Array.isArray(data)
-          ? data.filter(
-              (vid) =>
-                vid.place_name &&
-                vid.place_name.trim().toLowerCase() ===
-                  placeName.trim().toLowerCase()
+          ? data.filter((vid) =>
+              vid.place_name &&
+              normalize(vid.place_name).includes(normalize(placeName))
             )
           : [];
 
@@ -138,20 +143,29 @@ export default function GalleryTab({ images, name, placeName }) {
               />
             ))}
 
-            {/* 🔥 Videos */}
-            {videos.map((vid) => (
-              <video
-                key={vid._id}
-                className="gallery-video"
-                controls
-                preload="metadata"
-                poster={vid.thumbnail_url}
-                onError={(e) => e.target.style.display = "none"}
-              >
-                <source src={vid.video_url} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            ))}
+            {/* 🎬 Videos */}
+            {Array.isArray(videos) && videos.map((vid) => {
+              const videoSrc = vid.video_url?.startsWith("http")
+                ? vid.video_url
+                : `${API_BASE}${vid.video_url}`;
+
+              return (
+                <video
+                  key={vid._id}
+                  className="gallery-video"
+                  controls
+                  preload="metadata"
+                  poster={vid.thumbnail_url}
+                  onError={(e) => {
+                    console.warn("Video failed:", videoSrc);
+                    e.target.style.display = "none";
+                  }}
+                >
+                  <source src={videoSrc} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              );
+            })}
 
             {/* ⏳ Loading */}
             {loadingVideos && (
