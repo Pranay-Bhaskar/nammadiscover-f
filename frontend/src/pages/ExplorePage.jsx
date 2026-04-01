@@ -7,9 +7,7 @@ import MapSection from '../components/Home/MapSection';
 import AISection from '../components/Home/AISection';
 import BudgetSection from '../components/Home/BudgetSection';
 import ItinerarySection from '../components/Home/ItinerarySection';
-import BusinessSection from '../components/Home/BusinessSection';
 import ReviewSection from '../components/Home/ReviewSection';
-import ExplorerSection from '../components/Home/ExplorerSection';
 import InvestorSection from '../components/Home/InvestorSection';
 import Chatbot from '../components/Chatbot';
 import Footer from '../components/Footer';
@@ -39,9 +37,7 @@ const Home = () => {
             <AISection />
             <BudgetSection />
             <ItinerarySection />
-            <BusinessSection />
             <ReviewSection />
-            {/* <ExplorerSection /> */}
             <InvestorSection />
             <Chatbot />
             <Footer />
