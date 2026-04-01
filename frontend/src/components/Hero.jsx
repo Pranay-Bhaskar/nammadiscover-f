@@ -319,7 +319,7 @@ const Hero = () => {
 
                 {/* ── Floating info card (desktop) ── */}
                 <div ref={floatingCardRef} style={{
-                    position:'absolute', right:'2rem', top:'50%', bottom:'10%', display:'none',
+                    position:'absolute', right:'2rem', bottom:'10%', display:'none',
                     transform:`translateY(-50%) translate(${mousePos.x*-6}px,${mousePos.y*-4}px)`,
                     transition:'transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94)',
                     zIndex:5, animation:'fadeSlideUp 1s 0.9s ease both',
