@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 
 export default function GalleryTab({ images, name, placeName }) {
+  console.log("GalleryTab RENDERED");
+  console.log("Props:", { images, name, placeName });
+
   const [selectedImg, setSelectedImg] = useState(null);
   const [videos, setVideos] = useState([]);
   const [loadingVideos, setLoadingVideos] = useState(false);
@@ -19,7 +22,12 @@ export default function GalleryTab({ images, name, placeName }) {
 
   // ✅ Fetch videos for place (FIXED)
   useEffect(() => {
-    if (!placeName) return;
+    console.log("useEffect TRIGGERED:", placeName);
+
+    if (!placeName) {
+      console.warn("placeName is missing ❌");
+      return;
+    }
 
     setLoadingVideos(true);
 
@@ -28,8 +36,8 @@ export default function GalleryTab({ images, name, placeName }) {
       .then(data => {
         console.log("API DATA:", data);
         console.log("UI PLACE:", placeName);
-        
 
+        // ✅ Robust filtering
         const filtered = Array.isArray(data)
           ? data.filter(
               (vid) =>
@@ -39,13 +47,19 @@ export default function GalleryTab({ images, name, placeName }) {
             )
           : [];
 
+        console.log("FILTERED VIDEOS:", filtered);
+
         setVideos(filtered);
       })
-      .catch(() => setVideos([]))
+      .catch((err) => {
+        console.error("FETCH ERROR:", err);
+        setVideos([]);
+      })
       .finally(() => setLoadingVideos(false));
   }, [placeName]);
 
-  const hasContent = uniqueImages.length > 0 || videos.length > 0;
+  const hasContent =
+    uniqueImages.length > 0 || (Array.isArray(videos) && videos.length > 0);
 
   return (
     <>
