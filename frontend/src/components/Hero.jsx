@@ -405,8 +405,8 @@ const Hero = () => {
             {/* ── Search bar (Moved higher) ── */}
             <div className="hero-search-wrap" style={{ 
                 position: 'absolute', 
-                bottom: '10%', // Moved from likely 0 or 5% to 10% to ensure visibility
-                left: 0, 
+                bottom: '10%', 
+                left: '50%', 
                 width: '100%', 
                 zIndex: 10 
             }}>
