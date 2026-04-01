@@ -2,31 +2,36 @@
    SCROLL FIX — prevent hero from becoming sticky/fixed
    ---------------------------------------------------------------- */
    .detail-page {
-    position: relative;
-    overflow-y: auto;
-    height: auto !important;
-    min-height: 100%;
-  }
-  
-  /* ----------------------------------------------------------------
-     1. HERO CONTAINER — tall, image-backed, flex column from bottom
-     ---------------------------------------------------------------- */
-     .detail-hero {
-      position: relative !important;
-      min-height: 440px;
-      padding: 0;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      background: #061210; /* rich fallback if image fails */
-    }
-    
-    /* Suppress old pseudo-elements from main CSS */
-    .detail-hero::before,
-    .detail-hero::after {
-      display: none !important;
-    }
+     position: relative;
+     overflow-y: auto;
+     overflow-x: hidden; /* fallback */
+     overflow-x: clip;
+     height: auto !important;
+     min-height: 100vh;
+     min-height: 100dvh;
+     padding-bottom: max(24px, env(safe-area-inset-bottom));
+   }
+   
+   /* ----------------------------------------------------------------
+      1. HERO CONTAINER — tall, image-backed, flex column from bottom
+      ---------------------------------------------------------------- */
+   .detail-hero {
+     position: relative !important;
+     min-height: clamp(300px, 52dvh, 440px);
+     padding: 0;
+     overflow: hidden;
+     display: flex;
+     flex-direction: column;
+     justify-content: flex-end;
+     background: #061210;
+     isolation: isolate;
+   }
+   
+   /* Suppress old pseudo-elements from main CSS */
+   .detail-hero::before,
+   .detail-hero::after {
+     display: none !important;
+   }
     
     /* ----------------------------------------------------------------
        2. IMAGE LAYER — Ken Burns entrance, smooth zoom-out
