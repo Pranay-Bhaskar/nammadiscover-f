@@ -57,19 +57,9 @@ const Navbar = () => {
                 <div className="nav-links">
                     <Link to="/dashboard" className={`nav-link${isHome ? ' active' : ''}`}>Home</Link>
                     <button className="nav-link" onClick={() => goToSection('discover-section')}>{t('Discover', 'ಅನ್ವೇಷಿಸಿ')}</button>
-                    {/* <Link to="/#gallery-section" className="nav-link" onClick={(e) => {
-                        e.preventDefault();
-                        if (location.pathname === '/') {
-                            const el = document.getElementById('gallery-section');
-                            if (el) el.scrollIntoView({ behavior: 'smooth' });
-                        } else {
-                            navigate('/', { state: { scrollTo: 'gallery-section' } });
-                        }
-                    }}>{t('Gallery', 'ಗ್ಯಾಲರಿ')}</Link> */}
                     <button className="nav-link" onClick={() => goToSection('map-section')}>{t('Map', 'ನಕ್ಷೆ')}</button>
                     <button className="nav-link" onClick={() => goToSection('ai-section')}>{t('AI Picks', 'AI ಆಯ್ಕೆಗಳು')}</button>
                     <button className="nav-link" onClick={() => goToSection('budget-section')}>{t('Budget Trip', 'ಬಜೆಟ್ ಪ್ರವಾಸ')}</button>
-                    <button className="nav-link" onClick={() => goToSection('explorer-section')}>{t('Explore', 'ಅನ್ವೇಷಣೆ')}</button>
                 </div>
 
 
