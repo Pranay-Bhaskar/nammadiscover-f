@@ -19,6 +19,26 @@ const BudgetSection = () => {
                 </div>
 
                 <div className="budget-card">
+                    
+{/* NEW */}
+                    <div className="budget-range-wrap">
+                        <label htmlFor="budget-slider">
+                            {t('Your max budget per spot', 'ಒಂದು ಸ್ಥಳದ ಗರಿಷ್ಠ ಬಜೆಟ್')}:
+                        </label>
+                        <input
+                            id="budget-slider"
+                            name="budget"
+                            type="range"
+                            min="50"
+                            max="5000"
+                            step="50"
+                            value={budget}
+                            onChange={(e) => setBudget(e.target.value)}
+                        />
+                        <span id="budget-val">₹{budget}</span>
+                    </div>
+
+{/*    OLD                  
                     <div className="budget-range-wrap">
                         <label>{t('Your max budget per spot', 'ಒಂದು ಸ್ಥಳದ ಗರಿಷ್ಠ ಬಜೆಟ್')}:</label>
                         <input 
@@ -31,8 +51,8 @@ const BudgetSection = () => {
                             id="budget-slider" 
                         />
                         <span id="budget-val">₹{budget}</span>
-                    </div>
-
+                    </div>               
+*/}
                     <div className="spots-grid mt-3">
                         {filtered.length > 0 ? (
                             filtered.map(loc => <SpotCard key={loc._id} spot={loc} />)

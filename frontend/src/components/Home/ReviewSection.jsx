@@ -14,6 +14,52 @@ const ReviewSection = () => {
                 </div>
 
                 <div className="grid-2">
+
+{/* NEW */}
+                    <div className="review-form">
+                        <h4>{t('Add Your Story', 'ನಿಮ್ಮ ಕಥೆಯನ್ನು ಸೇರಿಸಿ')}</h4>
+
+                        <div className="form-group">
+                            <label htmlFor="reviewer-name">{t('Your Name', 'ನಿಮ್ಮ ಹೆಸರು')}</label>
+                            <input
+                            id="reviewer-name"
+                            name="reviewerName"
+                            type="text"
+                            className="form-control"
+                            autoComplete="name"
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="visited-spot">
+                            {t('Which spot did you visit?', 'ಯಾವ ಸ್ಥಳಕ್ಕೆ ಭೇಟಿ ನೀಡಿದ್ದೀರಿ?')}
+                            </label>
+                            <input
+                            id="visited-spot"
+                            name="visitedSpot"
+                            type="text"
+                            className="form-control"
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="review-text">
+                            {t('Share your experience', 'ನಿಮ್ಮ ಅನುಭವವನ್ನು ಹಂಚಿಕೊಳ್ಳಿ')}
+                            </label>
+                            <textarea
+                            id="review-text"
+                            name="reviewText"
+                            className="form-control"
+                            ></textarea>
+                        </div>
+
+                        <button className="btn btn-primary w-full">
+                            {t('Submit Review', 'ವಿಮರ್ಶೆಯನ್ನು ಸಲ್ಲಿಸಿ')}
+                        </button>
+                        </div>
+
+
+{/*     OLD
                     <div className="review-form">
                         <h4>{t('Add Your Story', 'ನಿಮ್ಮ ಕಥೆಯನ್ನು ಸೇರಿಸಿ')}</h4>
                         <div className="form-group">
@@ -30,6 +76,8 @@ const ReviewSection = () => {
                         </div>
                         <button className="btn btn-primary w-full">{t('Submit Review', 'ವಿಮರ್ಶೆಯನ್ನು ಸಲ್ಲಿಸಿ')}</button>
                     </div>
+*/}
+
 
                     <div className="reviews-list">
                         {reviews.slice(0, 3).map(rev => (
