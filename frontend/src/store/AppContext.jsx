@@ -51,7 +51,10 @@ export function AppProvider({ children }) {
     setSelectedCategories(CATEGORIES.map(c => c.id));
   }, []);
 
-  const API_URL = import.meta.env.VITE_API_URL || '/api';
+  const RAW_API_URL = import.meta.env.VITE_API_URL || '';
+const API_URL = RAW_API_URL
+  ? `${RAW_API_URL.replace(/\/$/, '')}/api`
+  : '/api';                                               // updated api_calls
   const fetchData = useCallback(async () => {
     try {
       setLoading(true);
