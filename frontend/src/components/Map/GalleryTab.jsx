@@ -25,8 +25,6 @@ export default function GalleryTab({ images, name, placeName }) {
     ? [...new Set(images)]
     : [];
 
-  console.log("PLACE NAME RECEIVED:", placeName);
-
   // ✅ Fetch videos for place (FIXED PROPERLY)
   useEffect(() => {
     if (!placeName) return;
@@ -38,6 +36,7 @@ export default function GalleryTab({ images, name, placeName }) {
       .then(data => {
         console.log("API DATA:", data);
         console.log("UI PLACE:", placeName);
+        
 
         const filtered = Array.isArray(data)
           ? data.filter((vid) =>
