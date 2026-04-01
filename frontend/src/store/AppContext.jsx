@@ -47,6 +47,10 @@ export function AppProvider({ children }) {
   const [showFilter, setShowFilter] = useState(false);
   const [audioPlaying, setAudioPlaying] = useState(null);
 
+
+
+
+  /*   //OLD
   const setAllCategories = useCallback(() => {
     setSelectedCategories(CATEGORIES.map(c => c.id));
   }, []);
@@ -54,7 +58,35 @@ export function AppProvider({ children }) {
   const RAW_API_URL = import.meta.env.VITE_API_URL || '';
 const API_URL = RAW_API_URL
   ? `${RAW_API_URL.replace(/\/$/, '')}/api`
-  : '/api';                                               // updated api_calls
+  : '/api';
+*/
+
+
+
+            // NEW
+
+const setAllCategories = useCallback(() => {
+  setSelectedCategories(CATEGORIES.map(c => c.id));
+}, []);
+
+const selectedCategory =
+  selectedCategories.length === 1 ? selectedCategories[0] : 'all';
+
+const setSelectedCategory = useCallback((category) => {
+  if (!category || category === 'all') {
+    setAllCategories();
+  } else {
+    setSelectedCategories([category]);
+  }
+}, [setAllCategories]);
+
+const RAW_API_URL = import.meta.env.VITE_API_URL || '';
+const API_URL = RAW_API_URL
+  ? `${RAW_API_URL.replace(/\/$/, '')}/api`
+  : '/api';
+
+
+//updated api_calls
   const fetchData = useCallback(async () => {
     try {
       setLoading(true);
@@ -128,6 +160,11 @@ const API_URL = RAW_API_URL
   const isSaved = useCallback((id) => !!savedPlaces.find(p => p._id === id), [savedPlaces]);
   const isInItinerary = useCallback((id) => !!itinerary.find(p => p._id === id), [itinerary]);
 
+
+  //  OLD
+
+
+  /* 
   const value = {
       locations, setLocations,
       cities, setCities,
@@ -151,6 +188,39 @@ const API_URL = RAW_API_URL
       audioPlaying, setAudioPlaying,
       fetchData
   };
+*/
+
+
+//NEW
+
+
+const value = {
+  locations, setLocations,
+  cities, setCities,
+  reviews, setReviews,
+  explorers, setExplorers,
+  loading,
+  currentCity, setCurrentCity,
+  selectedCity, setSelectedCity,
+  selectedCategories, setSelectedCategories, toggleCategory,
+  selectedCategory, setSelectedCategory,
+  verifiedOnly, setVerifiedOnly,
+  darkMode, toggleDarkMode, toggleTheme,
+  language, toggleLanguage, toggleLang,
+  t, t_func,
+  savedPlaces, toggleSaved,
+  itinerary, setItinerary, addToItinerary, removeFromItinerary,
+  activeLocation, setActiveLocation,
+  userLocation, setUserLocation,
+  showSaved, setShowSaved,
+  showItinerary, setShowItinerary,
+  showFilter, setShowFilter,
+  setAllCategories,
+  isSaved, isInItinerary,
+  audioPlaying, setAudioPlaying,
+  fetchData
+};
+
 
   // Compatibility state
   const state = { 
