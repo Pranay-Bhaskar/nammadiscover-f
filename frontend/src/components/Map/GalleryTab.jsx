@@ -1,107 +1,168 @@
 import { useState, useEffect } from "react";
 
 export default function GalleryTab({ images, name, placeName }) {
-  console.log("GalleryTab RENDERED");
-  console.log("Props:", { images, name, placeName });
-
-  const [selectedImg, setSelectedImg] = useState(null);
+  const [selectedMedia, setSelectedMedia] = useState(null);
   const [videos, setVideos] = useState([]);
   const [loadingVideos, setLoadingVideos] = useState(false);
 
-  const placeholderEmojis = ['🌄','🏛','🌿','🛕','🍛','🏔','💧','🌸','🎭','🗺'];
-
-  // ✅ FIXED (removed trailing slash)
+  const placeholderEmojis = ["🌄", "🏛", "🌿", "🛕", "🍛", "🏔", "💧", "🌸", "🎭", "🗺"];
   const API_BASE = "https://namma-discover.onrender.com";
 
-  const handleError = (e) => {
+  const handleImageError = (e) => {
     e.target.onerror = null;
     e.target.src = "/fallback.jpg";
   };
 
-  // ✅ Robust normalize
   const normalize = (str) =>
-    str?.toLowerCase().replace(/\s+/g, "").trim();
+    String(str || "")
+      .toLowerCase()
+      .replace(/\s+/g, " ")
+      .trim();
 
-  // ✅ Remove duplicates safely
-  const uniqueImages = Array.isArray(images)
-    ? [...new Set(images)]
-    : [];
+  const uniqueImages = Array.isArray(images) ? [...new Set(images.filter(Boolean))] : [];
 
-  // ✅ Fetch videos
   useEffect(() => {
-    console.log("useEffect TRIGGERED:", placeName);
-
-    if (!placeName) {
-      console.warn("placeName is missing ❌");
+    if (!placeName || !placeName.trim()) {
+      setVideos([]);
       return;
     }
 
+    const controller = new AbortController();
     setLoadingVideos(true);
 
-    fetch(`${API_BASE}/api/videos?search=${encodeURIComponent(placeName)}`)
-      .then(res => res.json())
-      .then(data => {
-        console.log("API DATA:", data);
-        console.log("UI PLACE:", placeName);
-
-        // ✅ Robust filtering
+    fetch(`${API_BASE}/api/videos?search=${encodeURIComponent(placeName)}`, {
+      signal: controller.signal,
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error(`Failed to fetch videos: ${res.status}`);
+        return res.json();
+      })
+      .then((data) => {
         const filtered = Array.isArray(data)
-          ? data.filter((vid) =>
-              vid.place_name &&
-              normalize(vid.place_name).includes(normalize(placeName))
-            )
+          ? data.filter((vid) => {
+              if (!vid?.place_name || !vid?.video_url) return false;
+              return normalize(vid.place_name) === normalize(placeName);
+            })
           : [];
-
-        console.log("FILTERED VIDEOS:", filtered);
 
         setVideos(filtered);
       })
       .catch((err) => {
-        console.error("FETCH ERROR:", err);
-        setVideos([]);
+        if (err.name !== "AbortError") {
+          console.error("Video fetch error:", err);
+          setVideos([]);
+        }
       })
-      .finally(() => setLoadingVideos(false));
+      .finally(() => {
+        if (!controller.signal.aborted) setLoadingVideos(false);
+      });
+
+    return () => controller.abort();
   }, [placeName]);
 
-  const hasContent =
-    uniqueImages.length > 0 || (Array.isArray(videos) && videos.length > 0);
+  const hasContent = uniqueImages.length > 0 || videos.length > 0;
 
   return (
     <>
-      {/* ✅ Inline CSS */}
       <style>{`
-        .gallery-modal {
-          position: fixed;
-          inset: 0;
-          background: rgba(0, 0, 0, 0.85);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 999;
-          cursor: pointer;
+        .gallery-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+          gap: 10px;
         }
 
-        .gallery-modal img {
-          max-width: 90%;
-          max-height: 90%;
-          border-radius: 12px;
+        .gallery-item {
+          position: relative;
+          aspect-ratio: 1 / 1;
+          overflow: hidden;
+          border-radius: 10px;
+          background: #111;
         }
 
+        .gallery-img,
         .gallery-video {
           width: 100%;
           height: 100%;
           object-fit: cover;
+          display: block;
           cursor: pointer;
-          border-radius: 8px;
-          background: #000;
+          border-radius: 10px;
+        }
+
+        .gallery-placeholder {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          aspect-ratio: 1 / 1;
+          border-radius: 10px;
+          font-size: 1.8rem;
+          background: rgba(255,255,255,0.04);
+        }
+
+        .gallery-badge {
+          position: absolute;
+          top: 8px;
+          right: 8px;
+          background: rgba(0,0,0,0.65);
+          color: #fff;
+          font-size: 0.72rem;
+          padding: 4px 7px;
+          border-radius: 999px;
+          pointer-events: none;
         }
 
         .gallery-loader {
-          grid-column: 1/-1;
+          grid-column: 1 / -1;
           text-align: center;
-          font-size: 0.8rem;
+          font-size: 0.85rem;
           color: var(--text-muted);
           padding: 10px;
+        }
+
+        .gallery-empty {
+          grid-column: 1 / -1;
+          text-align: center;
+          font-size: 0.78rem;
+          color: var(--text-muted);
+          padding: 8px;
+        }
+
+        .gallery-modal {
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.88);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 999;
+          padding: 20px;
+        }
+
+        .gallery-modal-inner {
+          max-width: 92vw;
+          max-height: 92vh;
+        }
+
+        .gallery-modal img,
+        .gallery-modal video {
+          max-width: 92vw;
+          max-height: 92vh;
+          border-radius: 12px;
+          display: block;
+        }
+
+        .gallery-close {
+          position: absolute;
+          top: 18px;
+          right: 18px;
+          border: none;
+          background: rgba(255,255,255,0.14);
+          color: white;
+          width: 40px;
+          height: 40px;
+          border-radius: 999px;
+          cursor: pointer;
+          font-size: 1.2rem;
         }
       `}</style>
 
@@ -112,81 +173,101 @@ export default function GalleryTab({ images, name, placeName }) {
               {emoji}
             </div>
           ))}
-
-          <div
-            style={{
-              gridColumn: '1/-1',
-              textAlign: 'center',
-              fontSize: '0.78rem',
-              color: 'var(--text-muted)',
-              padding: '8px'
-            }}
-          >
+          <div className="gallery-empty">
             📸 Photos & videos coming soon. Be the first to share!
           </div>
         </div>
       ) : (
         <>
           <div className="gallery-grid">
-
-            {/* ✅ Images */}
             {uniqueImages.map((img, i) => (
-              <img
-                key={img || i}
-                src={img}
-                alt={`${name} ${i + 1}`}
-                className="gallery-img"
-                loading="lazy"
-                decoding="async"
-                onError={handleError}
-                onClick={() => setSelectedImg(img)}
-              />
+              <div key={img || i} className="gallery-item">
+                <img
+                  src={img}
+                  alt={`${name} ${i + 1}`}
+                  className="gallery-img"
+                  loading="lazy"
+                  decoding="async"
+                  onError={handleImageError}
+                  onClick={() => setSelectedMedia({ type: "image", src: img })}
+                />
+                <span className="gallery-badge">📸</span>
+              </div>
             ))}
 
-            {/* 🎬 Videos */}
-            {Array.isArray(videos) && videos.map((vid) => {
-              const videoSrc = vid.video_url?.startsWith("http")
-                ? vid.video_url
-                : `${API_BASE}${vid.video_url}`;
+            {Array.isArray(videos) &&
+              videos.map((vid) => {
+                const videoSrc = vid.video_url?.startsWith("http")
+                  ? vid.video_url
+                  : `${API_BASE}${vid.video_url}`;
 
-              return (
-                <video
-                  key={vid._id}
-                  className="gallery-video"
-                  controls
-                  preload="metadata"
-                  poster={vid.thumbnail_url}
-                  onError={(e) => {
-                    console.warn("Video failed:", videoSrc);
-                    e.target.style.display = "none";
-                  }}
-                >
-                  <source src={videoSrc} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              );
-            })}
+                return (
+                  <div key={vid._id} className="gallery-item">
+                    <video
+                      className="gallery-video"
+                      poster={vid.thumbnail_url || ""}
+                      preload="metadata"
+                      muted
+                      playsInline
+                      onClick={() =>
+                        setSelectedMedia({
+                          type: "video",
+                          src: videoSrc,
+                          poster: vid.thumbnail_url || "",
+                          title: vid.title || "Video preview",
+                        })
+                      }
+                      onError={(e) => {
+                        console.warn("Video failed:", videoSrc);
+                        e.currentTarget.parentElement.style.display = "none";
+                      }}
+                    >
+                      <source src={videoSrc} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                    <span className="gallery-badge">🎥</span>
+                  </div>
+                );
+              })}
 
-            {/* ⏳ Loading */}
             {loadingVideos && (
-              <div className="gallery-loader">
-                🎬 Loading videos...
-              </div>
+              <div className="gallery-loader">🎬 Loading videos...</div>
             )}
-
           </div>
 
-          {/* 🔍 Image modal */}
-          {selectedImg && (
-            <div
-              className="gallery-modal"
-              onClick={() => setSelectedImg(null)}
-            >
-              <img
-                src={selectedImg}
-                alt="preview"
-                onError={handleError}
-              />
+          {selectedMedia && (
+            <div className="gallery-modal" onClick={() => setSelectedMedia(null)}>
+              <button
+                type="button"
+                className="gallery-close"
+                onClick={() => setSelectedMedia(null)}
+                aria-label="Close preview"
+              >
+                ×
+              </button>
+
+              <div
+                className="gallery-modal-inner"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {selectedMedia.type === "image" ? (
+                  <img
+                    src={selectedMedia.src}
+                    alt="Preview"
+                    onError={handleImageError}
+                  />
+                ) : (
+                  <video
+                    src={selectedMedia.src}
+                    poster={selectedMedia.poster}
+                    controls
+                    autoPlay
+                    playsInline
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                )}
+              </div>
             </div>
           )}
         </>
