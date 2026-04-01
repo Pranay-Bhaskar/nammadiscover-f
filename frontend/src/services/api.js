@@ -17,7 +17,7 @@ api.interceptors.request.use(
 
     // 🔑 JWT Token
     const token = localStorage.getItem('nammadiscover_token');
-    console.log('Interceptor firing for:', config.url, 'Token:', token);
+    //  console.log('Interceptor firing for:', config.url, 'Token:', token);   // NO FIRING
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
