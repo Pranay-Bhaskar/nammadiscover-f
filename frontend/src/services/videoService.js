@@ -5,7 +5,7 @@ const BASE_URL = import.meta.env.VITE_API_URL || '';
 const videoApi = axios.create({
   baseURL: `${BASE_URL}/api`,
 });
-/*
+
 // Inject auth token on every request
 videoApi.interceptors.request.use((config) => {
   const token = localStorage.getItem('nammadiscover_token');
@@ -14,7 +14,7 @@ videoApi.interceptors.request.use((config) => {
   }
   return config;
 });
-*/
+
 /* ── Videos ── */
 
 /**
@@ -59,9 +59,4 @@ export const moderateVideo = (id, action, note) =>
 export const getExplorers = () => videoApi.get('/videos/explorers');
 
 export default videoApi;
-
-
-
-
-
 
