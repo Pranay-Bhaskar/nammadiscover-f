@@ -268,6 +268,9 @@ export default function LocationDetailPage() {
           <GalleryTab
             images={location.images}
             name={location.displayName || location.name?.en}
+            placeName={
+              (location.displayName || location.name?.en || "").trim()
+            }
           />
         )}
 
