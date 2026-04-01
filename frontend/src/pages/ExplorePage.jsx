@@ -7,8 +7,8 @@ import MapSection from '../components/Home/MapSection';
 import AISection from '../components/Home/AISection';
 import BudgetSection from '../components/Home/BudgetSection';
 import ItinerarySection from '../components/Home/ItinerarySection';
-import ReviewSection from '../components/Home/ReviewSection';
-import InvestorSection from '../components/Home/InvestorSection';
+// import ReviewSection from '../components/Home/ReviewSection';
+// import InvestorSection from '../components/Home/InvestorSection';
 import Chatbot from '../components/Chatbot';
 import Footer from '../components/Footer';
 
