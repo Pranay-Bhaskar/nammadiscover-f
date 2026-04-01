@@ -26,7 +26,10 @@ export default function GalleryTab({ images, name, placeName }) {
     fetch(`/api/videos?search=${encodeURIComponent(placeName)}`)
       .then(res => res.json())
       .then(data => {
-        // 🔥 STRICT MATCH (important fix)
+        console.log("API DATA:", data);
+        console.log("UI PLACE:", placeName);
+        
+
         const filtered = Array.isArray(data)
           ? data.filter(
               (vid) =>
