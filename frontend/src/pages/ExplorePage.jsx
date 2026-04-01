@@ -41,7 +41,7 @@ const Home = () => {
             <ItinerarySection />
             <BusinessSection />
             <ReviewSection />
-            <ExplorerSection />
+            {/* <ExplorerSection /> */}
             <InvestorSection />
             <Chatbot />
             <Footer />
