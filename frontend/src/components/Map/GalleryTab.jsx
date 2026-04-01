@@ -8,9 +8,8 @@ export default function GalleryTab({ images, name, placeName }) {
   const placeholderEmojis = ['🌄','🏛','🌿','🛕','🍛','🏔','💧','🌸','🎭','🗺'];
 
   // 🔥 IMPORTANT: change this if backend is deployed
-  const API_BASE = ""; 
-  // Example:
-  // const API_BASE = "https://your-backend.onrender.com";
+  const API_BASE = "https://namma-discover.onrender.com/"; 
+  
 
   const handleError = (e) => {
     e.target.onerror = null;
