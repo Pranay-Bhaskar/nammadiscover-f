@@ -129,7 +129,7 @@ const Hero = () => {
     ];
 
     return (
-        <section id="hero" ref={heroRef}>
+        <section id="hero" ref={heroRef} style={{ position: 'relative', overflow: 'hidden', minHeight: '100vh' }}>
             {/* ── Video + atmosphere layer ── */}
             <div className="hero-video-wrap">
                 <video
@@ -388,11 +388,6 @@ const Hero = () => {
                     </div>
                 </div>
 
-                {/* Know More */}
-                {/* <button className="hero-know-more-btn" onClick={() => setShowPanel(!showPanel)}>
-                    ℹ️ {t('Know More About','ಬಗ್ಗೆ ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ')} {currentCity.name}
-                </button> */}
-
                 {/* Location panel */}
                 <div className={`location-summary-panel ${showPanel ? 'open' : ''}`}>
                     <h3 className="lsp-title">{currentCity.name}</h3>
@@ -407,8 +402,14 @@ const Hero = () => {
                 </div>
             </div>
 
-            {/* ── Search bar ── */}
-            <div className="hero-search-wrap">
+            {/* ── Search bar (Moved higher) ── */}
+            <div className="hero-search-wrap" style={{ 
+                position: 'absolute', 
+                bottom: '10%', // Moved from likely 0 or 5% to 10% to ensure visibility
+                left: 0, 
+                width: '100%', 
+                zIndex: 10 
+            }}>
                 <div className="hero-search">
                     <span style={{ fontSize:'1.1rem' }}>🔍</span>
                     <input type="text" placeholder={t('Search for "CTR Dosa" or "Hampi"...', '"CTR ದೋಸೆ" ಅಥವಾ "ಹಂಪಿ" ಎಂದು ಹುಡುಕಿ...')} />
