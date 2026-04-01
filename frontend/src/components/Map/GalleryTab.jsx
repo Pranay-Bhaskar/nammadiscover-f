@@ -8,9 +8,8 @@ export default function GalleryTab({ images, name, placeName }) {
   const [videos, setVideos] = useState([]);
   const [loadingVideos, setLoadingVideos] = useState(false);
 
-  const placeholderEmojis = ['🌄','🏛','🌿','🛕','🍛','🏔','💧','🌸','🎭','🗺'];
+  const placeholderEmojis = ["🌄", "🏛", "🌿", "🛕", "🍛", "🏔", "💧", "🌸", "🎭", "🗺"];
 
-  // ✅ FIXED (removed trailing slash)
   const API_BASE = "https://namma-discover.onrender.com";
 
   const handleError = (e) => {
@@ -18,16 +17,21 @@ export default function GalleryTab({ images, name, placeName }) {
     e.target.src = "/fallback.jpg";
   };
 
-  // ✅ Robust normalize
   const normalize = (str) =>
     str?.toLowerCase().replace(/\s+/g, "").trim();
 
-  // ✅ Remove duplicates safely
+  const toHttps = (url = "") =>
+    String(url).replace(/^http:\/\//i, "https://");
+
+  const buildMediaUrl = (url = "") => {
+    if (!url) return "";
+    return url.startsWith("http") ? toHttps(url) : `${API_BASE}${url}`;
+  };
+
   const uniqueImages = Array.isArray(images)
     ? [...new Set(images)]
     : [];
 
-  // ✅ Fetch videos
   useEffect(() => {
     console.log("useEffect TRIGGERED:", placeName);
 
@@ -39,16 +43,16 @@ export default function GalleryTab({ images, name, placeName }) {
     setLoadingVideos(true);
 
     fetch(`${API_BASE}/api/videos?search=${encodeURIComponent(placeName)}`)
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         console.log("API DATA:", data);
         console.log("UI PLACE:", placeName);
 
-        // ✅ Robust filtering
         const filtered = Array.isArray(data)
-          ? data.filter((vid) =>
-              vid.place_name &&
-              normalize(vid.place_name).includes(normalize(placeName))
+          ? data.filter(
+              (vid) =>
+                vid.place_name &&
+                normalize(vid.place_name).includes(normalize(placeName))
             )
           : [];
 
@@ -68,7 +72,6 @@ export default function GalleryTab({ images, name, placeName }) {
 
   return (
     <>
-      {/* ✅ Inline CSS */}
       <style>{`
         .gallery-modal {
           position: fixed;
@@ -115,11 +118,11 @@ export default function GalleryTab({ images, name, placeName }) {
 
           <div
             style={{
-              gridColumn: '1/-1',
-              textAlign: 'center',
-              fontSize: '0.78rem',
-              color: 'var(--text-muted)',
-              padding: '8px'
+              gridColumn: "1/-1",
+              textAlign: "center",
+              fontSize: "0.78rem",
+              color: "var(--text-muted)",
+              padding: "8px",
             }}
           >
             📸 Photos & videos coming soon. Be the first to share!
@@ -128,8 +131,6 @@ export default function GalleryTab({ images, name, placeName }) {
       ) : (
         <>
           <div className="gallery-grid">
-
-            {/* ✅ Images */}
             {uniqueImages.map((img, i) => (
               <img
                 key={img || i}
@@ -143,40 +144,36 @@ export default function GalleryTab({ images, name, placeName }) {
               />
             ))}
 
-            {/* 🎬 Videos */}
-            {Array.isArray(videos) && videos.map((vid) => {
-              const videoSrc = vid.video_url?.startsWith("http")
-                ? vid.video_url
-                : `${API_BASE}${vid.video_url}`;
+            {Array.isArray(videos) &&
+              videos.map((vid) => {
+                const videoSrc = buildMediaUrl(vid.video_url);
+                const posterSrc = buildMediaUrl(vid.thumbnail_url);
 
-              return (
-                <video
-                  key={vid._id}
-                  className="gallery-video"
-                  controls
-                  preload="metadata"
-                  poster={vid.thumbnail_url}
-                  onError={(e) => {
-                    console.warn("Video failed:", videoSrc);
-                    e.target.style.display = "none";
-                  }}
-                >
-                  <source src={videoSrc} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              );
-            })}
+                return (
+                  <video
+                    key={vid._id}
+                    className="gallery-video"
+                    controls
+                    preload="metadata"
+                    poster={posterSrc}
+                    onError={(e) => {
+                      console.warn("Video failed:", videoSrc);
+                      e.target.style.display = "none";
+                    }}
+                  >
+                    <source src={videoSrc} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                );
+              })}
 
-            {/* ⏳ Loading */}
             {loadingVideos && (
               <div className="gallery-loader">
                 🎬 Loading videos...
               </div>
             )}
-
           </div>
 
-          {/* 🔍 Image modal */}
           {selectedImg && (
             <div
               className="gallery-modal"
