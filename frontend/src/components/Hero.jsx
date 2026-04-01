@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../store/AppContext';
+import heroVideo from '../assets/bg video.mp4';
 
 const particleCount = 18;
 
@@ -132,12 +133,30 @@ const Hero = () => {
             {/* ── Video + atmosphere layer ── */}
             <div className="hero-video-wrap">
                 <video
-                    autoPlay muted loop playsInline key={currentCity.name}
-                    style={{ transform: `translate(-50%,-50%) scale(1.08) translateY(${scrollY * 0.18}px)` }}
-                >
-                    <source src="https://assets.mixkit.co/videos/preview/mixkit-forest-stream-in-the-sunlight-529-large.mp4" type="video/mp4" />
-                </video>
-                <div className="hero-video-overlay" />
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        transform: `translate(-50%, -50%) translateY(${scrollY * 0.18}px)`,
+                        zIndex: 1,
+                        filter: 'contrast(1.1) brightness(1.05)', // makes it pop
+                      }}
+                    >
+                      <source src={heroVideo} type="video/mp4" />
+                    </video>
+                <div  style={{
+                            position: 'absolute',
+                            inset: 0,
+                            background: 'rgba(0,0,0,0.18)',
+                            zIndex: 2,
+                          }} className="hero-video-overlay" />
 
                 {/* Radial colour bleeds */}
                 <div style={{ position:'absolute',inset:0,zIndex:2,background:'radial-gradient(ellipse 70% 60% at 30% 50%, rgba(255,107,53,0.18) 0%, transparent 70%)',pointerEvents:'none' }} />
@@ -149,7 +168,7 @@ const Hero = () => {
                         position:'absolute', top:orb.top, left:orb.left,
                         width:orb.size, height:orb.size, borderRadius:'50%',
                         background:`radial-gradient(circle, ${orb.color}, transparent 70%)`,
-                        filter:'blur(40px)',
+                        filter:'blur(20px)',
                         transform:`translate(${mousePos.x*(8+i*3)}px, ${mousePos.y*(6+i*2)}px)`,
                         transition:'transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94)',
                         zIndex:3, pointerEvents:'none',
