@@ -7,40 +7,32 @@ export default function GalleryTab({ images, name, placeName }) {
 
   const placeholderEmojis = ['🌄','🏛','🌿','🛕','🍛','🏔','💧','🌸','🎭','🗺'];
 
-  // 🔥 IMPORTANT: change this if backend is deployed
-  const API_BASE = "https://namma-discover.onrender.com/"; 
-  
-
   const handleError = (e) => {
     e.target.onerror = null;
     e.target.src = "/fallback.jpg";
   };
-
-  // ✅ Normalize function (ROBUST FIX)
-  const normalize = (str) =>
-    str?.toLowerCase().replace(/\s+/g, "").trim();
 
   // ✅ Remove duplicates safely
   const uniqueImages = Array.isArray(images)
     ? [...new Set(images)]
     : [];
 
-  // ✅ Fetch videos for place (FIXED PROPERLY)
+  // ✅ Fetch videos for place (FIXED)
   useEffect(() => {
     if (!placeName) return;
 
     setLoadingVideos(true);
 
-    fetch(`${API_BASE}/api/videos?search=${encodeURIComponent(placeName)}`)
+    fetch(`/api/videos?search=${encodeURIComponent(placeName)}`)
       .then(res => res.json())
       .then(data => {
-        console.log("API DATA:", data);
-        console.log("UI PLACE:", placeName);
-
+        // 🔥 STRICT MATCH (important fix)
         const filtered = Array.isArray(data)
-          ? data.filter((vid) =>
-              vid.place_name &&
-              normalize(vid.place_name).includes(normalize(placeName))
+          ? data.filter(
+              (vid) =>
+                vid.place_name &&
+                vid.place_name.trim().toLowerCase() ===
+                  placeName.trim().toLowerCase()
             )
           : [];
 
@@ -129,8 +121,8 @@ export default function GalleryTab({ images, name, placeName }) {
               />
             ))}
 
-            {/* 🔥 Videos (FIXED) */}
-            {Array.isArray(videos) && videos.map((vid) => (
+            {/* 🔥 Videos */}
+            {videos.map((vid) => (
               <video
                 key={vid._id}
                 className="gallery-video"
@@ -139,10 +131,7 @@ export default function GalleryTab({ images, name, placeName }) {
                 poster={vid.thumbnail_url}
                 onError={(e) => e.target.style.display = "none"}
               >
-                <source 
-                  src={`${API_BASE}${vid.video_url}`} 
-                  type="video/mp4" 
-                />
+                <source src={vid.video_url} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             ))}
