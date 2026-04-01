@@ -1,22 +1,24 @@
 import { useState, useEffect } from "react";
 
 export default function GalleryTab({ images, name, placeName }) {
+  console.log("GalleryTab RENDERED");
+  console.log("Props:", { images, name, placeName });
+
   const [selectedImg, setSelectedImg] = useState(null);
   const [videos, setVideos] = useState([]);
   const [loadingVideos, setLoadingVideos] = useState(false);
 
   const placeholderEmojis = ['🌄','🏛','🌿','🛕','🍛','🏔','💧','🌸','🎭','🗺'];
 
-  // 🔥 IMPORTANT: change this if backend is deployed
-  const API_BASE = "https://namma-discover.onrender.com/"; 
-  
+  // ✅ FIXED (removed trailing slash)
+  const API_BASE = "https://namma-discover.onrender.com";
 
   const handleError = (e) => {
     e.target.onerror = null;
     e.target.src = "/fallback.jpg";
   };
 
-  // ✅ Normalize function (ROBUST FIX)
+  // ✅ Robust normalize
   const normalize = (str) =>
     str?.toLowerCase().replace(/\s+/g, "").trim();
 
@@ -25,9 +27,14 @@ export default function GalleryTab({ images, name, placeName }) {
     ? [...new Set(images)]
     : [];
 
-  // ✅ Fetch videos for place (FIXED PROPERLY)
+  // ✅ Fetch videos
   useEffect(() => {
-    if (!placeName) return;
+    console.log("useEffect TRIGGERED:", placeName);
+
+    if (!placeName) {
+      console.warn("placeName is missing ❌");
+      return;
+    }
 
     setLoadingVideos(true);
 
@@ -36,8 +43,8 @@ export default function GalleryTab({ images, name, placeName }) {
       .then(data => {
         console.log("API DATA:", data);
         console.log("UI PLACE:", placeName);
-        
 
+        // ✅ Robust filtering
         const filtered = Array.isArray(data)
           ? data.filter((vid) =>
               vid.place_name &&
@@ -45,13 +52,19 @@ export default function GalleryTab({ images, name, placeName }) {
             )
           : [];
 
+        console.log("FILTERED VIDEOS:", filtered);
+
         setVideos(filtered);
       })
-      .catch(() => setVideos([]))
+      .catch((err) => {
+        console.error("FETCH ERROR:", err);
+        setVideos([]);
+      })
       .finally(() => setLoadingVideos(false));
   }, [placeName]);
 
-  const hasContent = uniqueImages.length > 0 || videos.length > 0;
+  const hasContent =
+    uniqueImages.length > 0 || (Array.isArray(videos) && videos.length > 0);
 
   return (
     <>
@@ -130,23 +143,29 @@ export default function GalleryTab({ images, name, placeName }) {
               />
             ))}
 
-            {/* 🔥 Videos (FIXED) */}
-            {Array.isArray(videos) && videos.map((vid) => (
-              <video
-                key={vid._id}
-                className="gallery-video"
-                controls
-                preload="metadata"
-                poster={vid.thumbnail_url}
-                onError={(e) => e.target.style.display = "none"}
-              >
-                <source 
-                  src={`${API_BASE}${vid.video_url}`} 
-                  type="video/mp4" 
-                />
-                Your browser does not support the video tag.
-              </video>
-            ))}
+            {/* 🎬 Videos */}
+            {Array.isArray(videos) && videos.map((vid) => {
+              const videoSrc = vid.video_url?.startsWith("http")
+                ? vid.video_url
+                : `${API_BASE}${vid.video_url}`;
+
+              return (
+                <video
+                  key={vid._id}
+                  className="gallery-video"
+                  controls
+                  preload="metadata"
+                  poster={vid.thumbnail_url}
+                  onError={(e) => {
+                    console.warn("Video failed:", videoSrc);
+                    e.target.style.display = "none";
+                  }}
+                >
+                  <source src={videoSrc} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              );
+            })}
 
             {/* ⏳ Loading */}
             {loadingVideos && (
