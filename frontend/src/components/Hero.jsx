@@ -389,9 +389,9 @@ const Hero = () => {
                 </div>
 
                 {/* Know More */}
-                <button className="hero-know-more-btn" onClick={() => setShowPanel(!showPanel)}>
+                {/* <button className="hero-know-more-btn" onClick={() => setShowPanel(!showPanel)}>
                     ℹ️ {t('Know More About','ಬಗ್ಗೆ ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ')} {currentCity.name}
-                </button>
+                </button> */}
 
                 {/* Location panel */}
                 <div className={`location-summary-panel ${showPanel ? 'open' : ''}`}>
@@ -408,7 +408,7 @@ const Hero = () => {
             </div>
 
             {/* ── Search bar ── */}
-            <div className="hero-search-wrap">
+            {/* <div className="hero-search-wrap">
                 <div className="hero-search">
                     <span style={{ fontSize:'1.1rem' }}>🔍</span>
                     <input type="text" placeholder={t('Search for "CTR Dosa" or "Hampi"...', '"CTR ದೋಸೆ" ಅಥವಾ "ಹಂಪಿ" ಎಂದು ಹುಡುಕಿ...')} />
@@ -432,7 +432,7 @@ const Hero = () => {
                     </div>
                     <button className="btn btn-primary">{t('Search','ಹುಡುಕಿ')}</button>
                 </div>
-            </div>
+            </div> */}
 
             {/* Keyframes */}
             <style>{`
