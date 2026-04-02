@@ -71,11 +71,11 @@ export default function MyVideos() {
         )}
 
         {/* ✅ NEW PLACE FORM */}
-        /* {showPlaceForm && (
+        {/* /* {showPlaceForm && (
           <div style={{ marginBottom: '1.75rem' }}>
             <PlacesForm onSuccess={handlePlaceSuccess} />
           </div>
-        )} */
+        )} */ */}
 
         {/* DASHBOARD */}
         <VideoDashboard key={refreshKey} userId={user?._id} />
