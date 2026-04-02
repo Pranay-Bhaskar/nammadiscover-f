@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import VideoUpload from '../components/VideoUpload';
-import PlacesForm from '../components/PlacesForm'; // ✅ NEW
+import PlacesForm from '../components/PlacesForm'; 
 import VideoDashboard from '../components/VideoDashboard';
 import { useAuth } from '../context/AuthContext';
 import { Navigate } from 'react-router-dom';
@@ -9,8 +9,8 @@ import VideoGallery from '../components/VideoGallery';
 export default function MyVideos() {
   const { user } = useAuth();
 
-  const [showUpload, setShowUpload] = useState(false); // ✅ KEEP
-  const [showPlaceForm, setShowPlaceForm] = useState(false); // ✅ NEW
+  const [showUpload, setShowUpload] = useState(false); 
+  const [showPlaceForm, setShowPlaceForm] = useState(false); 
 
   const [refreshKey, setRefreshKey] = useState(0);
 
