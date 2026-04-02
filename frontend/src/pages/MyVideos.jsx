@@ -10,7 +10,7 @@ export default function MyVideos() {
   const { user } = useAuth();
 
   const [showUpload, setShowUpload] = useState(false); 
-  const [showPlaceForm, setShowPlaceForm] = useState(false); 
+  // const [showPlaceForm, setShowPlaceForm] = useState(false); 
 
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -21,10 +21,10 @@ export default function MyVideos() {
     setRefreshKey((k) => k + 1);
   };
 
-  const handlePlaceSuccess = () => {
-    setShowPlaceForm(false);
-    setRefreshKey((k) => k + 1);
-  };
+  // const handlePlaceSuccess = () => {
+  //   setShowPlaceForm(false);
+  //   setRefreshKey((k) => k + 1);
+  // };
 
   return (
     <>
@@ -41,10 +41,9 @@ export default function MyVideos() {
             </div>
           </div>
 
-          {/* ✅ BUTTONS */}
+          {/* BUTTON */}
           <div style={{ display: 'flex', gap: '10px' }}>
 
-            {/* EXISTING VIDEO BUTTON (UNCHANGED) */}
             <button
               className={`${showUpload ? 'vu-btn-ghost' : 'vu-btn-primary'}`}
               onClick={() => setShowUpload((v) => !v)}
@@ -52,40 +51,28 @@ export default function MyVideos() {
               {showUpload ? '✕ Cancel Upload' : '+ Upload Video'}
             </button>
 
-            {/* ✅ NEW PLACE BUTTON */}
-            {/* <button
-              className={`${showPlaceForm ? 'vu-btn-ghost' : 'vu-btn-primary'}`}
-              onClick={() => setShowPlaceForm((v) => !v)}
-            >
-              {showPlaceForm ? '✕ Cancel Place' : '+ Add Place'}
-            </button> */}
-
           </div>
         </div>
 
-        {/* ✅ VIDEO FORM (UNCHANGED) */}
+        {/* VIDEO FORM */}
         {showUpload && (
           <div style={{ marginBottom: '1.75rem' }}>
             <VideoUpload onUploadSuccess={handleUploadSuccess} />
           </div>
         )}
 
-        {/* ✅ NEW PLACE FORM */}
-        {/* /* {showPlaceForm && (
+        {/* PLACE FORM (disabled safely) */}
+        {/*
+        {showPlaceForm && (
           <div style={{ marginBottom: '1.75rem' }}>
             <PlacesForm onSuccess={handlePlaceSuccess} />
           </div>
-        )} */ */}
+        )}
+        */}
 
         {/* DASHBOARD */}
         <VideoDashboard key={refreshKey} userId={user?._id} />
       </div>
     </>
   );
-}
-  // return(
-  //   <>
-  //   <VideoGallery/>
-  //   </>
-  // );
 }
