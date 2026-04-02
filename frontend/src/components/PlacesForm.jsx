@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { createPlace } from '../services/placeService';
 import toast from "react-hot-toast";
 
 export default function PlacesForm({ onSuccess }) {
@@ -92,7 +92,7 @@ export default function PlacesForm({ onSuccess }) {
         isFamilyRun: form.isFamilyRun,
       };
 
-      await axios.post("/api/places", payload);
+      await createPlace(payload);
 
       toast.success("Place submitted! Awaiting approval.");
 
