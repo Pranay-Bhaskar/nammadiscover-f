@@ -1,6 +1,34 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+const Input = ({ label, ...props }) => (
+  <div>
+    <label className="block text-sm font-semibold mb-1">{label}</label>
+    <input
+      {...props}
+      className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+    />
+  </div>
+);
+
+const TextArea = ({ label, ...props }) => (
+  <div>
+    <label className="block text-sm font-semibold mb-1">{label}</label>
+    <textarea
+      {...props}
+      rows={3}
+      className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+    />
+  </div>
+);
+
+const Section = ({ title, children }) => (
+  <div className="bg-white shadow-md rounded-2xl p-5 space-y-4">
+    <h3 className="text-lg font-bold border-b pb-2">{title}</h3>
+    {children}
+  </div>
+);
+
 const PlacesForm = () => {
   const [formData, setFormData] = useState({
     name: { en: "", kn: "" },
@@ -33,7 +61,6 @@ const PlacesForm = () => {
     isFamilyRun: false,
   });
 
-  // 🔥 Handle nested + normal fields
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
@@ -41,146 +68,128 @@ const PlacesForm = () => {
       const [parent, child] = name.split(".");
       setFormData((prev) => ({
         ...prev,
-        [parent]: {
-          ...prev[parent],
-          [child]: value,
-        },
+        [parent]: { ...prev[parent], [child]: value },
       }));
     } else if (type === "checkbox") {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: checked,
-      }));
+      setFormData((prev) => ({ ...prev, [name]: checked }));
     } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
-  // 🔥 Submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const payload = {
+      ...formData,
+      lat: Number(formData.lat),
+      lng: Number(formData.lng),
+      location: {
+        type: "Point",
+        coordinates: [Number(formData.lng), Number(formData.lat)],
+      },
+      tags: formData.tags.split(",").map((t) => t.trim()),
+      images: formData.images.split(",").map((i) => i.trim()),
+      rating: Number(formData.rating),
+      authenticityScore: Number(formData.authenticityScore),
+    };
+
     try {
-      const payload = {
-        ...formData,
-
-        lat: Number(formData.lat),
-        lng: Number(formData.lng),
-
-        location: {
-          type: "Point",
-          coordinates: [Number(formData.lng), Number(formData.lat)],
-        },
-
-        tags: formData.tags.split(",").map((t) => t.trim()),
-        images: formData.images.split(",").map((i) => i.trim()),
-
-        rating: Number(formData.rating),
-        authenticityScore: Number(formData.authenticityScore),
-      };
-
       await axios.post("/api/places", payload);
-
-      alert("Place added successfully 🚀");
+      alert("✅ Place added");
     } catch (err) {
       console.error(err);
-      alert("Error adding place");
+      alert("❌ Error");
     }
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Add New Place</h2>
+    <div className="min-h-screen bg-gray-100 py-8 px-4">
+      <div className="max-w-4xl mx-auto space-y-6">
+        <h1 className="text-3xl font-bold text-center">Add New Place</h1>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
 
-        {/* NAME */}
-        <input
-          name="name.en"
-          placeholder="Name (English)"
-          onChange={handleChange}
-          className="input"
-        />
-        <input
-          name="name.kn"
-          placeholder="Name (Kannada)"
-          onChange={handleChange}
-          className="input"
-        />
+          {/* NAME */}
+          <Section title="Name">
+            <Input name="name.en" label="English Name" onChange={handleChange} />
+            <Input name="name.kn" label="Kannada Name" onChange={handleChange} />
+          </Section>
 
-        {/* DESCRIPTION */}
-        <textarea
-          name="description.en"
-          placeholder="Description (EN)"
-          onChange={handleChange}
-          className="input"
-        />
-        <textarea
-          name="description.kn"
-          placeholder="Description (KN)"
-          onChange={handleChange}
-          className="input"
-        />
+          {/* DESCRIPTION */}
+          <Section title="Description">
+            <TextArea name="description.en" label="English Description" onChange={handleChange} />
+            <TextArea name="description.kn" label="Kannada Description" onChange={handleChange} />
+          </Section>
 
-        {/* CULTURE + TIPS */}
-        <textarea
-          name="culturalStory.en"
-          placeholder="Cultural Story (EN)"
-          onChange={handleChange}
-          className="input"
-        />
-        <textarea
-          name="travelTips.en"
-          placeholder="Travel Tips (EN)"
-          onChange={handleChange}
-          className="input"
-        />
+          {/* CULTURE */}
+          <Section title="Cultural Info">
+            <TextArea name="culturalStory.en" label="Cultural Story (EN)" onChange={handleChange} />
+            <TextArea name="travelTips.en" label="Travel Tips (EN)" onChange={handleChange} />
+          </Section>
 
-        {/* BASIC INFO */}
-        <input name="category" placeholder="Category" onChange={handleChange} className="input" />
-        <input name="city" placeholder="City" onChange={handleChange} className="input" />
-        <input name="citySlug" placeholder="City Slug" onChange={handleChange} className="input" />
+          {/* BASIC */}
+          <Section title="Basic Info">
+            <Input name="category" label="Category" onChange={handleChange} />
+            <Input name="city" label="City" onChange={handleChange} />
+            <Input name="citySlug" label="City Slug" onChange={handleChange} />
+          </Section>
 
-        {/* LOCATION */}
-        <input name="lat" placeholder="Latitude" onChange={handleChange} className="input" />
-        <input name="lng" placeholder="Longitude" onChange={handleChange} className="input" />
+          {/* LOCATION */}
+          <Section title="Location">
+            <div className="grid grid-cols-2 gap-4">
+              <Input name="lat" label="Latitude" onChange={handleChange} />
+              <Input name="lng" label="Longitude" onChange={handleChange} />
+            </div>
+          </Section>
 
-        {/* ARRAYS */}
-        <input name="tags" placeholder="Tags (comma separated)" onChange={handleChange} className="input" />
-        <input name="images" placeholder="Image URLs (comma separated)" onChange={handleChange} className="input" />
+          {/* MEDIA */}
+          <Section title="Media">
+            <Input name="images" label="Image URLs (comma separated)" onChange={handleChange} />
+            <Input name="tags" label="Tags (comma separated)" onChange={handleChange} />
+          </Section>
 
-        {/* NUMBERS */}
-        <input name="rating" placeholder="Rating" onChange={handleChange} className="input" />
-        <input name="authenticityScore" placeholder="Authenticity Score" onChange={handleChange} className="input" />
+          {/* META */}
+          <Section title="Meta">
+            <Input name="rating" label="Rating" onChange={handleChange} />
+            <Input name="authenticityScore" label="Authenticity Score" onChange={handleChange} />
+          </Section>
 
-        {/* EXTRA */}
-        <input name="openingHours" placeholder="Opening Hours" onChange={handleChange} className="input" />
-        <input name="bestTimeToVisit" placeholder="Best Time" onChange={handleChange} className="input" />
-        <input name="address" placeholder="Address" onChange={handleChange} className="input" />
+          {/* EXTRA */}
+          <Section title="Extra Info">
+            <Input name="openingHours" label="Opening Hours" onChange={handleChange} />
+            <Input name="bestTimeToVisit" label="Best Time to Visit" onChange={handleChange} />
+            <Input name="address" label="Address" onChange={handleChange} />
+          </Section>
 
-        {/* CHECKBOXES */}
-        <label>
-          <input type="checkbox" name="isVerified" onChange={handleChange} />
-          Verified
-        </label>
+          {/* FLAGS */}
+          <Section title="Flags">
+            <div className="flex gap-6">
+              <label className="flex items-center gap-2">
+                <input type="checkbox" name="isVerified" onChange={handleChange} />
+                Verified
+              </label>
 
-        <label>
-          <input type="checkbox" name="verifiedLocal" onChange={handleChange} />
-          Verified Local
-        </label>
+              <label className="flex items-center gap-2">
+                <input type="checkbox" name="verifiedLocal" onChange={handleChange} />
+                Verified Local
+              </label>
 
-        <label>
-          <input type="checkbox" name="isFamilyRun" onChange={handleChange} />
-          Family Run
-        </label>
+              <label className="flex items-center gap-2">
+                <input type="checkbox" name="isFamilyRun" onChange={handleChange} />
+                Family Run
+              </label>
+            </div>
+          </Section>
 
-        <button type="submit" className="bg-black text-white px-4 py-2 rounded">
-          Submit
-        </button>
-      </form>
+          <button
+            type="submit"
+            className="w-full bg-black text-white py-3 rounded-xl font-semibold hover:opacity-90"
+          >
+            Submit Place
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
