@@ -12,7 +12,7 @@ const DiscoverGrid = () => {
 
     const categories = [
         { id: 'all', label: t('All', 'ಎಲ್ಲಾ') },
-        { id: 'Restaurant', label: t('Food', 'ಆಹಾರ') },
+        { id: 'Food', label: t('Food', 'ಆಹಾರ') },
         { id: 'Nature', label: t('Nature', 'ಪ್ರಕೃತಿ') },
         { id: 'Heritage', label: t('Heritage', 'ಪರಂಪರೆ') },
         { id: 'Shopping', label: t('Shopping', 'ಖರೀದಿ') },
