@@ -1,44 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 
-const Input = ({ label, ...props }) => (
-  <div>
-    <label className="block text-sm font-semibold mb-1">{label}</label>
-    <input
-      {...props}
-      className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black"
-    />
-  </div>
-);
-
-const TextArea = ({ label, ...props }) => (
-  <div>
-    <label className="block text-sm font-semibold mb-1">{label}</label>
-    <textarea
-      {...props}
-      rows={3}
-      className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black"
-    />
-  </div>
-);
-
-const Section = ({ title, children }) => (
-  <div className="bg-white shadow-md rounded-2xl p-5 space-y-4">
-    <h3 className="text-lg font-bold border-b pb-2">{title}</h3>
-    {children}
-  </div>
-);
-
-const PlacesForm = () => {
-  const [formData, setFormData] = useState({
-    name: { en: "", kn: "" },
-    description: { en: "", kn: "" },
-    culturalStory: { en: "", kn: "" },
-    travelTips: { en: "", kn: "" },
+export default function PlacesForm({ onSuccess }) {
+  const [form, setForm] = useState({
+    name_en: "",
+    name_kn: "",
+    description_en: "",
+    description_kn: "",
+    culturalStory_en: "",
+    travelTips_en: "",
 
     category: "",
-    category_icon: "📍",
-
     city: "",
     citySlug: "",
 
@@ -54,144 +27,172 @@ const PlacesForm = () => {
     openingHours: "",
     bestTimeToVisit: "",
     address: "",
-    contactInfo: "",
 
-    isVerified: false,
-    verifiedLocal: false,
     isFamilyRun: false,
   });
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  const [loading, setLoading] = useState(false);
 
-    if (name.includes(".")) {
-      const [parent, child] = name.split(".");
-      setFormData((prev) => ({
-        ...prev,
-        [parent]: { ...prev[parent], [child]: value },
-      }));
-    } else if (type === "checkbox") {
-      setFormData((prev) => ({ ...prev, [name]: checked }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
+  const handleField = (e) => {
+    const { name, value, type, checked } = e.target;
+    setForm({
+      ...form,
+      [name]: type === "checkbox" ? checked : value,
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const payload = {
-      ...formData,
-      lat: Number(formData.lat),
-      lng: Number(formData.lng),
-      location: {
-        type: "Point",
-        coordinates: [Number(formData.lng), Number(formData.lat)],
-      },
-      tags: formData.tags.split(",").map((t) => t.trim()),
-      images: formData.images.split(",").map((i) => i.trim()),
-      rating: Number(formData.rating),
-      authenticityScore: Number(formData.authenticityScore),
-    };
+    if (!form.name_en.trim()) return toast.error("Name is required");
+    if (!form.category) return toast.error("Category is required");
+    if (!form.lat || !form.lng) return toast.error("Location required");
 
     try {
+      setLoading(true);
+
+      const payload = {
+        name: {
+          en: form.name_en,
+          kn: form.name_kn,
+        },
+        description: {
+          en: form.description_en,
+          kn: form.description_kn,
+        },
+        culturalStory: {
+          en: form.culturalStory_en,
+        },
+        travelTips: {
+          en: form.travelTips_en,
+        },
+
+        category: form.category,
+        city: form.city,
+        citySlug: form.citySlug,
+
+        lat: Number(form.lat),
+        lng: Number(form.lng),
+
+        location: {
+          type: "Point",
+          coordinates: [Number(form.lng), Number(form.lat)],
+        },
+
+        tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean),
+        images: form.images.split(",").map((i) => i.trim()).filter(Boolean),
+
+        rating: Number(form.rating || 0),
+        authenticityScore: Number(form.authenticityScore || 0),
+
+        openingHours: form.openingHours,
+        bestTimeToVisit: form.bestTimeToVisit,
+        address: form.address,
+
+        isFamilyRun: form.isFamilyRun,
+      };
+
       await axios.post("/api/places", payload);
-      alert("✅ Place added");
+
+      toast.success("Place submitted! Awaiting approval.");
+
+      if (onSuccess) onSuccess();
+
+      setForm({
+        name_en: "",
+        name_kn: "",
+        description_en: "",
+        description_kn: "",
+        culturalStory_en: "",
+        travelTips_en: "",
+        category: "",
+        city: "",
+        citySlug: "",
+        lat: "",
+        lng: "",
+        tags: "",
+        images: "",
+        rating: "",
+        authenticityScore: "",
+        openingHours: "",
+        bestTimeToVisit: "",
+        address: "",
+        isFamilyRun: false,
+      });
+
     } catch (err) {
-      console.error(err);
-      alert("❌ Error");
+      toast.error(err.response?.data?.error || "Failed to submit");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8 px-4">
-      <div className="max-w-4xl mx-auto space-y-6">
-        <h1 className="text-3xl font-bold text-center">Add New Place</h1>
+    <div className="vu-card">
+      <h2 className="vu-card-title">📍 Add a Place</h2>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit}>
 
-          {/* NAME */}
-          <Section title="Name">
-            <Input name="name.en" label="English Name" onChange={handleChange} />
-            <Input name="name.kn" label="Kannada Name" onChange={handleChange} />
-          </Section>
+        {/* NAME */}
+        <div className="vu-form-group">
+          <label className="vu-label">Name (English)*</label>
+          <input className="vu-input" name="name_en" value={form.name_en} onChange={handleField} />
+        </div>
 
-          {/* DESCRIPTION */}
-          <Section title="Description">
-            <TextArea name="description.en" label="English Description" onChange={handleChange} />
-            <TextArea name="description.kn" label="Kannada Description" onChange={handleChange} />
-          </Section>
+        <div className="vu-form-group">
+          <label className="vu-label">Name (Kannada)</label>
+          <input className="vu-input" name="name_kn" value={form.name_kn} onChange={handleField} />
+        </div>
 
-          {/* CULTURE */}
-          <Section title="Cultural Info">
-            <TextArea name="culturalStory.en" label="Cultural Story (EN)" onChange={handleChange} />
-            <TextArea name="travelTips.en" label="Travel Tips (EN)" onChange={handleChange} />
-          </Section>
+        {/* CATEGORY */}
+        <div className="vu-form-group">
+          <label className="vu-label">Category*</label>
+          <input className="vu-input" name="category" value={form.category} onChange={handleField} />
+        </div>
 
-          {/* BASIC */}
-          <Section title="Basic Info">
-            <Input name="category" label="Category" onChange={handleChange} />
-            <Input name="city" label="City" onChange={handleChange} />
-            <Input name="citySlug" label="City Slug" onChange={handleChange} />
-          </Section>
+        {/* DESCRIPTION */}
+        <div className="vu-form-group">
+          <label className="vu-label">Description</label>
+          <textarea className="vu-input" name="description_en" value={form.description_en} onChange={handleField} />
+        </div>
 
-          {/* LOCATION */}
-          <Section title="Location">
-            <div className="grid grid-cols-2 gap-4">
-              <Input name="lat" label="Latitude" onChange={handleChange} />
-              <Input name="lng" label="Longitude" onChange={handleChange} />
-            </div>
-          </Section>
+        {/* LOCATION */}
+        <div className="vu-form-row">
+          <div className="vu-form-group">
+            <label className="vu-label">Latitude*</label>
+            <input type="number" step="any" className="vu-input" name="lat" value={form.lat} onChange={handleField} />
+          </div>
 
-          {/* MEDIA */}
-          <Section title="Media">
-            <Input name="images" label="Image URLs (comma separated)" onChange={handleChange} />
-            <Input name="tags" label="Tags (comma separated)" onChange={handleChange} />
-          </Section>
+          <div className="vu-form-group">
+            <label className="vu-label">Longitude*</label>
+            <input type="number" step="any" className="vu-input" name="lng" value={form.lng} onChange={handleField} />
+          </div>
+        </div>
 
-          {/* META */}
-          <Section title="Meta">
-            <Input name="rating" label="Rating" onChange={handleChange} />
-            <Input name="authenticityScore" label="Authenticity Score" onChange={handleChange} />
-          </Section>
+        {/* TAGS */}
+        <div className="vu-form-group">
+          <label className="vu-label">Tags</label>
+          <input className="vu-input" name="tags" value={form.tags} onChange={handleField} />
+        </div>
 
-          {/* EXTRA */}
-          <Section title="Extra Info">
-            <Input name="openingHours" label="Opening Hours" onChange={handleChange} />
-            <Input name="bestTimeToVisit" label="Best Time to Visit" onChange={handleChange} />
-            <Input name="address" label="Address" onChange={handleChange} />
-          </Section>
+        {/* IMAGES */}
+        <div className="vu-form-group">
+          <label className="vu-label">Image URLs</label>
+          <input className="vu-input" name="images" value={form.images} onChange={handleField} />
+        </div>
 
-          {/* FLAGS */}
-          <Section title="Flags">
-            <div className="flex gap-6">
-              <label className="flex items-center gap-2">
-                <input type="checkbox" name="isVerified" onChange={handleChange} />
-                Verified
-              </label>
+        {/* CHECK */}
+        <div className="vu-form-group">
+          <label className="vu-label">
+            <input type="checkbox" name="isFamilyRun" onChange={handleField} />
+            Family Run
+          </label>
+        </div>
 
-              <label className="flex items-center gap-2">
-                <input type="checkbox" name="verifiedLocal" onChange={handleChange} />
-                Verified Local
-              </label>
-
-              <label className="flex items-center gap-2">
-                <input type="checkbox" name="isFamilyRun" onChange={handleChange} />
-                Family Run
-              </label>
-            </div>
-          </Section>
-
-          <button
-            type="submit"
-            className="w-full bg-black text-white py-3 rounded-xl font-semibold hover:opacity-90"
-          >
-            Submit Place
-          </button>
-        </form>
-      </div>
+        <button className="vu-btn-primary" disabled={loading} style={{ width: "100%" }}>
+          {loading ? "Submitting..." : "🚀 Submit Place"}
+        </button>
+      </form>
     </div>
   );
-};
-
-export default PlacesForm;
+}
