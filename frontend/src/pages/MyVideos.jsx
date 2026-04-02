@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import VideoUpload from '../components/VideoUpload';
-import PlacesForm from '../components/PlacesForm'; 
+// import PlacesForm from '../components/PlacesForm'; 
 import VideoDashboard from '../components/VideoDashboard';
 import { useAuth } from '../context/AuthContext';
 import { Navigate } from 'react-router-dom';
@@ -53,12 +53,12 @@ export default function MyVideos() {
             </button>
 
             {/* ✅ NEW PLACE BUTTON */}
-            <button
+            {/* <button
               className={`${showPlaceForm ? 'vu-btn-ghost' : 'vu-btn-primary'}`}
               onClick={() => setShowPlaceForm((v) => !v)}
             >
               {showPlaceForm ? '✕ Cancel Place' : '+ Add Place'}
-            </button>
+            </button> */}
 
           </div>
         </div>
