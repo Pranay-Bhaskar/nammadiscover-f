@@ -112,110 +112,83 @@ export default function PlacesForm({ onSuccess }) {
 
   // 🎨 STYLES
   const styles = {
-.place-form-card {
-  background: var(--glass);
-  backdrop-filter: blur(14px);
-  padding: 24px;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-  max-width: 800px;
-  margin: auto;
-  transition: var(--transition);
-}
+  card: {
+    background: "var(--glass)",
+    backdropFilter: "blur(14px)",
+    padding: "24px",
+    borderRadius: "var(--radius)",
+    border: "1px solid var(--border)",
+    boxShadow: "var(--shadow)",
+    maxWidth: "800px",
+    margin: "auto",
+    transition: "var(--transition)",
+  },
 
-.place-form-card:hover {
-  box-shadow: var(--shadow-lg), var(--glow-or);
-}
+  title: {
+    fontSize: "22px",
+    fontWeight: "600",
+    marginBottom: "20px",
+    fontFamily: "var(--font-head)",
+    color: "var(--text)",
+  },
 
-.place-form-title {
-  font-size: 22px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  font-family: var(--font-head);
-  color: var(--text);
-}
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "16px",
+  },
 
-.place-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
+  row: {
+    display: "flex",
+    gap: "16px",
+  },
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
+  group: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "6px",
+    flex: 1,
+  },
 
-.form-row {
-  display: flex;
-  gap: 16px;
-}
+  input: {
+    padding: "10px 12px",
+    border: "1px solid var(--border)",
+    borderRadius: "var(--radius-sm)",
+    fontSize: "14px",
+    background: "var(--glass-2)",
+    color: "var(--text)",
+    outline: "none",
+  },
 
-.form-row .form-group {
-  flex: 1;
-}
+  textarea: {
+    padding: "10px 12px",
+    border: "1px solid var(--border)",
+    borderRadius: "var(--radius-sm)",
+    fontSize: "14px",
+    minHeight: "80px",
+    background: "var(--glass-2)",
+    color: "var(--text)",
+    outline: "none",
+  },
 
-/* INPUTS */
-input, textarea {
-  padding: 10px 12px;
-  border-radius: var(--radius-sm);
-  font-size: 14px;
+  button: {
+    background: "var(--gradient-sunset)",
+    color: "#fff",
+    padding: "12px",
+    border: "none",
+    borderRadius: "var(--radius-sm)",
+    fontWeight: "600",
+    cursor: "pointer",
+    transition: "var(--transition)",
+    boxShadow: "var(--glow-or)",
+  },
 
-  background: var(--glass-2);
-  color: var(--text);
-
-  border: 1px solid var(--border);
-  transition: var(--transition);
-}
-
-textarea {
-  min-height: 80px;
-}
-
-/* FOCUS */
-input:focus, textarea:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: var(--glow-or);
-}
-
-/* PLACEHOLDER */
-input::placeholder,
-textarea::placeholder {
-  color: var(--text-dim);
-}
-
-/* LABEL */
-label {
-  font-size: 13px;
-  color: var(--text-muted);
-}
-
-/* BUTTON */
-.submit-btn {
-  background: var(--gradient-sunset);
-  color: #fff;
-  padding: 12px;
-  border: none;
-  border-radius: var(--radius-sm);
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-  box-shadow: var(--glow-or);
-}
-
-.submit-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-lg), var(--glow-or);
-}
-
-.submit-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  box-shadow: none;
-}
+  disabledBtn: {
+    opacity: 0.6,
+    cursor: "not-allowed",
+    boxShadow: "none",
+  }
+};
   return (
     <div style={styles.card}>
       <h2 style={styles.title}>📍 Add a Place</h2>
