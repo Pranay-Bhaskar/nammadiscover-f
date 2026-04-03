@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createPlace } from '../services/placeService';
+import { createPlace } from "../services/placeService";
 import toast from "react-hot-toast";
 
 export default function PlacesForm({ onSuccess }) {
@@ -12,8 +12,10 @@ export default function PlacesForm({ onSuccess }) {
     travelTips_en: "",
 
     category: "",
+    subcategory: "",
+
     city: "",
-    citySlug: "",
+    district: "",
 
     lat: "",
     lng: "",
@@ -26,27 +28,35 @@ export default function PlacesForm({ onSuccess }) {
 
     openingHours: "",
     bestTimeToVisit: "",
-    address: "",
+    entryFee: "",
 
-    isFamilyRun: false,
+    address: "",
   });
 
   const [loading, setLoading] = useState(false);
 
   const handleField = (e) => {
-    const { name, value, type, checked } = e.target;
-    setForm({
-      ...form,
-      [name]: type === "checkbox" ? checked : value,
-    });
+    const { name, value } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // 🔴 VALIDATIONS
     if (!form.name_en.trim()) return toast.error("Name is required");
     if (!form.category) return toast.error("Category is required");
     if (!form.lat || !form.lng) return toast.error("Location required");
+
+    const lat = Number(form.lat);
+    const lng = Number(form.lng);
+
+    if (Number.isNaN(lat) || Number.isNaN(lng)) {
+      return toast.error("Invalid coordinates");
+    }
 
     try {
       setLoading(true);
@@ -56,40 +66,48 @@ export default function PlacesForm({ onSuccess }) {
           en: form.name_en,
           kn: form.name_kn,
         },
+
         description: {
           en: form.description_en,
           kn: form.description_kn,
         },
+
         culturalStory: {
           en: form.culturalStory_en,
         },
+
         travelTips: {
           en: form.travelTips_en,
         },
 
         category: form.category,
+        subcategory: form.subcategory,
+
         city: form.city,
-        citySlug: form.citySlug,
+        district: form.district,
 
-        lat: Number(form.lat),
-        lng: Number(form.lng),
+        // ✅ FIXED
+        latitude: lat,
+        longitude: lng,
 
-        location: {
-          type: "Point",
-          coordinates: [Number(form.lng), Number(form.lat)],
-        },
+        tags: form.tags
+          .split(",")
+          .map((t) => t.trim())
+          .filter(Boolean),
 
-        tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean),
-        images: form.images.split(",").map((i) => i.trim()).filter(Boolean),
+        images: form.images
+          .split(",")
+          .map((i) => i.trim())
+          .filter(Boolean),
 
         rating: Number(form.rating || 0),
         authenticityScore: Number(form.authenticityScore || 0),
 
         openingHours: form.openingHours,
         bestTimeToVisit: form.bestTimeToVisit,
-        address: form.address,
+        entryFee: form.entryFee,
 
-        isFamilyRun: form.isFamilyRun,
+        address: form.address,
       };
 
       await createPlace(payload);
@@ -98,6 +116,7 @@ export default function PlacesForm({ onSuccess }) {
 
       if (onSuccess) onSuccess();
 
+      // RESET
       setForm({
         name_en: "",
         name_kn: "",
@@ -106,8 +125,9 @@ export default function PlacesForm({ onSuccess }) {
         culturalStory_en: "",
         travelTips_en: "",
         category: "",
+        subcategory: "",
         city: "",
-        citySlug: "",
+        district: "",
         lat: "",
         lng: "",
         tags: "",
@@ -116,11 +136,12 @@ export default function PlacesForm({ onSuccess }) {
         authenticityScore: "",
         openingHours: "",
         bestTimeToVisit: "",
+        entryFee: "",
         address: "",
-        isFamilyRun: false,
       });
 
     } catch (err) {
+      console.error(err);
       toast.error(err.response?.data?.error || "Failed to submit");
     } finally {
       setLoading(false);
@@ -132,64 +153,125 @@ export default function PlacesForm({ onSuccess }) {
       <h2 className="vu-card-title">📍 Add a Place</h2>
 
       <form onSubmit={handleSubmit}>
-
+        
         {/* NAME */}
-        <div className="vu-form-group">
-          <label className="vu-label">Name (English)*</label>
-          <input className="vu-input" name="name_en" value={form.name_en} onChange={handleField} />
-        </div>
+        <input
+          placeholder="Name (English)*"
+          name="name_en"
+          value={form.name_en}
+          onChange={handleField}
+        />
 
-        <div className="vu-form-group">
-          <label className="vu-label">Name (Kannada)</label>
-          <input className="vu-input" name="name_kn" value={form.name_kn} onChange={handleField} />
-        </div>
+        <input
+          placeholder="Name (Kannada)"
+          name="name_kn"
+          value={form.name_kn}
+          onChange={handleField}
+        />
 
         {/* CATEGORY */}
-        <div className="vu-form-group">
-          <label className="vu-label">Category*</label>
-          <input className="vu-input" name="category" value={form.category} onChange={handleField} />
-        </div>
+        <input
+          placeholder="Category*"
+          name="category"
+          value={form.category}
+          onChange={handleField}
+        />
+
+        <input
+          placeholder="Subcategory"
+          name="subcategory"
+          value={form.subcategory}
+          onChange={handleField}
+        />
 
         {/* DESCRIPTION */}
-        <div className="vu-form-group">
-          <label className="vu-label">Description</label>
-          <textarea className="vu-input" name="description_en" value={form.description_en} onChange={handleField} />
-        </div>
+        <textarea
+          placeholder="Description"
+          name="description_en"
+          value={form.description_en}
+          onChange={handleField}
+        />
 
         {/* LOCATION */}
-        <div className="vu-form-row">
-          <div className="vu-form-group">
-            <label className="vu-label">Latitude*</label>
-            <input type="number" step="any" className="vu-input" name="lat" value={form.lat} onChange={handleField} />
-          </div>
+        <input
+          type="number"
+          step="any"
+          placeholder="Latitude*"
+          name="lat"
+          value={form.lat}
+          onChange={handleField}
+        />
 
-          <div className="vu-form-group">
-            <label className="vu-label">Longitude*</label>
-            <input type="number" step="any" className="vu-input" name="lng" value={form.lng} onChange={handleField} />
-          </div>
-        </div>
+        <input
+          type="number"
+          step="any"
+          placeholder="Longitude*"
+          name="lng"
+          value={form.lng}
+          onChange={handleField}
+        />
+
+        {/* CITY */}
+        <input
+          placeholder="City"
+          name="city"
+          value={form.city}
+          onChange={handleField}
+        />
+
+        <input
+          placeholder="District"
+          name="district"
+          value={form.district}
+          onChange={handleField}
+        />
 
         {/* TAGS */}
-        <div className="vu-form-group">
-          <label className="vu-label">Tags</label>
-          <input className="vu-input" name="tags" value={form.tags} onChange={handleField} />
-        </div>
+        <input
+          placeholder="Tags (comma separated)"
+          name="tags"
+          value={form.tags}
+          onChange={handleField}
+        />
 
         {/* IMAGES */}
-        <div className="vu-form-group">
-          <label className="vu-label">Image URLs</label>
-          <input className="vu-input" name="images" value={form.images} onChange={handleField} />
-        </div>
+        <input
+          placeholder="Image URLs (comma separated)"
+          name="images"
+          value={form.images}
+          onChange={handleField}
+        />
 
-        {/* CHECK */}
-        <div className="vu-form-group">
-          <label className="vu-label">
-            <input type="checkbox" name="isFamilyRun" onChange={handleField} />
-            Family Run
-          </label>
-        </div>
+        {/* EXTRA */}
+        <input
+          placeholder="Opening Hours"
+          name="openingHours"
+          value={form.openingHours}
+          onChange={handleField}
+        />
 
-        <button className="vu-btn-primary" disabled={loading} style={{ width: "100%" }}>
+        <input
+          placeholder="Best Time to Visit"
+          name="bestTimeToVisit"
+          value={form.bestTimeToVisit}
+          onChange={handleField}
+        />
+
+        <input
+          placeholder="Entry Fee"
+          name="entryFee"
+          value={form.entryFee}
+          onChange={handleField}
+        />
+
+        <input
+          placeholder="Address"
+          name="address"
+          value={form.address}
+          onChange={handleField}
+        />
+
+        <button disabled={loading}>
           {loading ? "Submitting..." : "🚀 Submit Place"}
         </button>
       </form>
