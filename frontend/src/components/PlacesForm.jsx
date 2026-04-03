@@ -10,26 +10,19 @@ export default function PlacesForm({ onSuccess }) {
     description_kn: "",
     culturalStory_en: "",
     travelTips_en: "",
-
     category: "",
     subcategory: "",
-
     city: "",
     district: "",
-
     lat: "",
     lng: "",
-
     tags: "",
     images: "",
-
     rating: "",
     authenticityScore: "",
-
     openingHours: "",
     bestTimeToVisit: "",
     entryFee: "",
-
     address: "",
   });
 
@@ -46,7 +39,6 @@ export default function PlacesForm({ onSuccess }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 🔴 VALIDATIONS
     if (!form.name_en.trim()) return toast.error("Name is required");
     if (!form.category) return toast.error("Category is required");
     if (!form.lat || !form.lng) return toast.error("Location required");
@@ -62,51 +54,23 @@ export default function PlacesForm({ onSuccess }) {
       setLoading(true);
 
       const payload = {
-        name: {
-          en: form.name_en,
-          kn: form.name_kn,
-        },
-
-        description: {
-          en: form.description_en,
-          kn: form.description_kn,
-        },
-
-        culturalStory: {
-          en: form.culturalStory_en,
-        },
-
-        travelTips: {
-          en: form.travelTips_en,
-        },
-
+        name: { en: form.name_en, kn: form.name_kn },
+        description: { en: form.description_en, kn: form.description_kn },
+        culturalStory: { en: form.culturalStory_en },
+        travelTips: { en: form.travelTips_en },
         category: form.category,
         subcategory: form.subcategory,
-
         city: form.city,
         district: form.district,
-
-        // ✅ FIXED
         latitude: lat,
         longitude: lng,
-
-        tags: form.tags
-          .split(",")
-          .map((t) => t.trim())
-          .filter(Boolean),
-
-        images: form.images
-          .split(",")
-          .map((i) => i.trim())
-          .filter(Boolean),
-
+        tags: form.tags.split(",").map(t => t.trim()).filter(Boolean),
+        images: form.images.split(",").map(i => i.trim()).filter(Boolean),
         rating: Number(form.rating || 0),
         authenticityScore: Number(form.authenticityScore || 0),
-
         openingHours: form.openingHours,
         bestTimeToVisit: form.bestTimeToVisit,
         entryFee: form.entryFee,
-
         address: form.address,
       };
 
@@ -116,7 +80,6 @@ export default function PlacesForm({ onSuccess }) {
 
       if (onSuccess) onSuccess();
 
-      // RESET
       setForm({
         name_en: "",
         name_kn: "",
@@ -141,139 +104,175 @@ export default function PlacesForm({ onSuccess }) {
       });
 
     } catch (err) {
-      console.error(err);
       toast.error(err.response?.data?.error || "Failed to submit");
     } finally {
       setLoading(false);
     }
   };
 
+  // 🎨 STYLES
+  const styles = {
+    card: {
+      background: "#fff",
+      padding: "24px",
+      borderRadius: "16px",
+      boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
+      maxWidth: "800px",
+      margin: "auto",
+    },
+    title: {
+      fontSize: "22px",
+      fontWeight: "600",
+      marginBottom: "20px",
+    },
+    form: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "16px",
+    },
+    row: {
+      display: "flex",
+      gap: "16px",
+    },
+    group: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "6px",
+      flex: 1,
+    },
+    input: {
+      padding: "10px 12px",
+      border: "1px solid #ddd",
+      borderRadius: "8px",
+      fontSize: "14px",
+    },
+    textarea: {
+      padding: "10px 12px",
+      border: "1px solid #ddd",
+      borderRadius: "8px",
+      fontSize: "14px",
+      minHeight: "80px",
+    },
+    button: {
+      background: "#4f46e5",
+      color: "#fff",
+      padding: "12px",
+      border: "none",
+      borderRadius: "10px",
+      fontWeight: "600",
+      cursor: "pointer",
+    },
+    disabledBtn: {
+      opacity: 0.6,
+      cursor: "not-allowed",
+    }
+  };
+
   return (
-    <div className="vu-card">
-      <h2 className="vu-card-title">📍 Add a Place</h2>
+    <div style={styles.card}>
+      <h2 style={styles.title}>📍 Add a Place</h2>
 
-      <form onSubmit={handleSubmit}>
-        
+      <form onSubmit={handleSubmit} style={styles.form}>
+
         {/* NAME */}
-        <input
-          placeholder="Name (English)*"
-          name="name_en"
-          value={form.name_en}
-          onChange={handleField}
-        />
+        <div style={styles.group}>
+          <label>Name (English)*</label>
+          <input style={styles.input} name="name_en" value={form.name_en} onChange={handleField} />
+        </div>
 
-        <input
-          placeholder="Name (Kannada)"
-          name="name_kn"
-          value={form.name_kn}
-          onChange={handleField}
-        />
+        <div style={styles.group}>
+          <label>Name (Kannada)</label>
+          <input style={styles.input} name="name_kn" value={form.name_kn} onChange={handleField} />
+        </div>
 
         {/* CATEGORY */}
-        <input
-          placeholder="Category*"
-          name="category"
-          value={form.category}
-          onChange={handleField}
-        />
+        <div style={styles.row}>
+          <div style={styles.group}>
+            <label>Category*</label>
+            <input style={styles.input} name="category" value={form.category} onChange={handleField} />
+          </div>
 
-        <input
-          placeholder="Subcategory"
-          name="subcategory"
-          value={form.subcategory}
-          onChange={handleField}
-        />
+          <div style={styles.group}>
+            <label>Subcategory</label>
+            <input style={styles.input} name="subcategory" value={form.subcategory} onChange={handleField} />
+          </div>
+        </div>
 
         {/* DESCRIPTION */}
-        <textarea
-          placeholder="Description"
-          name="description_en"
-          value={form.description_en}
-          onChange={handleField}
-        />
+        <div style={styles.group}>
+          <label>Description</label>
+          <textarea style={styles.textarea} name="description_en" value={form.description_en} onChange={handleField} />
+        </div>
 
         {/* LOCATION */}
-        <input
-          type="number"
-          step="any"
-          placeholder="Latitude*"
-          name="lat"
-          value={form.lat}
-          onChange={handleField}
-        />
+        <div style={styles.row}>
+          <div style={styles.group}>
+            <label>Latitude*</label>
+            <input type="number" step="any" style={styles.input} name="lat" value={form.lat} onChange={handleField} />
+          </div>
 
-        <input
-          type="number"
-          step="any"
-          placeholder="Longitude*"
-          name="lng"
-          value={form.lng}
-          onChange={handleField}
-        />
+          <div style={styles.group}>
+            <label>Longitude*</label>
+            <input type="number" step="any" style={styles.input} name="lng" value={form.lng} onChange={handleField} />
+          </div>
+        </div>
 
         {/* CITY */}
-        <input
-          placeholder="City"
-          name="city"
-          value={form.city}
-          onChange={handleField}
-        />
+        <div style={styles.row}>
+          <div style={styles.group}>
+            <label>City</label>
+            <input style={styles.input} name="city" value={form.city} onChange={handleField} />
+          </div>
 
-        <input
-          placeholder="District"
-          name="district"
-          value={form.district}
-          onChange={handleField}
-        />
+          <div style={styles.group}>
+            <label>District</label>
+            <input style={styles.input} name="district" value={form.district} onChange={handleField} />
+          </div>
+        </div>
 
         {/* TAGS */}
-        <input
-          placeholder="Tags (comma separated)"
-          name="tags"
-          value={form.tags}
-          onChange={handleField}
-        />
+        <div style={styles.group}>
+          <label>Tags</label>
+          <input style={styles.input} name="tags" value={form.tags} onChange={handleField} />
+        </div>
 
         {/* IMAGES */}
-        <input
-          placeholder="Image URLs (comma separated)"
-          name="images"
-          value={form.images}
-          onChange={handleField}
-        />
+        <div style={styles.group}>
+          <label>Image URLs</label>
+          <input style={styles.input} name="images" value={form.images} onChange={handleField} />
+        </div>
 
         {/* EXTRA */}
-        <input
-          placeholder="Opening Hours"
-          name="openingHours"
-          value={form.openingHours}
-          onChange={handleField}
-        />
+        <div style={styles.group}>
+          <label>Opening Hours</label>
+          <input style={styles.input} name="openingHours" value={form.openingHours} onChange={handleField} />
+        </div>
 
-        <input
-          placeholder="Best Time to Visit"
-          name="bestTimeToVisit"
-          value={form.bestTimeToVisit}
-          onChange={handleField}
-        />
+        <div style={styles.group}>
+          <label>Best Time to Visit</label>
+          <input style={styles.input} name="bestTimeToVisit" value={form.bestTimeToVisit} onChange={handleField} />
+        </div>
 
-        <input
-          placeholder="Entry Fee"
-          name="entryFee"
-          value={form.entryFee}
-          onChange={handleField}
-        />
+        <div style={styles.group}>
+          <label>Entry Fee</label>
+          <input style={styles.input} name="entryFee" value={form.entryFee} onChange={handleField} />
+        </div>
 
-        <input
-          placeholder="Address"
-          name="address"
-          value={form.address}
-          onChange={handleField}
-        />
+        <div style={styles.group}>
+          <label>Address</label>
+          <input style={styles.input} name="address" value={form.address} onChange={handleField} />
+        </div>
 
-        <button disabled={loading}>
+        <button
+          style={{
+            ...styles.button,
+            ...(loading ? styles.disabledBtn : {})
+          }}
+          disabled={loading}
+        >
           {loading ? "Submitting..." : "🚀 Submit Place"}
         </button>
+
       </form>
     </div>
   );
