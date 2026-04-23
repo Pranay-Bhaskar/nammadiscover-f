@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import bgImage from '../assets/background.jpeg';
 
-
 const Login = () => {
     const [isLogin, setIsLogin] = useState(true);
     const [formData, setFormData] = useState({ username: '', email: '', password: '', role: 'user' });
@@ -44,75 +43,113 @@ const Login = () => {
                 body {
                     margin: 0;
                     font-family: 'Inter', sans-serif;
-                    background: url("${bgImage}")
-                                center/cover no-repeat fixed;
+                    background: url("${bgImage}") center/cover no-repeat fixed;
                 }
 
                 body::before {
                     content: "";
                     position: fixed;
                     inset: 0;
-                    background: rgba(0,0,0,0.25);
+                    background: radial-gradient(circle at top right, rgba(255,107,53,0.25), transparent 40%),
+                                rgba(0,0,0,0.55);
                     z-index: -1;
                 }
 
                 .glass {
-                    background: rgba(255,255,255,0.05);
-                    backdrop-filter: blur(30px);
-                    -webkit-backdrop-filter: blur(30px);
-                    border: 1px solid rgba(255,255,255,0.15);
-                    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-                    border-radius: 20px;
+                    background: rgba(255,255,255,0.06);
+                    backdrop-filter: blur(40px);
+                    -webkit-backdrop-filter: blur(40px);
+                    border: 1px solid rgba(255,255,255,0.12);
+                    box-shadow: 
+                        0 20px 60px rgba(0,0,0,0.6),
+                        inset 0 0 40px rgba(255,255,255,0.03);
+                    border-radius: 24px;
                     animation: fadeIn 0.6s ease;
                 }
 
                 .input {
                     width: 100%;
-                    padding: 0.8rem;
-                    border-radius: 12px;
-                    border: 1px solid rgba(255,255,255,0.15);
-                    background: rgba(255,255,255,0.04);
+                    padding: 0.9rem 1rem;
+                    border-radius: 14px;
+                    border: 1px solid rgba(255,255,255,0.12);
+                    background: rgba(255,255,255,0.05);
                     color: #fff;
                     outline: none;
-                    transition: 0.3s;
+                    transition: all 0.25s ease;
+                    font-size: 0.95rem;
+                }
+
+                .input::placeholder {
+                    color: rgba(255,255,255,0.5);
                 }
 
                 .input:focus {
                     border-color: #ff6b35;
                     background: rgba(255,255,255,0.08);
+                    box-shadow: 0 0 0 2px rgba(255,107,53,0.25);
                 }
 
                 .btn {
                     width: 100%;
-                    padding: 0.9rem;
+                    padding: 0.95rem;
                     border-radius: 50px;
                     border: none;
                     background: linear-gradient(135deg, #ff6b35, #ff3e6c);
                     color: white;
                     font-weight: 700;
                     cursor: pointer;
-                    transition: 0.3s;
-                    box-shadow: 0 10px 30px rgba(255,107,53,0.5);
+                    transition: all 0.25s ease;
+                    box-shadow: 0 12px 30px rgba(255,107,53,0.5);
                 }
 
                 .btn:hover {
-                    transform: translateY(-3px) scale(1.01);
+                    transform: translateY(-2px);
+                    box-shadow: 0 18px 40px rgba(255,107,53,0.6);
+                }
+
+                .google-btn {
+                    width: 100%;
+                    padding: 0.85rem;
+                    border-radius: 50px;
+                    border: 1px solid rgba(255,255,255,0.15);
+                    background: rgba(255,255,255,0.06);
+                    color: #ccc;
+                    font-weight: 600;
+                    cursor: not-allowed;
+                    margin-bottom: 1rem;
+                }
+
+                .divider {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    margin: 1rem 0;
+                    color: #aaa;
+                    font-size: 0.8rem;
+                }
+
+                .divider::before,
+                .divider::after {
+                    content: "";
+                    flex: 1;
+                    height: 1px;
+                    background: rgba(255,255,255,0.1);
                 }
 
                 .info {
-                    background: rgba(255,107,53,0.08);
+                    background: rgba(255,107,53,0.1);
                     padding: 10px;
-                    border-radius: 10px;
+                    border-radius: 12px;
                     margin-bottom: 1rem;
                     color: #ddd;
                     font-size: 0.8rem;
-                    backdrop-filter: blur(10px);
                 }
 
                 .switch {
                     text-align: center;
-                    margin-top: 1rem;
-                    color: #ccc;
+                    margin-top: 1.2rem;
+                    color: #bbb;
+                    font-size: 0.9rem;
                 }
 
                 .switch button {
@@ -124,12 +161,8 @@ const Login = () => {
                 }
 
                 @keyframes fadeIn {
-                    from { opacity: 0; transform: translateY(25px); }
+                    from { opacity: 0; transform: translateY(30px); }
                     to { opacity: 1; transform: translateY(0); }
-                }
-
-                @keyframes spin {
-                    to { transform: rotate(360deg); }
                 }
 
                 .spinner {
@@ -142,10 +175,8 @@ const Login = () => {
                     animation: spin 0.6s linear infinite;
                 }
 
-                @media (max-width: 480px) {
-                    .glass {
-                        padding: 1.4rem !important;
-                    }
+                @keyframes spin {
+                    to { transform: rotate(360deg); }
                 }
             `}</style>
 
@@ -160,7 +191,7 @@ const Login = () => {
 
                     <div style={{ textAlign: 'center', marginBottom: '2rem', color: '#fff' }}>
                         <h1 style={{
-                            fontSize: '2.2rem',
+                            fontSize: '2.3rem',
                             fontWeight: 800,
                             background: 'linear-gradient(135deg, #ff6b35, #ff3e6c)',
                             WebkitBackgroundClip: 'text',
@@ -168,10 +199,19 @@ const Login = () => {
                         }}>
                             NammaDiscover
                         </h1>
-                        <p>{isLogin ? 'Sign in to continue your journey' : 'Create your account'}</p>
+                        <p style={{ opacity: 0.8 }}>
+                            {isLogin ? 'Sign in to continue your journey' : 'Create your account'}
+                        </p>
                     </div>
 
                     <div className="glass" style={{ padding: '2.2rem' }}>
+
+                        {/* Google Button */}
+                        <button className="google-btn">
+                            Continue with Google (Coming Soon)
+                        </button>
+
+                        <div className="divider">OR</div>
 
                         <form onSubmit={handleSubmit}>
 
@@ -222,7 +262,8 @@ const Login = () => {
                             {isLogin && <div className="info">🛡 Admin auto-detected</div>}
 
                             <button type="submit" className="btn" style={{ marginTop: '1rem' }}>
-                                {loading ? <span className="spinner"></span>
+                                {loading
+                                    ? <span className="spinner"></span>
                                     : (isLogin ? 'Sign In →' : 'Create Account →')}
                             </button>
                         </form>
