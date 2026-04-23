@@ -426,17 +426,119 @@ body.light #main-nav {
   display: none;
 }
 
-/*new*/
-.profile-dropdown .btn {
-  width: 100%;
-  justify-content: flex-start;
-  text-align: left;
-  padding: 10px 12px;
-  border-radius: 8px;
+/* ============================================================
+   PROFILE DROPDOWN
+   ============================================================ */
+.profile-menu-wrapper {
+  position: relative;
 }
 
-.profile-dropdown .btn:hover {
-  background: rgba(0, 0, 0, 0.05);
+.profile-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.16), rgba(124, 58, 237, 0.14));
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.profile-trigger:hover {
+  border-color: var(--primary);
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.24), rgba(124, 58, 237, 0.2));
+  color: #fff;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 230px;
+  padding: 0.55rem;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: rgba(13, 18, 34, 0.95);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+body.light .profile-dropdown {
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+}
+
+.profile-dropdown-header {
+  padding: 0.7rem 0.85rem 0.55rem;
+  margin-bottom: 0.2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.profile-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.profile-subtext {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  margin-top: 0.15rem;
+}
+
+.profile-dropdown .btn,
+.profile-dropdown a {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.72rem 0.85rem;
+  border-radius: 12px;
+  text-align: left;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  text-decoration: none;
+  font-size: 0.84rem;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.profile-dropdown .btn:hover,
+.profile-dropdown a:hover {
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.16), rgba(124, 58, 237, 0.16));
+  color: #fff;
+}
+
+body.light .profile-dropdown .btn:hover,
+body.light .profile-dropdown a:hover {
+  color: var(--text);
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.12), rgba(124, 58, 237, 0.1));
+}
+
+.profile-dropdown .logout-btn {
+  color: #ff8a80;
+}
+
+.profile-dropdown .logout-btn:hover {
+  background: rgba(255, 82, 82, 0.14);
+  color: #ffb4ae;
+}
+
+body.light .profile-dropdown .logout-btn {
+  color: #d14343;
+}
+
+body.light .profile-dropdown .logout-btn:hover {
+  background: rgba(209, 67, 67, 0.1);
+  color: #b42323;
 }
 
 /* ============================================================
