@@ -38,384 +38,308 @@ const Login = () => {
     };
 
     return (
-        <>
+        <div className="page-wrap">
             <style>{`
-                body {
-                    margin: 0;
-                    font-family: 'Inter', sans-serif;
-                    background: url("${bgImage}") center/cover no-repeat fixed;
-                    overflow-x: hidden;
-                }
-
-                body::before {
-                    content: "";
-                    position: fixed;
-                    inset: 0;
-                    background:
-                        radial-gradient(circle at top left, rgba(255, 107, 53, 0.20), transparent 28%),
-                        radial-gradient(circle at bottom right, rgba(255, 62, 108, 0.18), transparent 30%),
-                        rgba(0, 0, 0, 0.35);
-                    z-index: -1;
-                }
-
-                .glass-shell {
-                    width: 100%;
-                    max-width: 470px;
-                    border-radius: 28px;
-                    background: rgba(255, 255, 255, 0.035);
-                    border: 1px solid rgba(255, 255, 255, 0.14);
-                    box-shadow:
-                        0 24px 80px rgba(0, 0, 0, 0.45),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.10),
-                        inset 0 0 40px rgba(255, 255, 255, 0.03);
-                    backdrop-filter: blur(26px) saturate(145%);
-                    -webkit-backdrop-filter: blur(26px) saturate(145%);
-                    position: relative;
-                    overflow: hidden;
-                }
-
-                .glass-shell::before {
-                    content: "";
-                    position: absolute;
-                    inset: 0;
-                    background: linear-gradient(
-                        135deg,
-                        rgba(255, 255, 255, 0.10),
-                        rgba(255, 255, 255, 0.02) 35%,
-                        rgba(255, 255, 255, 0.00) 70%
-                    );
-                    pointer-events: none;
-                }
-
-                .glass-shell::after {
-                    content: "";
-                    position: absolute;
-                    inset: 1px;
-                    border-radius: 27px;
-                    border: 1px solid rgba(255, 255, 255, 0.05);
-                    pointer-events: none;
-                }
-
-                .input {
-                    width: 100%;
-                    padding: 0.95rem 1rem;
-                    border-radius: 14px;
-                    border: 1px solid rgba(255, 255, 255, 0.14);
-                    background: rgba(255, 255, 255, 0.04);
-                    color: #fff;
-                    outline: none;
-                    transition: all 0.25s ease;
-                    font-size: 0.95rem;
-                    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-                }
-
-                .input::placeholder {
-                    color: rgba(255, 255, 255, 0.55);
-                }
-
-                .input:focus {
-                    border-color: rgba(255, 107, 53, 0.7);
-                    background: rgba(255, 255, 255, 0.07);
-                    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.14);
-                }
-
-                .btn {
-                    width: 100%;
-                    padding: 0.95rem 1rem;
-                    border-radius: 999px;
-                    border: none;
-                    background: linear-gradient(135deg, #ff6b35, #ff3e6c);
-                    color: white;
-                    font-weight: 700;
-                    letter-spacing: 0.3px;
-                    cursor: pointer;
-                    transition: all 0.25s ease;
-                    box-shadow: 0 14px 30px rgba(255, 107, 53, 0.28);
-                }
-
-                .btn:hover {
-                    transform: translateY(-2px);
-                    box-shadow: 0 18px 36px rgba(255, 107, 53, 0.36);
-                }
-
-                .btn:active {
-                    transform: translateY(0px);
-                }
-
-                .social-grid {
-                    display: grid;
-                    grid-template-columns: 1fr;
-                    gap: 10px;
-                }
-
-                .social-btn {
-                    width: 100%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    gap: 10px;
-                    padding: 0.85rem 1rem;
-                    border-radius: 14px;
-                    border: 1px solid rgba(255, 255, 255, 0.12);
-                    background: rgba(255, 255, 255, 0.045);
-                    color: rgba(255, 255, 255, 0.82);
-                    font-weight: 600;
-                    font-size: 0.92rem;
-                    cursor: not-allowed;
-                    opacity: 0.95;
-                    transition: all 0.2s ease;
-                    backdrop-filter: blur(12px);
-                    -webkit-backdrop-filter: blur(12px);
-                }
-
-                .social-btn:hover {
-                    background: rgba(255, 255, 255, 0.065);
-                }
-
-                .social-btn svg,
-                .social-btn img {
-                    width: 18px;
-                    height: 18px;
-                    flex: 0 0 18px;
-                }
-
-                .divider {
-                    display: flex;
-                    align-items: center;
-                    gap: 12px;
-                    margin: 1.1rem 0;
-                    color: rgba(255, 255, 255, 0.72);
-                    font-size: 0.74rem;
-                    letter-spacing: 1.7px;
-                    text-transform: uppercase;
-                }
-
-                .divider::before,
-                .divider::after {
-                    content: "";
-                    flex: 1;
-                    height: 1px;
-                    background: linear-gradient(
-                        90deg,
-                        transparent,
-                        rgba(255, 255, 255, 0.18),
-                        transparent
-                    );
-                }
-
-                .info {
-                    background: rgba(255, 107, 53, 0.09);
-                    border: 1px solid rgba(255, 107, 53, 0.18);
-                    padding: 10px 12px;
-                    border-radius: 12px;
-                    margin-bottom: 1rem;
-                    color: rgba(255, 255, 255, 0.86);
-                    font-size: 0.82rem;
-                }
-
-                .switch {
-                    text-align: center;
-                    margin-top: 1.2rem;
-                    color: rgba(255, 255, 255, 0.75);
-                    font-size: 0.92rem;
-                }
-
-                .switch button {
-                    background: none;
-                    border: none;
-                    color: #ff6b35;
-                    cursor: pointer;
-                    font-weight: 700;
-                    padding: 0;
-                }
-
-                .switch button:hover {
-                    text-decoration: underline;
-                }
-
-                @keyframes fadeIn {
-                    from { opacity: 0; transform: translateY(24px); }
-                    to { opacity: 1; transform: translateY(0); }
-                }
-
-                @keyframes spin {
-                    to { transform: rotate(360deg); }
-                }
-
-                .spinner {
-                    width: 18px;
-                    height: 18px;
-                    border: 2px solid rgba(255, 255, 255, 0.35);
-                    border-top-color: #fff;
-                    border-radius: 50%;
-                    display: inline-block;
-                    animation: spin 0.6s linear infinite;
-                }
+                @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
 
                 .page-wrap {
                     min-height: 100vh;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    padding: 1rem;
+                    padding: 20px;
+                    font-family: 'Plus Jakarta Sans', sans-serif;
+                    background: url("${bgImage}") center/cover no-repeat fixed;
+                    position: relative;
+                    overflow: hidden;
+                }
+
+                /* Animated background blobs */
+                .page-wrap::before, .page-wrap::after {
+                    content: "";
+                    position: absolute;
+                    width: 400px;
+                    height: 400px;
+                    border-radius: 50%;
+                    background: linear-gradient(135deg, rgba(255, 107, 53, 0.3), rgba(255, 62, 108, 0.3));
+                    filter: blur(80px);
+                    z-index: 0;
+                    animation: float 20s infinite alternate;
+                }
+                .page-wrap::before { top: -100px; left: -100px; }
+                .page-wrap::after { bottom: -100px; right: -100px; animation-delay: -10s; }
+
+                @keyframes float {
+                    0% { transform: translate(0, 0); }
+                    100% { transform: translate(50px, 100px); }
+                }
+
+                .glass-shell {
+                    width: 100%;
+                    max-width: 450px;
+                    background: rgba(15, 15, 15, 0.7);
+                    backdrop-filter: blur(20px) saturate(180%);
+                    -webkit-backdrop-filter: blur(20px) saturate(180%);
+                    border-radius: 32px;
+                    border: 1px solid rgba(255, 255, 255, 0.12);
+                    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+                    position: relative;
+                    z-index: 1;
+                    transition: transform 0.3s ease;
+                }
+
+                .card-body {
+                    padding: 3rem 2.5rem;
                 }
 
                 .heading-wrap {
                     text-align: center;
-                    margin-bottom: 1.6rem;
-                    color: #fff;
-                    animation: fadeIn 0.6s ease;
+                    margin-bottom: 2.5rem;
                 }
 
                 .brand-title {
-                    font-size: 2.25rem;
+                    font-size: 2.5rem;
                     font-weight: 800;
-                    margin: 0 0 0.4rem 0;
-                    background: linear-gradient(135deg, #ff6b35, #ff3e6c);
-                    WebkitBackgroundClip: text;
-                    WebkitTextFillColor: transparent;
-                    background-clip: text;
-                    color: transparent;
-                    letter-spacing: -0.8px;
+                    margin: 0;
+                    background: linear-gradient(135deg, #ff8c5f, #ff3e6c);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    letter-spacing: -1.5px;
                 }
 
                 .heading-wrap p {
-                    margin: 0;
-                    color: rgba(255, 255, 255, 0.8);
+                    color: rgba(255, 255, 255, 0.6);
+                    margin-top: 8px;
                     font-size: 0.95rem;
                 }
 
-                .card-body {
-                    position: relative;
-                    z-index: 1;
-                    padding: 2.1rem;
+                .form-stack {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1.2rem;
                 }
 
-                .form-stack > * + * {
-                    margin-top: 1rem;
+                .input {
+                    background: rgba(255, 255, 255, 0.05);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    border-radius: 16px;
+                    padding: 1.1rem;
+                    color: #fff;
+                    font-size: 1rem;
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 }
+
+                .input:focus {
+                    background: rgba(255, 255, 255, 0.08);
+                    border-color: #ff6b35;
+                    outline: none;
+                    box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.15);
+                    transform: translateY(-1px);
+                }
+
+                .btn {
+                    background: linear-gradient(135deg, #ff6b35, #ff3e6c);
+                    color: white;
+                    border: none;
+                    border-radius: 16px;
+                    padding: 1.1rem;
+                    font-weight: 700;
+                    font-size: 1rem;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    margin-top: 0.5rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    box-shadow: 0 10px 20px rgba(255, 62, 108, 0.2);
+                }
+
+                .btn:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 15px 30px rgba(255, 62, 108, 0.4);
+                    filter: brightness(1.1);
+                }
+
+                .btn:active { transform: translateY(0); }
+
+                .social-grid {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 12px;
+                    margin-bottom: 24px;
+                }
+
+                .social-btn {
+                    background: rgba(255, 255, 255, 0.05);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    border-radius: 16px;
+                    padding: 0.8rem;
+                    color: #fff;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 12px;
+                    font-weight: 600;
+                    cursor: not-allowed;
+                    transition: 0.3s;
+                }
+
+                .divider {
+                    display: flex;
+                    align-items: center;
+                    text-align: center;
+                    margin: 20px 0;
+                    color: rgba(255, 255, 255, 0.3);
+                    font-size: 0.75rem;
+                    font-weight: 700;
+                    letter-spacing: 2px;
+                }
+
+                .divider::before, .divider::after {
+                    content: "";
+                    flex: 1;
+                    height: 1px;
+                    background: rgba(255, 255, 255, 0.1);
+                }
+                .divider:not(:empty)::before { margin-right: 15px; }
+                .divider:not(:empty)::after { margin-left: 15px; }
+
+                .info {
+                    font-size: 0.85rem;
+                    color: #ff8c5f;
+                    background: rgba(255, 107, 53, 0.1);
+                    padding: 10px 15px;
+                    border-radius: 12px;
+                    border-left: 3px solid #ff6b35;
+                }
+
+                .switch {
+                    text-align: center;
+                    margin-top: 2rem;
+                    color: rgba(255, 255, 255, 0.5);
+                }
+
+                .switch button {
+                    background: none;
+                    border: none;
+                    color: #fff;
+                    font-weight: 700;
+                    cursor: pointer;
+                    padding-left: 5px;
+                    text-decoration: underline;
+                    text-underline-offset: 4px;
+                    transition: 0.3s;
+                }
+
+                .switch button:hover {
+                    color: #ff6b35;
+                }
+
+                .spinner {
+                    width: 20px;
+                    height: 20px;
+                    border: 3px solid rgba(255,255,255,0.3);
+                    border-radius: 50%;
+                    border-top-color: #fff;
+                    animation: spin 0.8s ease-in-out infinite;
+                }
+
+                @keyframes spin { to { transform: rotate(360deg); } }
 
                 .role-select {
-                    appearance: none;
-                    -webkit-appearance: none;
-                    -moz-appearance: none;
-                    background-image:
-                        linear-gradient(45deg, transparent 50%, rgba(255,255,255,0.75) 50%),
-                        linear-gradient(135deg, rgba(255,255,255,0.75) 50%, transparent 50%);
-                    background-position:
-                        calc(100% - 18px) calc(1.05rem + 2px),
-                        calc(100% - 12px) calc(1.05rem + 2px);
-                    background-size: 6px 6px, 6px 6px;
+                    cursor: pointer;
+                    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
                     background-repeat: no-repeat;
+                    background-position: right 1rem center;
+                    background-size: 1.2em;
                     padding-right: 2.5rem;
-                }
-
-                @media (max-width: 480px) {
-                    .page-wrap {
-                        padding: 0.75rem;
-                    }
-
-                    .glass-shell {
-                        border-radius: 22px;
-                    }
-
-                    .card-body {
-                        padding: 1.5rem;
-                    }
-
-                    .brand-title {
-                        font-size: 1.95rem;
-                    }
+                    appearance: none;
                 }
             `}</style>
 
-            <div className="page-wrap">
-                <div style={{ width: '100%', maxWidth: '470px' }}>
+            <div className="glass-shell">
+                <div className="card-body">
                     <div className="heading-wrap">
                         <h1 className="brand-title">NammaDiscover</h1>
-                        <p>{isLogin ? 'Sign in to continue your journey' : 'Create your account'}</p>
+                        <p>{isLogin ? 'Welcome back! Please enter your details.' : 'Join us to start your journey.'}</p>
                     </div>
 
-                    <div className="glass-shell">
-                        <div className="card-body">
-                            <div className="social-grid">
-                                <button type="button" className="social-btn" disabled aria-disabled="true">
-                                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                                        <path fill="#EA4335" d="M12 10.2v3.9h5.5c-.2 1.4-1.6 4.1-5.5 4.1-3.3 0-5.9-2.8-5.9-6.2S8.7 5.8 12 5.8c1.9 0 3.1.8 3.8 1.5l2.6-2.5C16.7 3.2 14.6 2.3 12 2.3 6.5 2.3 2 6.7 2 12.2S6.5 22 12 22c6.1 0 10.1-4.3 10.1-10.3 0-.7-.1-1.2-.2-1.7H12z" />
-                                    </svg>
-                                    Sign in with Google
-                                </button>
+                    <div className="social-grid">
+                        <button type="button" className="social-btn" disabled>
+                            <svg width="20" height="20" viewBox="0 0 24 24">
+                                <path fill="#fff" d="M12.48 10.92v3.28h7.84c-.24 1.84-2.21 5.39-7.84 5.39-4.84 0-8.79-4.01-8.79-8.94s3.95-8.94 8.79-8.94c2.75 0 4.59 1.17 5.64 2.18l2.59-2.5c-1.66-1.55-3.82-2.5-8.23-2.5C5.38 1.18 0 6.56 0 13.18s5.38 12 12 12c6.91 0 11.51-4.86 11.51-11.71 0-.79-.08-1.39-.19-1.99l-10.84.44z"/>
+                            </svg>
+                            {isLogin ? 'Sign in with Google' : 'Sign up with Google'}
+                        </button>
+                    </div>
 
-                                <button type="button" className="social-btn" disabled aria-disabled="true">
-                                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                                        <path fill="#EA4335" d="M12 10.2v3.9h5.5c-.2 1.4-1.6 4.1-5.5 4.1-3.3 0-5.9-2.8-5.9-6.2S8.7 5.8 12 5.8c1.9 0 3.1.8 3.8 1.5l2.6-2.5C16.7 3.2 14.6 2.3 12 2.3 6.5 2.3 2 6.7 2 12.2S6.5 22 12 22c6.1 0 10.1-4.3 10.1-10.3 0-.7-.1-1.2-.2-1.7H12z" />
-                                    </svg>
-                                    Sign up with Google
-                                </button>
+                    <div className="divider">OR</div>
+
+                    <form onSubmit={handleSubmit} className="form-stack">
+                        {!isLogin && (
+                            <input
+                                type="text"
+                                name="username"
+                                placeholder="Username"
+                                className="input"
+                                value={formData.username}
+                                onChange={handleChange}
+                                required
+                            />
+                        )}
+
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Email address"
+                            className="input"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                        />
+
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            className="input"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                        />
+
+                        {!isLogin && (
+                            <select
+                                name="role"
+                                className="input role-select"
+                                value={formData.role}
+                                onChange={handleChange}
+                            >
+                                <option value="user">Explorer (User)</option>
+                                <option value="admin">Guide (Admin)</option>
+                            </select>
+                        )}
+
+                        {isLogin && (
+                            <div className="info">
+                                <span>✨ Smart detection enabled</span>
                             </div>
+                        )}
 
-                            <div className="divider">OR CONTINUE WITH EMAIL</div>
+                        <button type="submit" className="btn" disabled={loading}>
+                            {loading ? <div className="spinner"></div> : (isLogin ? 'Sign In' : 'Create Account')}
+                        </button>
+                    </form>
 
-                            <form onSubmit={handleSubmit} className="form-stack">
-                                {!isLogin && (
-                                    <input
-                                        type="text"
-                                        name="username"
-                                        placeholder="Username"
-                                        className="input"
-                                        value={formData.username}
-                                        onChange={handleChange}
-                                    />
-                                )}
-
-                                <input
-                                    type="email"
-                                    name="email"
-                                    placeholder="Email"
-                                    className="input"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                />
-
-                                <input
-                                    type="password"
-                                    name="password"
-                                    placeholder="Password"
-                                    className="input"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                />
-
-                                {!isLogin && (
-                                    <select
-                                        name="role"
-                                        className="input role-select"
-                                        value={formData.role}
-                                        onChange={handleChange}
-                                    >
-                                        <option value="user">User</option>
-                                        <option value="admin">Admin</option>
-                                    </select>
-                                )}
-
-                                {isLogin && <div className="info">🛡 Admin auto-detected</div>}
-
-                                <button type="submit" className="btn">
-                                    {loading ? <span className="spinner"></span> : (isLogin ? 'Sign In →' : 'Create Account →')}
-                                </button>
-                            </form>
-
-                            <div className="switch">
-                                {isLogin ? "Don't have an account?" : "Already have an account?"}
-                                <button type="button" onClick={() => setIsLogin(v => !v)}>
-                                    {isLogin ? ' Sign up' : ' Sign in'}
-                                </button>
-                            </div>
-                        </div>
+                    <div className="switch">
+                        {isLogin ? "New here?" : "Joined us before?"}
+                        <button type="button" onClick={() => setIsLogin(v => !v)}>
+                            {isLogin ? 'Create an account' : 'Login to account'}
+                        </button>
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 
