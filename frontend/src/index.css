@@ -2637,8 +2637,11 @@ footer {
   --rose:           #A01840;   /* deep Karnataka rose */
 
   /* ── Backgrounds — three warm layers for depth ── */
-  --bg:             #F4EFE6;   /* warm linen — main canvas */
-  --bg-2:           #EDE6D8;   /* slightly darker for alt sections */
+  /* --bg:             #F4EFE6;   /* warm linen — main canvas */
+  /* --bg-2:           #EDE6D8;   /* slightly darker for alt sections */ */ */
+     --bg: #020203;
+  /* --bg-2: #0D1526; */
+   --bg-2: #050608;
   --bg-card:        #FDFAF4;   /* warm white — cards pop above bg */
   --bg-panel:       rgba(248, 243, 234, 0.98);
   --bg-panel-solid: #F8F3EA;
