@@ -111,12 +111,13 @@ const Navbar = () => {
     const { user, logout } = useAuth();
     const [scrolled, setScrolled] = useState(false);
     const [profileOpen, setProfileOpen] = useState(false);
-
     const location = useLocation();
     const navigate = useNavigate();
     const profileRef = useRef(null);
 
     const hideNavbarRoutes = ['/', '/login', '/signup'];
+
+    if (hideNavbarRoutes.includes(location.pathname)) return null;
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -135,13 +136,10 @@ const Navbar = () => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    if (hideNavbarRoutes.includes(location.pathname)) return null;
-
     const toggleTheme = () => {
         const newTheme = state.theme === 'dark' ? 'light' : 'dark';
         dispatch({ type: 'SET_THEME', payload: newTheme });
         document.body.className = newTheme;
-        setProfileOpen(false);
     };
 
     const toggleLang = () => {
@@ -154,9 +152,7 @@ const Navbar = () => {
     const goToSection = (sectionId) => {
         if (location.pathname === '/dashboard') {
             const el = document.getElementById(sectionId);
-            if (el) {
-                el.scrollIntoView({ behavior: 'smooth' });
-            }
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
         } else {
             navigate('/dashboard', { state: { scrollTo: sectionId } });
         }
@@ -167,7 +163,7 @@ const Navbar = () => {
         logout();
     };
 
-    const isHome = location.pathname === '/dashboard';
+    const isHome = location.pathname === '/';
 
     return (
         <nav
@@ -184,112 +180,104 @@ const Navbar = () => {
 
                 <div className="nav-links">
                     <Link to="/dashboard" className={`nav-link${isHome ? ' active' : ''}`}>
-                        {t('Home', 'ಮುಖಪುಟ')}
+                        Home
                     </Link>
-
-                    <button
-                        type="button"
-                        className="nav-link"
-                        onClick={() => goToSection('discover-section')}
-                    >
+                    <button className="nav-link" onClick={() => goToSection('discover-section')}>
                         {t('Discover', 'ಅನ್ವೇಷಿಸಿ')}
                     </button>
-
-                    <button
-                        type="button"
-                        className="nav-link"
-                        onClick={() => goToSection('map-section')}
-                    >
+                    <button className="nav-link" onClick={() => goToSection('map-section')}>
                         {t('Map', 'ನಕ್ಷೆ')}
                     </button>
-
-                    <button
-                        type="button"
-                        className="nav-link"
-                        onClick={() => goToSection('ai-section')}
-                    >
+                    <button className="nav-link" onClick={() => goToSection('ai-section')}>
                         {t('AI Picks', 'AI ಆಯ್ಕೆಗಳು')}
                     </button>
-
-                    <button
-                        type="button"
-                        className="nav-link"
-                        onClick={() => goToSection('budget-section')}
-                    >
+                    <button className="nav-link" onClick={() => goToSection('budget-section')}>
                         {t('Budget Trip', 'ಬಜೆಟ್ ಪ್ರವಾಸ')}
                     </button>
                 </div>
 
                 <div className="nav-actions">
-                    <button
-                        type="button"
-                        className="lang-toggle"
-                        onClick={toggleLang}
-                    >
+                    <button className="lang-toggle" onClick={toggleLang}>
                         {state.language === 'en' ? 'ಕನ್ನಡ' : 'English'}
                     </button>
 
                     {user ? (
-                        <div className="profile-menu-wrapper" ref={profileRef}>
+                        <div
+                            className="profile-menu-wrapper"
+                            ref={profileRef}
+                            style={{ position: 'relative' }}
+                        >
                             <button
-                                type="button"
-                                className="profile-trigger"
-                                onClick={() => setProfileOpen((prev) => !prev)}
+                                className="btn btn-xs btn-primary"
+                                onClick={() => setProfileOpen(!profileOpen)}
                             >
-                                <span className="profile-avatar">👤</span>
-                                <span className="profile-username">{user.username}</span>
-                                <span className={`profile-caret ${profileOpen ? 'open' : ''}`}>▾</span>
+                                👤 {user.username}
                             </button>
 
                             {profileOpen && (
-                                <div className="profile-dropdown">
-                                    <div className="profile-dropdown-header">
-                                        <div className="profile-name">{user.username}</div>
-                                        <div className="profile-subtext">
-                                            {t('Manage your account', 'ನಿಮ್ಮ ಖಾತೆಯನ್ನು ನಿರ್ವಹಿಸಿ')}
-                                        </div>
+                                <div
+                                    className="profile-dropdown"
+                                    style={{
+                                        position: 'absolute',
+                                        top: 'calc(100% + 8px)',
+                                        right: 0,
+                                        minWidth: '220px',
+                                        background: 'var(--card-bg, #fff)',
+                                        border: '1px solid var(--border-color, #ddd)',
+                                        borderRadius: '12px',
+                                        boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+                                        padding: '10px',
+                                        zIndex: 1000,
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: '8px'
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            fontSize: '0.85rem',
+                                            fontWeight: '600',
+                                            color: 'var(--primary)',
+                                            padding: '6px 8px',
+                                            borderBottom: '1px solid var(--border-color, #eee)'
+                                        }}
+                                    >
+                                        {t('Profile', 'ಪ್ರೊಫೈಲ್')}
                                     </div>
 
                                     <Link
                                         to="/my-videos"
-                                        className="profile-dropdown-item"
+                                        className="btn btn-xs btn-ghost"
                                         onClick={() => setProfileOpen(false)}
                                     >
-                                        <span>🎬</span>
-                                        <span>{t('Upload Videos', 'ವೀಡಿಯೊ ಅಪ್‌ಲೋಡ್')}</span>
+                                        🎬 {t('Upload Videos', 'ವೀಡಿಯೊ ಅಪ್‌ಲೋಡ್')}
                                     </Link>
 
                                     <button
-                                        type="button"
-                                        className="profile-dropdown-item"
+                                        className="btn btn-xs btn-ghost"
                                         onClick={toggleTheme}
                                     >
-                                        <span>{state.theme === 'dark' ? '☀️' : '🌙'}</span>
-                                        <span>
-                                            {state.theme === 'dark'
-                                                ? t('Light Mode', 'ಲೈಟ್ ಮೋಡ್')
-                                                : t('Dark Mode', 'ಡಾರ್ಕ್ ಮೋಡ್')}
-                                        </span>
+                                        {state.theme === 'dark'
+                                            ? `☀️ ${t('Light Mode', 'ಲೈಟ್ ಮೋಡ್')}`
+                                            : `🌙 ${t('Dark Mode', 'ಡಾರ್ಕ್ ಮೋಡ್')}`}
                                     </button>
 
                                     {user.role === 'admin' && (
                                         <Link
                                             to="/admin"
-                                            className="profile-dropdown-item"
+                                            className="btn btn-xs btn-ghost"
                                             onClick={() => setProfileOpen(false)}
                                         >
-                                            <span>🛡</span>
-                                            <span>{t('Admin Dashboard', 'ಆಡ್ಮಿನ್ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್')}</span>
+                                            🛡 {t('Admin Dashboard', 'ಆಡ್ಮಿನ್ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್')}
                                         </Link>
                                     )}
 
                                     <button
-                                        type="button"
-                                        className="profile-dropdown-item logout-btn"
+                                        className="btn btn-xs btn-ghost"
                                         onClick={handleLogout}
+                                        style={{ color: 'crimson' }}
                                     >
-                                        <span>🚪</span>
-                                        <span>{t('Logout', 'ನಿರ್ಗಮನ')}</span>
+                                        🚪 {t('Logout', 'ನಿರ್ಗಮನ')}
                                     </button>
                                 </div>
                             )}
@@ -301,7 +289,7 @@ const Navbar = () => {
                     )}
                 </div>
 
-                <button id="hamburger" type="button">☰</button>
+                <button id="hamburger">☰</button>
             </div>
         </nav>
     );
