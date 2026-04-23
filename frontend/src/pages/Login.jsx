@@ -38,7 +38,7 @@ const Login = () => {
     return (
         <div className="page-wrap">
             <style>{`
-                @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
+                @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
 
                 .page-wrap {
                     min-height: 100vh;
@@ -49,93 +49,62 @@ const Login = () => {
                     font-family: 'Plus Jakarta Sans', sans-serif;
                     background: url("${bgImage}") center/cover no-repeat fixed;
                     position: relative;
-                    perspective: 1000px;
+                    perspective: 1500px;
                     overflow: hidden;
                     padding: 20px;
                 }
 
+                /* Reduced overlay to let the background image shine through */
                 .page-wrap::before {
                     content: '';
                     position: absolute;
                     inset: 0;
-                    background: rgba(0, 0, 0, 0.3);
+                    background: rgba(0, 0, 0, 0.2);
                     z-index: 0;
                 }
 
-                /* 3D Container */
-                .card-3d-wrap {
-                    position: relative;
-                    width: 440px;
-                    max-width: 100%;
-                    height: 550px;
-                    transform-style: preserve-3d;
-                    perspective: 1000px;
-                    z-index: 1;
+                .brand-header {
+                    text-align: center;
+                    margin-bottom: 2rem;
+                    z-index: 2;
                 }
 
-                .card-3d-wrapper {
-                    width: 100%;
-                    height: 100%;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    transform-style: preserve-3d;
-                    transition: all 800ms cubic-bezier(0.645, 0.045, 0.355, 1);
-                }
-
-                /* The flip logic based on isLogin state */
-                .flipped {
-                    transform: rotateY(180deg);
-                }
-
-                .card-front, .card-back {
-                    width: 100%;
-                    height: 100%;
-                    /* FULL TRANSPARENT GLASS */
-                    background: rgba(255, 255, 255, 0.03);
-                    backdrop-filter: blur(25px) saturate(180%);
-                    -webkit-backdrop-filter: blur(25px) saturate(180%);
-                    position: absolute;
-                    border-radius: 30px;
-                    border: 1px solid rgba(255, 255, 255, 0.2);
-                    backface-visibility: hidden;
-                    display: flex;
-                    flex-direction: column;
-                    padding: 40px;
-                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-                }
-
-                .card-back {
-                    transform: rotateY(180deg);
+                .brand-title {
+                    font-size: 3rem;
+                    font-weight: 800;
+                    margin: 0;
+                    background: linear-gradient(135deg, #ffffff, #ff6b35);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    letter-spacing: -2px;
                 }
 
                 /* Header Controls */
                 .toggle-header {
                     text-align: center;
-                    margin-bottom: 30px;
+                    margin-bottom: 25px;
                     z-index: 10;
                 }
 
                 .toggle-header span {
                     padding: 0 15px;
                     text-transform: uppercase;
-                    font-weight: 800;
-                    font-size: 14px;
-                    letter-spacing: 1px;
+                    font-weight: 700;
+                    font-size: 13px;
+                    letter-spacing: 1.5px;
                     color: rgba(255, 255, 255, 0.4);
                     transition: 0.3s;
                 }
 
                 .toggle-header span.active {
                     color: #fff;
-                    text-shadow: 0 0 10px rgba(255,107,53,0.5);
                 }
 
                 /* Switch Toggle Styling */
                 .switch-box {
-                    width: 60px;
-                    height: 20px;
-                    background: rgba(255, 107, 53, 0.3);
+                    width: 54px;
+                    height: 14px;
+                    background: rgba(255, 255, 255, 0.1);
                     border-radius: 20px;
                     margin: 15px auto;
                     position: relative;
@@ -144,41 +113,69 @@ const Login = () => {
                 }
 
                 .switch-box::after {
-                    content: '→';
+                    content: '';
                     position: absolute;
-                    width: 34px;
-                    height: 34px;
-                    background: #ff6b35;
+                    width: 30px;
+                    height: 30px;
+                    background: #fff;
                     border-radius: 50%;
-                    top: -8px;
+                    top: -9px;
                     left: -5px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    color: white;
-                    font-weight: bold;
-                    transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                    box-shadow: 0 4px 10px rgba(255, 107, 53, 0.5);
+                    transition: 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
                 }
 
                 .is-signup-ui .switch-box::after {
-                    transform: translateX(36px) rotate(180deg);
-                    background: #ff3e6c;
+                    transform: translateX(34px);
+                    background: #ff6b35;
                 }
 
-                /* Form Elements */
-                .brand-title {
-                    font-size: 2rem;
-                    font-weight: 800;
-                    margin: 0 0 10px 0;
-                    background: linear-gradient(135deg, #fff, #ff6b35);
-                    -webkit-background-clip: text;
-                    -webkit-text-fill-color: transparent;
-                    text-align: center;
+                /* 3D Container */
+                .card-3d-wrap {
+                    position: relative;
+                    width: 420px;
+                    max-width: 100%;
+                    height: 520px;
+                    transform-style: preserve-3d;
+                    z-index: 1;
+                }
+
+                .card-3d-wrapper {
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    transform-style: preserve-3d;
+                    transition: all 800ms cubic-bezier(0.645, 0.045, 0.355, 1);
+                }
+
+                .flipped {
+                    transform: rotateY(180deg);
+                }
+
+                /* ULTRA TRANSPARENT GLASS */
+                .card-front, .card-back {
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(255, 255, 255, 0.02); /* Almost zero background */
+                    backdrop-filter: blur(15px) saturate(140%);
+                    -webkit-backdrop-filter: blur(15px) saturate(140%);
+                    position: absolute;
+                    border-radius: 40px;
+                    /* Sharp specular border makes it look like glass */
+                    border: 1.5px solid rgba(255, 255, 255, 0.25);
+                    backface-visibility: hidden;
+                    display: flex;
+                    flex-direction: column;
+                    padding: 40px;
+                    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
+                }
+
+                .card-back {
+                    transform: rotateY(180deg);
                 }
 
                 .form-group {
-                    margin-bottom: 15px;
+                    margin-bottom: 18px;
                     position: relative;
                 }
 
@@ -186,61 +183,63 @@ const Login = () => {
                     width: 100%;
                     background: rgba(255, 255, 255, 0.05);
                     border: 1px solid rgba(255, 255, 255, 0.1);
-                    border-radius: 15px;
-                    padding: 15px 20px;
+                    border-radius: 18px;
+                    padding: 16px 20px;
                     color: white;
                     outline: none;
                     transition: 0.3s;
+                    font-size: 0.95rem;
                 }
 
                 .input:focus {
-                    background: rgba(255, 255, 255, 0.1);
-                    border-color: #ff6b35;
+                    background: rgba(255, 255, 255, 0.12);
+                    border-color: rgba(255, 255, 255, 0.5);
                 }
 
                 .btn {
                     width: 100%;
                     padding: 16px;
-                    border-radius: 15px;
+                    border-radius: 18px;
                     border: none;
                     background: #fff;
                     color: #000;
                     font-weight: 800;
                     text-transform: uppercase;
                     cursor: pointer;
-                    margin-top: 20px;
+                    margin-top: 15px;
                     transition: 0.3s;
+                    letter-spacing: 1px;
                 }
 
                 .btn:hover {
-                    background: #ff6b35;
-                    color: #fff;
-                    transform: translateY(-3px);
-                    box-shadow: 0 10px 20px rgba(255, 107, 53, 0.3);
+                    transform: scale(1.02);
+                    box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
                 }
 
                 .social-btn {
                     width: 100%;
-                    background: rgba(255, 255, 255, 0.05);
+                    background: rgba(255, 255, 255, 0.08);
                     border: 1px solid rgba(255, 255, 255, 0.1);
-                    border-radius: 15px;
+                    border-radius: 18px;
                     padding: 12px;
-                    color: rgba(255, 255, 255, 0.5);
-                    margin-bottom: 20px;
+                    color: rgba(255, 255, 255, 0.6);
+                    margin-bottom: 25px;
                     cursor: not-allowed;
-                    font-size: 0.8rem;
+                    font-size: 0.85rem;
+                    font-weight: 600;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    gap: 10px;
+                    gap: 12px;
                 }
 
                 .coming-soon {
-                    font-size: 0.6rem;
-                    background: rgba(255, 107, 53, 0.2);
-                    padding: 2px 8px;
-                    border-radius: 10px;
-                    color: #ff6b35;
+                    font-size: 0.65rem;
+                    background: #ff6b35;
+                    padding: 3px 10px;
+                    border-radius: 20px;
+                    color: #fff;
+                    text-transform: uppercase;
                 }
 
                 .divider {
@@ -248,7 +247,7 @@ const Login = () => {
                     align-items: center;
                     color: rgba(255, 255, 255, 0.2);
                     font-size: 0.7rem;
-                    margin: 15px 0;
+                    margin: 10px 0 20px 0;
                     letter-spacing: 2px;
                 }
                 .divider::before, .divider::after {
@@ -265,6 +264,10 @@ const Login = () => {
                 @keyframes spin { to { transform: rotate(360deg); } }
             `}</style>
 
+            <div className="brand-header">
+                <h1 className="brand-title">NammaDiscover</h1>
+            </div>
+
             <div className={`toggle-header ${!isLogin ? 'is-signup-ui' : ''}`}>
                 <h6 className="mb-0">
                     <span className={isLogin ? 'active' : ''}>Log In</span>
@@ -278,10 +281,11 @@ const Login = () => {
                     
                     {/* FRONT CARD (LOGIN) */}
                     <div className="card-front">
-                        <h4 className="brand-title">Login</h4>
-                        
                         <button className="social-btn" disabled>
-                            Google <span className="coming-soon">Coming Soon</span>
+                            <svg width="18" height="18" viewBox="0 0 24 24">
+                                <path fill="#fff" d="M12.48 10.92v3.28h7.84c-.24 1.84-2.21 5.39-7.84 5.39-4.84 0-8.79-4.01-8.79-8.94s3.95-8.94 8.79-8.94c2.75 0 4.59 1.17 5.64 2.18l2.59-2.5c-1.66-1.55-3.82-2.5-8.23-2.5C5.38 1.18 0 6.56 0 13.18s5.38 12 12 12c6.91 0 11.51-4.86 11.51-11.71 0-.79-.08-1.39-.19-1.99l-10.84.44z"/>
+                            </svg>
+                            Sign in with Google <span className="coming-soon">Soon</span>
                         </button>
                         
                         <div className="divider">OR</div>
@@ -309,13 +313,12 @@ const Login = () => {
 
                     {/* BACK CARD (REGISTER) */}
                     <div className="card-back">
-                        <h4 className="brand-title">Register</h4>
-                        
                         <button className="social-btn" disabled>
-                            Google <span className="coming-soon">Coming Soon</span>
+                            <svg width="18" height="18" viewBox="0 0 24 24">
+                                <path fill="#fff" d="M12.48 10.92v3.28h7.84c-.24 1.84-2.21 5.39-7.84 5.39-4.84 0-8.79-4.01-8.79-8.94s3.95-8.94 8.79-8.94c2.75 0 4.59 1.17 5.64 2.18l2.59-2.5c-1.66-1.55-3.82-2.5-8.23-2.5C5.38 1.18 0 6.56 0 13.18s5.38 12 12 12c6.91 0 11.51-4.86 11.51-11.71 0-.79-.08-1.39-.19-1.99l-10.84.44z"/>
+                            </svg>
+                            Sign up with Google <span className="coming-soon">Soon</span>
                         </button>
-
-                        <div className="divider">OR</div>
 
                         <form onSubmit={handleSubmit} className="form-stack">
                             <div className="form-group">
@@ -344,12 +347,12 @@ const Login = () => {
                                     name="role" className="input" 
                                     value={formData.role} onChange={handleChange}
                                 >
-                                    <option value="user" style={{background: '#222'}}>User Access</option>
-                                    <option value="admin" style={{background: '#222'}}>Admin Access</option>
+                                    <option value="user" style={{background: '#111'}}>Explorer</option>
+                                    <option value="admin" style={{background: '#111'}}>Admin</option>
                                 </select>
                             </div>
                             <button type="submit" className="btn">
-                                {loading ? <div className="spinner"></div> : 'Sign Up →'}
+                                {loading ? <div className="spinner"></div> : 'Register →'}
                             </button>
                         </form>
                     </div>
