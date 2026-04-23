@@ -426,9 +426,23 @@ body.light #main-nav {
   display: none;
 }
 
+.profile-dropdown .btn {
+  width: 100%;
+  justify-content: flex-start;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+
+.profile-dropdown .btn:hover,
+.profile-dropdown a:hover {
+  background: rgba(255, 107, 53, 0.14);
+  color: var(--primary);
+}
+
 /* ============================================================
    PROFILE DROPDOWN
-   ============================================================ */
+   ============================================================ 
 .profile-menu-wrapper {
   position: relative;
 }
@@ -540,7 +554,7 @@ body.light .profile-dropdown .logout-btn:hover {
   background: rgba(209, 67, 67, 0.1);
   color: #b42323;
 }
-
+*/
 /* ============================================================
    HERO — Video Background
    ============================================================ */
