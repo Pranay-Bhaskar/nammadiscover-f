@@ -948,6 +948,10 @@ body.light .logout-btn:hover {
   animation: fadeSlideUp 0.8s ease;
 }
 
+
+
+
+
 /* Hero CTAs */
 .hero-ctas {
   display: flex;
@@ -956,16 +960,13 @@ body.light .logout-btn:hover {
   margin-bottom: 1.5rem;
 }
 
-
-
-
 .hero-ctas .btn,
 .hero-ctas button {
-  /* DARK MODE (default) */
-  background: rgba(8, 13, 26, 0.85) !important;
-  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  /* DARK MODE - MORE TRANSPARENT */
+  background: rgba(8, 13, 26, 0.65) !important;  /* 65% = very glassy */
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
   color: #fff !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;  /* Much lighter shadow */
   
   backdrop-filter: blur(20px) !important;
   font-weight: 600 !important;
@@ -974,43 +975,43 @@ body.light .logout-btn:hover {
   font-size: 0.95rem !important;
 }
 
-/* LIGHT MODE OVERRIDE */
+/* LIGHT MODE - MORE TRANSPARENT */
 body.light .hero-ctas .btn,
 body.light .hero-ctas button {
-  background: rgba(255, 255, 255, 0.92) !important; 
-  border: 1px solid rgba(0, 0, 0, 0.15) !important;
-  color: #1a1a1a !important;  /* Dark text */
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
+  background: rgba(255, 255, 255, 0.75) !important;  /* 75% = very glassy */
+  border: 1px solid rgba(0, 0, 0, 0.2) !important;
+  color: #1a1a1a !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;  /* Super light */
 }
 
 /* DARK MODE HOVER */
 .hero-ctas .btn:hover,
 .hero-ctas button:hover {
-  background: rgba(255, 107, 53, 0.90) !important;
+  background: rgba(255, 107, 53, 0.85) !important;  /* Lighter hover */
   transform: translateY(-2px) !important;
-  box-shadow: 0 12px 40px rgba(255, 107, 53, 0.35) !important;
+  box-shadow: 0 8px 32px rgba(255, 107, 53, 0.25) !important;
 }
 
 /* LIGHT MODE HOVER */
 body.light .hero-ctas .btn:hover,
 body.light .hero-ctas button:hover {
-  background: rgba(255, 107, 53, 0.95) !important;  /* Brighter orange */
+  background: rgba(255, 107, 53, 0.90) !important;
   color: #fff !important;
 }
 
-/* KNOW MORE BUTTON - THEME AWARE */
+/* KNOW MORE BUTTON - MORE TRANSPARENT */
 .hero-know-more-btn {
-  background: rgba(8, 13, 26, 0.85) !important;
-  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  background: rgba(8, 13, 26, 0.65) !important;  /* Matches CTA buttons */
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
   color: #fff !important;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25) !important;
 }
 
 body.light .hero-know-more-btn {
-  background: rgba(255, 255, 255, 0.95) !important;
-  border: 1px solid rgba(0, 0, 0, 0.2) !important;
+  background: rgba(255, 255, 255, 0.80) !important;  /* Matches CTA buttons */
+  border: 1px solid rgba(0, 0, 0, 0.25) !important;
   color: #1a1a1a !important;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
 }
 
 
