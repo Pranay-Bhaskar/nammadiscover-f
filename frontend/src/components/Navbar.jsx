@@ -497,7 +497,7 @@ const Navbar = () => {
                     )}
                 </div>
 
-                <button id="hamburger" type="button">☰</button>
+                {/* <button id="hamburger" type="button">☰</button> */}
             </div>
         </nav>
     );
