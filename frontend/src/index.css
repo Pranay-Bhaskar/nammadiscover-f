@@ -956,56 +956,67 @@ body.light .logout-btn:hover {
   margin-bottom: 1.5rem;
 }
 
+
+
+
 .hero-ctas .btn,
 .hero-ctas button {
-  background: rgba(8, 13, 26, 0.95) !important;  /* Much darker */
+  /* DARK MODE (default) */
+  background: rgba(8, 13, 26, 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  color: #fff !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+  
   backdrop-filter: blur(20px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
-  color: #fff !important;  /* Pure white text */
   font-weight: 600 !important;
   padding: 1rem 1.8rem !important;
   border-radius: 50px !important;
   font-size: 0.95rem !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
-  transition: var(--transition) !important;
 }
 
+/* LIGHT MODE OVERRIDE */
+body.light .hero-ctas .btn,
+body.light .hero-ctas button {
+  background: rgba(255, 255, 255, 0.92) !important; 
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
+  color: #1a1a1a !important;  /* Dark text */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* DARK MODE HOVER */
 .hero-ctas .btn:hover,
 .hero-ctas button:hover {
-  background: rgba(255, 107, 53, 0.95) !important;  /* Solid orange on hover */
+  background: rgba(255, 107, 53, 0.90) !important;
   transform: translateY(-2px) !important;
-  box-shadow: 0 12px 40px rgba(255, 107, 53, 0.4) !important;
+  box-shadow: 0 12px 40px rgba(255, 107, 53, 0.35) !important;
+}
+
+/* LIGHT MODE HOVER */
+body.light .hero-ctas .btn:hover,
+body.light .hero-ctas button:hover {
+  background: rgba(255, 107, 53, 0.95) !important;  /* Brighter orange */
   color: #fff !important;
 }
 
-/* Floating "Know More" button - MAKE DARKER */
+/* KNOW MORE BUTTON - THEME AWARE */
 .hero-know-more-btn {
-  position: absolute;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 10;
-  background: rgba(8, 13, 26, 0.95) !important;  /* Much darker */
-  border: 1px solid rgba(255, 255, 255, 0.4) !important;
-  border-radius: 50px;
-  color: #fff !important;  /* Pure white */
-  font-size: 0.85rem;
-  font-weight: 700;
-  padding: 0.8rem 1.4rem;
-  cursor: pointer;
-  backdrop-filter: blur(20px);
-  transition: var(--transition);
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
+  background: rgba(8, 13, 26, 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  color: #fff !important;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5) !important;
 }
 
-.hero-know-more-btn:hover {
-  background: rgba(255, 107, 53, 0.95) !important;  /* Solid on hover */
-  transform: translateY(-3px);
-  box-shadow: 0 20px 50px rgba(255, 107, 53, 0.5);
-  color: #fff !important;
+body.light .hero-know-more-btn {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid rgba(0, 0, 0, 0.2) !important;
+  color: #1a1a1a !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2) !important;
 }
+
+
+
+
+
 /* Radius control */
 .hero-radius-wrap {
   display: flex;
