@@ -3039,48 +3039,48 @@ footer {
    LIGHT MODE ROOT — "Silk & Stone"
    Inspired by: Western Ghats jade forests, temple lamp gold,
    handmade travel-journal paper, Karnataka silk weaving
-   ---------------------------------------------------------------- *
+   ---------------------------------------------------------------- */
 :root {
-  /* ── Brand ── *
-  --primary:        #1A6B5A;   /* deep jade — Karnataka forest *
-  --primary-deep:   #124D41;   /* hover state *
-  --primary-mid:    #278068;   /* mid-tone for gradients *
-  --secondary:      #B8760A;   /* saffron amber — temple lamps *
-  --secondary-lt:   #D4920F;   /* brighter saffron *
-  --accent:         #7B2250;   /* deep rose — Mysore silk border *
-  --gold:           #C4940C;   /* antique gold *
-  --gold-light:     #E8B84B;   /* bright gold *
-  --rose:           #A01840;   /* deep Karnataka rose *
+  /* ── Brand ── */
+  --primary:        #1A6B5A;   /* deep jade — Karnataka forest */
+  --primary-deep:   #124D41;   /* hover state */
+  --primary-mid:    #278068;   /* mid-tone for gradients */
+  --secondary:      #B8760A;   /* saffron amber — temple lamps */
+  --secondary-lt:   #D4920F;   /* brighter saffron */
+  --accent:         #7B2250;   /* deep rose — Mysore silk border */
+  --gold:           #C4940C;   /* antique gold */
+  --gold-light:     #E8B84B;   /* bright gold */
+  --rose:           #A01840;   /* deep Karnataka rose */
 
   /* ── Backgrounds — three warm layers for depth ── */
   /* --bg:             #F4EFE6;   /* warm linen — main canvas */
-  /* --bg-2:           #EDE6D8;   /* slightly darker for alt sections *
+  /* --bg-2:           #EDE6D8;   /* slightly darker for alt sections */
    --bg: #020203;
-  /* --bg-2: #0D1526; *
+  /* --bg-2: #0D1526; */
    --bg-2: #050608;
-  --bg-card:        #FDFAF4;   /* warm white — cards pop above bg *
+  --bg-card:        #FDFAF4;   /* warm white — cards pop above bg */
   --bg-panel:       rgba(248, 243, 234, 0.98);
   --bg-panel-solid: #F8F3EA;
 
-  /* ── Glass (warm frosted pane) ── *
+  /* ── Glass (warm frosted pane) ── */
   --glass:          rgba(253, 250, 244, 0.88);
   --glass-2:        rgba(253, 250, 244, 0.96);
   --glass-strong:   rgba(255, 253, 248, 0.99);
 
-  /* ── Borders — jade-tinted, never cold gray ── *
+  /* ── Borders — jade-tinted, never cold gray ── */
   --border:         rgba(26, 107, 90, 0.10);
   --border-2:       rgba(26, 107, 90, 0.18);
   --border-3:       rgba(26, 107, 90, 0.30);
   --border-card:    rgba(26, 23, 20, 0.065);
   --border-warm:    rgba(184, 118, 10, 0.18);
 
-  /* ── Text — warm-tinted, zero cold gray ── *
-  --text:           #1A1714;   /* warm near-black *
+  /* ── Text — warm-tinted, zero cold gray ── */
+  --text:           #1A1714;   /* warm near-black */
   --text-dark:      #1A1714;
-  --text-muted:     #54473C;   /* warm dark brown *
-  --text-dim:       #8A7B6C;   /* warm taupe *
+  --text-muted:     #54473C;   /* warm dark brown */
+  --text-dim:       #8A7B6C;   /* warm taupe */
 
-  /* ── Shadows — golden-tinted warmth, no blue ── *
+  /* ── Shadows — golden-tinted warmth, no blue ── */
   --shadow:         0 1px 4px rgba(26,23,20,0.06),
                     0 3px 14px rgba(26,23,20,0.05);
   --shadow-lg:      0 4px 20px rgba(26,23,20,0.09),
@@ -3090,28 +3090,28 @@ footer {
   --shadow-lifted:  0 6px 24px rgba(26,107,90,0.12),
                     0 1px 4px rgba(26,23,20,0.06);
 
-  /* ── No neon glows in light mode — clean editorial ── *
+  /* ── No neon glows in light mode — clean editorial ── */
   --glow-or:        none;
   --glow-teal:      none;
   --glow-gold:      none;
 
-  /* ── Radii ── *
+  /* ── Radii ── */
   --radius:         14px;
   --radius-sm:      9px;
   --radius-lg:      22px;
   --radius-xs:      5px;
   --radius-pill:    50px;
 
-  /* ── Layout ── *
+  /* ── Layout ── */
   --header-h:       60px;
   --panel-w:        282px;
   --transition:     all 0.24s cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* ── Typography ── *
+  /* ── Typography ── */
   --font-serif:  'Merriweather', Georgia, serif;
   --font-sans:   'Poppins', system-ui, sans-serif;
 
-  /* ── Gradients ── *
+  /* ── Gradients ── */
   --gradient-header:
     linear-gradient(135deg, #081E19 0%, #0F3328 35%, #1A5244 70%, #20604F 100%);
   --gradient-btn:
@@ -3130,7 +3130,7 @@ footer {
     radial-gradient(ellipse 60% 50% at 80% 85%,
       rgba(184,118,10,0.035) 0%, transparent 55%);
 
-  /* ── Semantic aliases (kept for backward compat) ── *
+  /* ── Semantic aliases (kept for backward compat) ── */
   --header-bg:        var(--gradient-header);
   --header-text:      #C8DDD8;
   --sandalwood:       #C8DDD8;
@@ -3141,7 +3141,7 @@ footer {
 
 /* ----------------------------------------------------------------
    DARK MODE (body.dark) — Deep Space Glassmorphism
-   ---------------------------------------------------------------- *
+   ---------------------------------------------------------------- */
 body.dark {
   --primary:        #FF6B35;
   --primary-deep:   #E55520;
@@ -3154,7 +3154,7 @@ body.dark {
   --rose:           #FF4D6D;
 
      --bg: #020203;
-  /* --bg-2: #0D1526; *
+  /* --bg-2: #0D1526; */
    --bg-2: #050608;
   --bg-card:        #111827;
   --bg-panel:       rgba(8, 13, 26, 0.96);
@@ -3198,199 +3198,7 @@ body.dark {
   --primary-light: rgba(255,107,53,0.12);
   --accent-color:  var(--rose);
 }
-*/
 
-
-
-:root {
- 
-  --primary:        #0F766E;   /* teal */
-  --primary-deep:   #115E59;
-  --primary-mid:    #12908A;
-
-  --secondary:      #475569;   /* slate */
-  --secondary-lt:   #64748B;
-
-  --accent:         #2563EB;   /* restrained blue */
-  --gold:           #64748B;
-  --gold-light:     #94A3B8;
-  --rose:           #334155;
-
-  /* Backgrounds */
-  --bg:             #F8FAFC;
-  --bg-2:           #F1F5F9;
-  --bg-card:        #FFFFFF;
-  --bg-panel:       rgba(255, 255, 255, 0.94);
-  --bg-panel-solid: #FFFFFF;
-
-  /* Glass */
-  --glass:          rgba(255, 255, 255, 0.72);
-  --glass-2:        rgba(255, 255, 255, 0.86);
-  --glass-strong:   rgba(255, 255, 255, 0.94);
-
-   /* NAVBAR GLASS VARIANTS */
-  --glass-accent:   rgba(15, 118, 110, 0.15);      /* Primary teal tint */
-  --glass-accent-hover: rgba(15, 118, 110, 0.25); /* Hover state */
-  --glass-menu:     rgba(255, 255, 255, 0.96);     /* Dropdown */
-  --glass-hover:    rgba(15, 118, 110, 0.12);      /* Item hover */
-
-  /* Borders */
-  --border:         rgba(15, 23, 42, 0.08);
-  --border-2:       rgba(15, 23, 42, 0.12);
-  --border-3:       rgba(15, 23, 42, 0.18);
-  --border-card:    rgba(15, 23, 42, 0.06);
-  --border-warm:    rgba(15, 118, 110, 0.16);
-
-  /* Text */
-  --text:           #0F172A;
-  --text-dark:      #0F172A;
-  --text-muted:     #475569;
-  --text-dim:       #64748B;
-
-
-   /* NAVBAR ERROR COLORS */
-  --error:          #ef4444;
-  --error-surface:  rgba(239, 68, 68, 0.12);
-  --error-light:    #fecaca;
-   
-
-  /* Shadows */
-  --shadow:         0 1px 3px rgba(15, 23, 42, 0.06),
-                    0 8px 24px rgba(15, 23, 42, 0.04);
-  --shadow-lg:      0 8px 30px rgba(15, 23, 42, 0.10),
-                    0 20px 50px rgba(15, 23, 42, 0.06);
-  --shadow-card:    0 1px 2px rgba(15, 23, 42, 0.04),
-                    0 6px 18px rgba(15, 23, 42, 0.05);
-  --shadow-lifted:  0 10px 30px rgba(15, 118, 110, 0.10),
-                    0 2px 8px rgba(15, 23, 42, 0.06);
-/* NAVBAR SHADOW */
-  --shadow-xl:      0 18px 40px rgba(15, 23, 42, 0.32);
-
-  /* Glows */
-  --glow-or:        none;
-  --glow-teal:      none;
-  --glow-gold:      none;
-
-  /* Radii */
-  --radius:         14px;
-  --radius-sm:      9px;
-  --radius-lg:      22px;
-  --radius-xs:      5px;
-  --radius-pill:    50px;
-
-  /* Layout */
-  --header-h:       60px;
-  --panel-w:        282px;
-  --transition:     all 0.24s cubic-bezier(0.4, 0, 0.2, 1);
-
-  /* Typography */
-  --font-serif:     'Merriweather', Georgia, serif;
-  --font-sans:      'Poppins', system-ui, sans-serif;
-
-  /* Gradients */
-  --gradient-header:
-    linear-gradient(135deg, #F8FAFC 0%, #EEF2F7 50%, #E2E8F0 100%);
-  --gradient-btn:
-    linear-gradient(135deg, #0F766E, #115E59);
-  --gradient-btn-sec:
-    linear-gradient(135deg, #475569, #334155);
-  --gradient-warm:
-    linear-gradient(135deg,
-      rgba(15,118,110,0.04) 0%,
-      rgba(37,99,235,0.03) 100%);
-  --gradient-text:
-    linear-gradient(135deg, #0F766E 0%, #2563EB 100%);
-  --gradient-page-texture:
-    radial-gradient(ellipse 80% 60% at 20% 10%,
-      rgba(15,118,110,0.03) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 80% 85%,
-      rgba(37,99,235,0.025) 0%, transparent 55%);
-
-  /* Semantic aliases */
-  --header-bg:      var(--gradient-header);
-  --header-text:    #0F172A;
-  --sandalwood:     #475569;
-  --ochre:          var(--primary);
-  --primary-light:  rgba(15, 118, 110, 0.08);
-  --accent-color:   var(--accent);
-}
-
-body.dark {
-  --primary:        #2DD4BF;
-  --primary-deep:   #14B8A6;
-  --primary-mid:    #5EEAD4;
-
-  --secondary:      #94A3B8;
-  --secondary-lt:   #CBD5E1;
-
-  --accent:         #60A5FA;
-  --gold:           #CBD5E1;
-  --gold-light:     #E2E8F0;
-  --rose:           #94A3B8;
-
-  --bg:             #0B1220;
-  --bg-2:           #111827;
-  --bg-card:        #161F2F;
-  --bg-panel:       rgba(11, 18, 32, 0.92);
-  --bg-panel-solid: #111827;
-
-  --glass:          rgba(255,255,255,0.05);
-  --glass-2:        rgba(255,255,255,0.08);
-  --glass-strong:   rgba(255,255,255,0.12);
-
-   /* NAVBAR DARK GLASS VARIANTS */
-  --glass-accent:   rgba(45, 212, 191, 0.20);     /* Teal tint */
-  --glass-accent-hover: rgba(45, 212, 191, 0.30); /* Hover */
-  --glass-menu:     rgba(11, 18, 32, 0.96);       /* Dropdown */
-  --glass-hover:    rgba(45, 212, 191, 0.15);     /* Item hover */
-
-  --border:         rgba(255,255,255,0.08);
-  --border-2:       rgba(255,255,255,0.12);
-  --border-3:       rgba(255,255,255,0.18);
-  --border-card:    rgba(255,255,255,0.06);
-  --border-warm:    rgba(45,212,191,0.16);
-
-  --text:           #E5E7EB;
-  --text-dark:      #E5E7EB;
-  --text-muted:     #94A3B8;
-  --text-dim:       #64748B;
-
-     /* NAVBAR DARK ERROR */
-  --error:          #f87171;
-  --error-surface:  rgba(248, 113, 113, 0.15);
-  --error-light:    #fed7d7;
-
-  --shadow:         0 4px 24px rgba(0,0,0,0.35);
-  --shadow-lg:      0 12px 48px rgba(0,0,0,0.50);
-  --shadow-card:    0 2px 12px rgba(0,0,0,0.28);
-  --shadow-lifted:  0 8px 32px rgba(45,212,191,0.12);
-
-     /* NAVBAR DARK SHADOW */
-  --shadow-xl:      0 18px 40px rgba(0, 0, 0, 0.45);
-
-  --glow-or:        none;
-  --glow-teal:      0 0 18px rgba(45,212,191,0.12);
-  --glow-gold:      none;
-
-  --gradient-header:
-    linear-gradient(135deg, #0B1220 0%, #111827 45%, #172033 100%);
-  --gradient-btn:
-    linear-gradient(135deg, #14B8A6, #0F766E);
-  --gradient-btn-sec:
-    linear-gradient(135deg, #334155, #1F2937);
-  --gradient-warm:
-    linear-gradient(135deg, rgba(45,212,191,0.06) 0%, rgba(96,165,250,0.04) 100%);
-  --gradient-text:
-    linear-gradient(135deg, #5EEAD4 0%, #60A5FA 100%);
-  --gradient-page-texture: none;
-
-  --header-bg:      var(--gradient-header);
-  --header-text:    #E5E7EB;
-  --sandalwood:     #E5E7EB;
-  --ochre:          var(--primary);
-  --primary-light:  rgba(45,212,191,0.10);
-  --accent-color:   var(--accent);
-}
 
 /* ================================================================
    RESET
