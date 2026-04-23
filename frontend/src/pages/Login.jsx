@@ -156,18 +156,18 @@ const Login = () => {
                 .card-front, .card-back {
                     width: 100%;
                     height: 100%;
-                    background: rgba(255, 255, 255, 0.02); /* Almost zero background */
-                    backdrop-filter: blur(15px) saturate(140%);
-                    -webkit-backdrop-filter: blur(15px) saturate(140%);
+                    background: rgba(255, 255, 255, 0.01); /* Almost zero background */
+                    backdrop-filter: blur(5px) saturate(120%);
+                    -webkit-backdrop-filter: blur(15px) saturate(120%);
                     position: absolute;
                     border-radius: 40px;
                     /* Sharp specular border makes it look like glass */
-                    border: 1.5px solid rgba(255, 255, 255, 0.25);
+                    border: 1.5px solid rgba(255, 255, 255, 0.3);
                     backface-visibility: hidden;
                     display: flex;
                     flex-direction: column;
                     padding: 40px;
-                    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
+                    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.2);
                 }
 
                 .card-back {
