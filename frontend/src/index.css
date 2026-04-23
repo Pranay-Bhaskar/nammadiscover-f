@@ -572,15 +572,11 @@ body.light .profile-dropdown .logout-btn:hover {
   left: 0;
   right: 0;
   z-index: 900;
-  background: rgba(8, 13, 26, 0.82);
+  background: var(--glass);                    /* ✅ Uses variable */
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
   padding: 0.75rem 0;
   transition: var(--transition);
-}
-
-body.light #main-nav {
-  background: rgba(244, 246, 251, 0.9);
 }
 
 #main-nav .nav-inner {
@@ -612,7 +608,7 @@ body.light #main-nav {
   border-radius: 20px;
   font-size: 0.83rem;
   font-weight: 500;
-  color: var(--text-muted);
+  color: var(--text-muted);                    /* ✅ Uses variable */
   transition: var(--transition);
   background: none;
   border: none;
@@ -624,8 +620,8 @@ body.light #main-nav {
 
 .nav-link:hover,
 .nav-link.active {
-  background: rgba(255, 107, 53, 0.15);
-  color: var(--primary);
+  background: var(--glass-2);                  /* ✅ Uses variable */
+  color: var(--primary);                       /* ✅ Uses variable */
 }
 
 .nav-actions {
@@ -662,16 +658,12 @@ body.light #main-nav {
   backdrop-filter: blur(8px);
 }
 
-.city-select option {
-  background: var(--card-solid);
-}
-
 .lang-toggle {
   font-size: 0.78rem;
   font-weight: 700;
   padding: 0.35rem 0.8rem;
   border-radius: 20px;
-  background: linear-gradient(135deg, rgba(255, 107, 53, 0.2), rgba(124, 58, 237, 0.2));
+  background: var(--glass-accent);             /* ✅ Uses variable */
   border: 1px solid var(--border-2);
   color: var(--text);
   cursor: pointer;
@@ -679,16 +671,9 @@ body.light #main-nav {
 }
 
 .lang-toggle:hover {
-  background: linear-gradient(135deg, rgba(255, 107, 53, 0.35), rgba(124, 58, 237, 0.35));
+  background: var(--glass-accent-hover);       /* ✅ Uses variable */
 }
 
-#hamburger {
-  display: none;
-}
-
-/* ============================================================
-   PROFILE DROPDOWN
-   ============================================================ */
 .profile-menu-wrapper {
   position: relative;
 }
@@ -700,11 +685,7 @@ body.light #main-nav {
   padding: 0.45rem 0.9rem;
   border-radius: 999px;
   border: 1px solid var(--border);
-  background: linear-gradient(
-    135deg,
-    rgba(255, 107, 53, 0.18),
-    rgba(124, 58, 237, 0.16)
-  );
+  background: var(--glass-accent);             /* ✅ Uses variable */
   color: var(--text);
   cursor: pointer;
   transition: var(--transition);
@@ -715,41 +696,8 @@ body.light #main-nav {
 
 .profile-trigger:hover {
   border-color: var(--primary);
-  background: linear-gradient(
-    135deg,
-    rgba(255, 107, 53, 0.28),
-    rgba(124, 58, 237, 0.24)
-  );
+  background: var(--glass-accent-hover);       /* ✅ Uses variable */
   transform: translateY(-1px);
-}
-
-body.light .profile-trigger {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 107, 53, 0.14),
-    rgba(124, 58, 237, 0.1)
-  );
-}
-
-.profile-icon {
-  font-size: 0.95rem;
-  line-height: 1;
-}
-
-.profile-label {
-  max-width: 110px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.profile-caret {
-  font-size: 0.75rem;
-  transition: transform 0.2s ease;
-}
-
-.profile-caret.open {
-  transform: rotate(180deg);
 }
 
 .profile-dropdown {
@@ -760,21 +708,14 @@ body.light .profile-trigger {
   padding: 0.6rem;
   border-radius: 18px;
   border: 1px solid var(--border);
-  background: rgba(10, 16, 30, 0.96);
+  background: var(--glass-menu);               /* ✅ Uses variable */
   backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.32);
+  box-shadow: var(--shadow-xl);                /* ✅ Uses variable */
   z-index: 1000;
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
   animation: dropdownFade 0.18s ease;
-}
-
-body.light .profile-dropdown {
-  background: rgba(255, 255, 255, 0.96);
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.12);
 }
 
 .profile-dropdown-header {
@@ -815,39 +756,17 @@ body.light .profile-dropdown {
 }
 
 .profile-dropdown-item:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 107, 53, 0.16),
-    rgba(124, 58, 237, 0.14)
-  );
-  color: #fff;
-}
-
-body.light .profile-dropdown-item:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 107, 53, 0.12),
-    rgba(124, 58, 237, 0.08)
-  );
-  color: var(--text);
+  background: var(--glass-hover);              /* ✅ Uses variable */
+  color: var(--text-inverse);
 }
 
 .logout-btn {
-  color: #ff9b8f;
+  color: var(--error);                         /* ✅ Uses variable */
 }
 
 .logout-btn:hover {
-  background: rgba(255, 82, 82, 0.14);
-  color: #ffd0ca;
-}
-
-body.light .logout-btn {
-  color: #d14343;
-}
-
-body.light .logout-btn:hover {
-  background: rgba(209, 67, 67, 0.1);
-  color: #b42323;
+  background: var(--error-surface);            /* ✅ Uses variable */
+  color: var(--error-light);
 }
 
 @keyframes dropdownFade {
@@ -860,7 +779,6 @@ body.light .logout-btn:hover {
     transform: translateY(0) scale(1);
   }
 }
-
 
 /* ============================================================
    HERO — Video Background
@@ -3310,6 +3228,12 @@ body.dark {
   --glass-2:        rgba(255, 255, 255, 0.86);
   --glass-strong:   rgba(255, 255, 255, 0.94);
 
+   /* NAVBAR GLASS VARIANTS */
+  --glass-accent:   rgba(15, 118, 110, 0.15);      /* Primary teal tint */
+  --glass-accent-hover: rgba(15, 118, 110, 0.25); /* Hover state */
+  --glass-menu:     rgba(255, 255, 255, 0.96);     /* Dropdown */
+  --glass-hover:    rgba(15, 118, 110, 0.12);      /* Item hover */
+
   /* Borders */
   --border:         rgba(15, 23, 42, 0.08);
   --border-2:       rgba(15, 23, 42, 0.12);
@@ -3323,6 +3247,13 @@ body.dark {
   --text-muted:     #475569;
   --text-dim:       #64748B;
 
+
+   /* NAVBAR ERROR COLORS */
+  --error:          #ef4444;
+  --error-surface:  rgba(239, 68, 68, 0.12);
+  --error-light:    #fecaca;
+   
+
   /* Shadows */
   --shadow:         0 1px 3px rgba(15, 23, 42, 0.06),
                     0 8px 24px rgba(15, 23, 42, 0.04);
@@ -3332,6 +3263,8 @@ body.dark {
                     0 6px 18px rgba(15, 23, 42, 0.05);
   --shadow-lifted:  0 10px 30px rgba(15, 118, 110, 0.10),
                     0 2px 8px rgba(15, 23, 42, 0.06);
+/* NAVBAR SHADOW */
+  --shadow-xl:      0 18px 40px rgba(15, 23, 42, 0.32);
 
   /* Glows */
   --glow-or:        none;
@@ -3405,6 +3338,12 @@ body.dark {
   --glass-2:        rgba(255,255,255,0.08);
   --glass-strong:   rgba(255,255,255,0.12);
 
+   /* NAVBAR DARK GLASS VARIANTS */
+  --glass-accent:   rgba(45, 212, 191, 0.20);     /* Teal tint */
+  --glass-accent-hover: rgba(45, 212, 191, 0.30); /* Hover */
+  --glass-menu:     rgba(11, 18, 32, 0.96);       /* Dropdown */
+  --glass-hover:    rgba(45, 212, 191, 0.15);     /* Item hover */
+
   --border:         rgba(255,255,255,0.08);
   --border-2:       rgba(255,255,255,0.12);
   --border-3:       rgba(255,255,255,0.18);
@@ -3416,10 +3355,18 @@ body.dark {
   --text-muted:     #94A3B8;
   --text-dim:       #64748B;
 
+     /* NAVBAR DARK ERROR */
+  --error:          #f87171;
+  --error-surface:  rgba(248, 113, 113, 0.15);
+  --error-light:    #fed7d7;
+
   --shadow:         0 4px 24px rgba(0,0,0,0.35);
   --shadow-lg:      0 12px 48px rgba(0,0,0,0.50);
   --shadow-card:    0 2px 12px rgba(0,0,0,0.28);
   --shadow-lifted:  0 8px 32px rgba(45,212,191,0.12);
+
+     /* NAVBAR DARK SHADOW */
+  --shadow-xl:      0 18px 40px rgba(0, 0, 0, 0.45);
 
   --glow-or:        none;
   --glow-teal:      0 0 18px rgba(45,212,191,0.12);
