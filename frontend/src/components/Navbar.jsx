@@ -451,7 +451,7 @@ const Navbar = () => {
                                         className="profile-dropdown-item"
                                         onClick={() => setProfileOpen(false)}
                                     >
-                                        <span>🎬</span>
+                                        <span></span>
                                         <span>{t('Upload Videos', 'ವೀಡಿಯೊ ಅಪ್‌ಲೋಡ್')}</span>
                                     </Link>
 
@@ -460,7 +460,7 @@ const Navbar = () => {
                                         className="profile-dropdown-item"
                                         onClick={toggleTheme}
                                     >
-                                        <span>{state.theme === 'dark' ? '☀️' : '🌙'}</span>
+                                        {/* <span>{state.theme === 'dark' ? '☀️' : '🌙'}</span> */}
                                         <span>
                                             {state.theme === 'dark'
                                                 ? t('Light Mode', 'ಲೈಟ್ ಮೋಡ್')
@@ -474,7 +474,7 @@ const Navbar = () => {
                                             className="profile-dropdown-item"
                                             onClick={() => setProfileOpen(false)}
                                         >
-                                            <span>🛡</span>
+                                            <span></span>
                                             <span>{t('Admin Dashboard', 'ಆಡ್ಮಿನ್ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್')}</span>
                                         </Link>
                                     )}
@@ -484,7 +484,7 @@ const Navbar = () => {
                                         className="profile-dropdown-item logout-btn"
                                         onClick={handleLogout}
                                     >
-                                        <span>🚪</span>
+                                        <span></span>
                                         <span>{t('Logout', 'ನಿರ್ಗಮನ')}</span>
                                     </button>
                                 </div>
