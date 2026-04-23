@@ -40,159 +40,110 @@ const Login = () => {
     return (
         <div className="page-wrap">
             <style>{`
-                @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
+                @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
                 .page-wrap {
                     min-height: 100vh;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    padding: 20px;
+                    padding: 24px;
                     font-family: 'Plus Jakarta Sans', sans-serif;
                     background: url("${bgImage}") center/cover no-repeat fixed;
                     position: relative;
-                    overflow: hidden;
                 }
 
-                /* Animated background blobs */
-                .page-wrap::before, .page-wrap::after {
-                    content: "";
+                /* Dark overlay to make the glass pop */
+                .page-wrap::before {
+                    content: '';
                     position: absolute;
-                    width: 400px;
-                    height: 400px;
-                    border-radius: 50%;
-                    background: linear-gradient(135deg, rgba(255, 107, 53, 0.3), rgba(255, 62, 108, 0.3));
-                    filter: blur(80px);
+                    inset: 0;
+                    background: rgba(0, 0, 0, 0.4);
                     z-index: 0;
-                    animation: float 20s infinite alternate;
-                }
-                .page-wrap::before { top: -100px; left: -100px; }
-                .page-wrap::after { bottom: -100px; right: -100px; animation-delay: -10s; }
-
-                @keyframes float {
-                    0% { transform: translate(0, 0); }
-                    100% { transform: translate(50px, 100px); }
                 }
 
                 .glass-shell {
                     width: 100%;
-                    max-width: 450px;
-                    background: rgba(15, 15, 15, 0.7);
-                    backdrop-filter: blur(20px) saturate(180%);
-                    -webkit-backdrop-filter: blur(20px) saturate(180%);
-                    border-radius: 32px;
-                    border: 1px solid rgba(255, 255, 255, 0.12);
-                    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+                    max-width: 440px;
                     position: relative;
                     z-index: 1;
-                    transition: transform 0.3s ease;
+                    background: rgba(255, 255, 255, 0.03); /* Extremely low opacity for true glass feel */
+                    backdrop-filter: blur(40px) saturate(150%) brightness(100%);
+                    -webkit-backdrop-filter: blur(40px) saturate(150%) brightness(100%);
+                    border-radius: 40px;
+                    /* Specular highlight border */
+                    border: 1px solid rgba(255, 255, 255, 0.15);
+                    box-shadow: 
+                        0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                        inset 0 0 80px rgba(255, 255, 255, 0.02);
+                    overflow: hidden;
                 }
 
                 .card-body {
-                    padding: 3rem 2.5rem;
-                }
-
-                .heading-wrap {
-                    text-align: center;
-                    margin-bottom: 2.5rem;
+                    padding: 3.5rem 3rem;
                 }
 
                 .brand-title {
-                    font-size: 2.5rem;
+                    font-size: 2.8rem;
                     font-weight: 800;
+                    text-align: center;
                     margin: 0;
-                    background: linear-gradient(135deg, #ff8c5f, #ff3e6c);
+                    background: linear-gradient(to right, #ffffff, #ff6b35);
                     -webkit-background-clip: text;
                     -webkit-text-fill-color: transparent;
-                    letter-spacing: -1.5px;
+                    letter-spacing: -2px;
                 }
 
                 .heading-wrap p {
-                    color: rgba(255, 255, 255, 0.6);
-                    margin-top: 8px;
-                    font-size: 0.95rem;
+                    color: rgba(255, 255, 255, 0.5);
+                    text-align: center;
+                    margin: 10px 0 35px 0;
+                    font-size: 0.9rem;
+                    font-weight: 500;
                 }
-
-                .form-stack {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 1.2rem;
-                }
-
-                .input {
-                    background: rgba(255, 255, 255, 0.05);
-                    border: 1px solid rgba(255, 255, 255, 0.1);
-                    border-radius: 16px;
-                    padding: 1.1rem;
-                    color: #fff;
-                    font-size: 1rem;
-                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                }
-
-                .input:focus {
-                    background: rgba(255, 255, 255, 0.08);
-                    border-color: #ff6b35;
-                    outline: none;
-                    box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.15);
-                    transform: translateY(-1px);
-                }
-
-                .btn {
-                    background: linear-gradient(135deg, #ff6b35, #ff3e6c);
-                    color: white;
-                    border: none;
-                    border-radius: 16px;
-                    padding: 1.1rem;
-                    font-weight: 700;
-                    font-size: 1rem;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    margin-top: 0.5rem;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    box-shadow: 0 10px 20px rgba(255, 62, 108, 0.2);
-                }
-
-                .btn:hover {
-                    transform: translateY(-2px);
-                    box-shadow: 0 15px 30px rgba(255, 62, 108, 0.4);
-                    filter: brightness(1.1);
-                }
-
-                .btn:active { transform: translateY(0); }
 
                 .social-grid {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 12px;
-                    margin-bottom: 24px;
+                    margin-bottom: 25px;
                 }
 
                 .social-btn {
+                    width: 100%;
                     background: rgba(255, 255, 255, 0.05);
                     border: 1px solid rgba(255, 255, 255, 0.1);
-                    border-radius: 16px;
-                    padding: 0.8rem;
-                    color: #fff;
+                    border-radius: 20px;
+                    padding: 14px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     gap: 12px;
+                    color: rgba(255, 255, 255, 0.4);
+                    font-size: 0.95rem;
                     font-weight: 600;
+                    position: relative;
                     cursor: not-allowed;
-                    transition: 0.3s;
+                }
+
+                .coming-soon-tag {
+                    position: absolute;
+                    right: 12px;
+                    background: rgba(255, 107, 53, 0.15);
+                    color: #ff6b35;
+                    font-size: 0.65rem;
+                    padding: 4px 10px;
+                    border-radius: 30px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    border: 1px solid rgba(255, 107, 53, 0.2);
                 }
 
                 .divider {
                     display: flex;
                     align-items: center;
-                    text-align: center;
-                    margin: 20px 0;
-                    color: rgba(255, 255, 255, 0.3);
-                    font-size: 0.75rem;
+                    margin: 25px 0;
+                    color: rgba(255, 255, 255, 0.2);
+                    font-size: 0.7rem;
                     font-weight: 700;
-                    letter-spacing: 2px;
+                    letter-spacing: 1.5px;
                 }
 
                 .divider::before, .divider::after {
@@ -204,19 +155,66 @@ const Login = () => {
                 .divider:not(:empty)::before { margin-right: 15px; }
                 .divider:not(:empty)::after { margin-left: 15px; }
 
+                .form-stack {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 16px;
+                }
+
+                .input {
+                    background: rgba(0, 0, 0, 0.2);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    border-radius: 18px;
+                    padding: 16px 20px;
+                    color: #fff;
+                    font-size: 0.95rem;
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                }
+
+                .input::placeholder { color: rgba(255, 255, 255, 0.3); }
+
+                .input:focus {
+                    background: rgba(0, 0, 0, 0.3);
+                    border-color: #ff6b35;
+                    outline: none;
+                    box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1);
+                }
+
+                .btn {
+                    background: #fff;
+                    color: #000;
+                    border: none;
+                    border-radius: 18px;
+                    padding: 16px;
+                    font-weight: 700;
+                    font-size: 1rem;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    margin-top: 10px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .btn:hover {
+                    background: #ff6b35;
+                    color: #fff;
+                    transform: translateY(-2px);
+                }
+
                 .info {
-                    font-size: 0.85rem;
-                    color: #ff8c5f;
-                    background: rgba(255, 107, 53, 0.1);
-                    padding: 10px 15px;
-                    border-radius: 12px;
-                    border-left: 3px solid #ff6b35;
+                    font-size: 0.8rem;
+                    color: #ff6b35;
+                    text-align: center;
+                    font-weight: 600;
+                    opacity: 0.8;
                 }
 
                 .switch {
                     text-align: center;
-                    margin-top: 2rem;
-                    color: rgba(255, 255, 255, 0.5);
+                    margin-top: 30px;
+                    color: rgba(255, 255, 255, 0.4);
+                    font-size: 0.9rem;
                 }
 
                 .switch button {
@@ -225,10 +223,8 @@ const Login = () => {
                     color: #fff;
                     font-weight: 700;
                     cursor: pointer;
-                    padding-left: 5px;
-                    text-decoration: underline;
-                    text-underline-offset: 4px;
-                    transition: 0.3s;
+                    margin-left: 6px;
+                    transition: 0.2s;
                 }
 
                 .switch button:hover {
@@ -236,24 +232,24 @@ const Login = () => {
                 }
 
                 .spinner {
-                    width: 20px;
-                    height: 20px;
-                    border: 3px solid rgba(255,255,255,0.3);
+                    width: 22px;
+                    height: 22px;
+                    border: 3px solid rgba(0,0,0,0.1);
+                    border-top-color: currentColor;
                     border-radius: 50%;
-                    border-top-color: #fff;
-                    animation: spin 0.8s ease-in-out infinite;
+                    animation: spin 0.8s linear infinite;
                 }
 
                 @keyframes spin { to { transform: rotate(360deg); } }
 
                 .role-select {
-                    cursor: pointer;
-                    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-                    background-repeat: no-repeat;
-                    background-position: right 1rem center;
-                    background-size: 1.2em;
-                    padding-right: 2.5rem;
                     appearance: none;
+                    cursor: pointer;
+                }
+
+                @media (max-width: 480px) {
+                    .card-body { padding: 2.5rem 1.8rem; }
+                    .brand-title { font-size: 2.2rem; }
                 }
             `}</style>
 
@@ -261,19 +257,20 @@ const Login = () => {
                 <div className="card-body">
                     <div className="heading-wrap">
                         <h1 className="brand-title">NammaDiscover</h1>
-                        <p>{isLogin ? 'Welcome back! Please enter your details.' : 'Join us to start your journey.'}</p>
+                        <p>{isLogin ? 'Sign in to your private portal' : 'Start your journey with us'}</p>
                     </div>
 
                     <div className="social-grid">
                         <button type="button" className="social-btn" disabled>
-                            <svg width="20" height="20" viewBox="0 0 24 24">
-                                <path fill="#fff" d="M12.48 10.92v3.28h7.84c-.24 1.84-2.21 5.39-7.84 5.39-4.84 0-8.79-4.01-8.79-8.94s3.95-8.94 8.79-8.94c2.75 0 4.59 1.17 5.64 2.18l2.59-2.5c-1.66-1.55-3.82-2.5-8.23-2.5C5.38 1.18 0 6.56 0 13.18s5.38 12 12 12c6.91 0 11.51-4.86 11.51-11.71 0-.79-.08-1.39-.19-1.99l-10.84.44z"/>
+                            <svg width="18" height="18" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
                             </svg>
                             {isLogin ? 'Sign in with Google' : 'Sign up with Google'}
+                            <span className="coming-soon-tag">Soon</span>
                         </button>
                     </div>
 
-                    <div className="divider">OR</div>
+                    <div className="divider">OR USE EMAIL</div>
 
                     <form onSubmit={handleSubmit} className="form-stack">
                         {!isLogin && (
@@ -315,16 +312,12 @@ const Login = () => {
                                 value={formData.role}
                                 onChange={handleChange}
                             >
-                                <option value="user">Explorer (User)</option>
-                                <option value="admin">Guide (Admin)</option>
+                                <option value="user" style={{background: '#1a1a1a'}}>Explorer Access</option>
+                                <option value="admin" style={{background: '#1a1a1a'}}>Admin Access</option>
                             </select>
                         )}
 
-                        {isLogin && (
-                            <div className="info">
-                                <span>✨ Smart detection enabled</span>
-                            </div>
-                        )}
+                        {isLogin && <div className="info">Protected by NammaDiscover Guard</div>}
 
                         <button type="submit" className="btn" disabled={loading}>
                             {loading ? <div className="spinner"></div> : (isLogin ? 'Sign In' : 'Create Account')}
@@ -332,9 +325,9 @@ const Login = () => {
                     </form>
 
                     <div className="switch">
-                        {isLogin ? "New here?" : "Joined us before?"}
+                        {isLogin ? "Need an account?" : "Have an account already?"}
                         <button type="button" onClick={() => setIsLogin(v => !v)}>
-                            {isLogin ? 'Create an account' : 'Login to account'}
+                            {isLogin ? 'Register' : 'Login'}
                         </button>
                     </div>
                 </div>
