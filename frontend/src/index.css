@@ -304,7 +304,7 @@ h4 {
 
 /* ============================================================
    NAV
-   ============================================================ */
+   ============================================================ 
 #main-nav {
   position: fixed;
   top: 0;
@@ -353,7 +353,9 @@ body.light #main-nav {
   font-weight: 500;
   color: var(--text-muted);
   transition: var(--transition);
-  /* Reset for <button> elements */
+
+/* Reset for <button> elements *
+
   background: none;
   border: none;
   outline: none;
@@ -439,7 +441,7 @@ body.light #main-nav {
   background: rgba(255, 107, 53, 0.14);
   color: var(--primary);
 }
-
+*/
 /* ============================================================
    PROFILE DROPDOWN
    ============================================================ 
@@ -555,6 +557,309 @@ body.light .profile-dropdown .logout-btn:hover {
   color: #b42323;
 }
 */
+
+
+/* new  */
+
+/* ============================================================
+   NAV
+   ============================================================ */
+#main-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 900;
+  background: rgba(8, 13, 26, 0.82);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem 0;
+  transition: var(--transition);
+}
+
+body.light #main-nav {
+  background: rgba(244, 246, 251, 0.9);
+}
+
+#main-nav .nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.nav-logo {
+  font-family: var(--font-head);
+  font-size: 1.35rem;
+  font-weight: 700;
+  white-space: nowrap;
+  background: var(--gradient-sunset);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.nav-link {
+  padding: 0.38rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.83rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: var(--transition);
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  line-height: inherit;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background: rgba(255, 107, 53, 0.15);
+  color: var(--primary);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon-toggle {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  padding: 0.4rem 0.6rem;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: var(--transition);
+  color: var(--text);
+}
+
+.icon-toggle:hover {
+  background: var(--glass-2);
+  border-color: var(--primary);
+}
+
+.city-select {
+  padding: 0.38rem 0.8rem;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--glass);
+  color: var(--text);
+  font-size: 0.82rem;
+  font-family: var(--font-body);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+.city-select option {
+  background: var(--card-solid);
+}
+
+.lang-toggle {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.35rem 0.8rem;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.2), rgba(124, 58, 237, 0.2));
+  border: 1px solid var(--border-2);
+  color: var(--text);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.lang-toggle:hover {
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.35), rgba(124, 58, 237, 0.35));
+}
+
+#hamburger {
+  display: none;
+}
+
+/* ============================================================
+   PROFILE DROPDOWN
+   ============================================================ */
+.profile-menu-wrapper {
+  position: relative;
+}
+
+.profile-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 107, 53, 0.18),
+    rgba(124, 58, 237, 0.16)
+  );
+  color: var(--text);
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 0.83rem;
+  font-weight: 600;
+  font-family: var(--font-body);
+}
+
+.profile-trigger:hover {
+  border-color: var(--primary);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 107, 53, 0.28),
+    rgba(124, 58, 237, 0.24)
+  );
+  transform: translateY(-1px);
+}
+
+body.light .profile-trigger {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 107, 53, 0.14),
+    rgba(124, 58, 237, 0.1)
+  );
+}
+
+.profile-icon {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.profile-label {
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-caret {
+  font-size: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.profile-caret.open {
+  transform: rotate(180deg);
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 240px;
+  padding: 0.6rem;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: rgba(10, 16, 30, 0.96);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.32);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  animation: dropdownFade 0.18s ease;
+}
+
+body.light .profile-dropdown {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.12);
+}
+
+.profile-dropdown-header {
+  padding: 0.65rem 0.8rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0.2rem;
+}
+
+.profile-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.profile-subtext {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  margin-top: 0.15rem;
+}
+
+.profile-dropdown-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.78rem 0.85rem;
+  border-radius: 12px;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  text-decoration: none;
+  text-align: left;
+  font-size: 0.84rem;
+  font-weight: 500;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.profile-dropdown-item:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 107, 53, 0.16),
+    rgba(124, 58, 237, 0.14)
+  );
+  color: #fff;
+}
+
+body.light .profile-dropdown-item:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 107, 53, 0.12),
+    rgba(124, 58, 237, 0.08)
+  );
+  color: var(--text);
+}
+
+.logout-btn {
+  color: #ff9b8f;
+}
+
+.logout-btn:hover {
+  background: rgba(255, 82, 82, 0.14);
+  color: #ffd0ca;
+}
+
+body.light .logout-btn {
+  color: #d14343;
+}
+
+body.light .logout-btn:hover {
+  background: rgba(209, 67, 67, 0.1);
+  color: #b42323;
+}
+
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
 /* ============================================================
    HERO — Video Background
    ============================================================ */
