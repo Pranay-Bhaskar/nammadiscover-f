@@ -1,8 +1,3 @@
-This is a brilliant idea. We are merging the **3D Flip Animation** from that classic design with the **Ultra-Transparent Neo-Glass** aesthetic you want.
-
-To make it truly transparent, I’ve swapped the solid `#2a2b38` background for `backdrop-filter: blur(25px)`. I also integrated your functional logic into the flip-card structure so the "Sign Up" and "Login" states trigger the 3D rotation.
-
-```jsx
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -366,4 +361,3 @@ const Login = () => {
 };
 
 export default Login;
-```
