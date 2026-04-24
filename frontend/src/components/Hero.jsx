@@ -210,6 +210,8 @@ const Hero = () => {
     }
   };
 
+
+{/*
   // Handle regular search
   const handleSearch = async () => {
     if (!searchQuery.trim()) return;
@@ -251,7 +253,61 @@ const Hero = () => {
       setIsSearching(false);
     }
   };
+*/}
 
+    //new
+
+   const handleSearch = async () => {
+    if (!searchQuery.trim()) return;
+
+    setIsSearching(true);
+    setSearchError('');
+    setSearchResults([]);
+
+    try {
+        const params = new URLSearchParams({
+        q: searchQuery.trim(),
+        city: currentCity.name || '',
+        radius: String(radius),
+        latitude: String(userLocation.lat),
+        longitude: String(userLocation.lng),
+        });
+
+        const backendUrl = `http://localhost:5000/api/places/search?${params.toString()}`;
+
+        console.log('Calling backend:', backendUrl);
+
+        const response = await fetch(backendUrl, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        });
+
+        if (!response.ok) {
+        throw new Error(`Search failed with status ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Backend response:', data);
+
+        const places = data.places || [];
+
+        setSearchResults(places);
+
+        if (places.length === 0) {
+        setSearchError('No places found. Try a different search term.');
+        }
+    } catch (error) {
+        console.error('Search error:', error);
+        setSearchError('Failed to search places');
+        setSearchResults([]);
+    } finally {
+        setIsSearching(false);
+    }
+  };
+
+  
   // Open location in Google Maps
   const openLocationInMaps = (place) => {
     const placeName = typeof place.name === 'object' ? place.name?.en || place.name?.kn : place.name;
