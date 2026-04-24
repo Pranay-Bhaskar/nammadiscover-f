@@ -608,7 +608,7 @@ body.light .profile-dropdown .logout-btn:hover {
   border-radius: 20px;
   font-size: 0.83rem;
   font-weight: 500;
-  color: var(--text-muted);                    /* ✅ Uses variable */
+  color: #fff;                    /* ✅ Uses variable */
   transition: var(--transition);
   background: none;
   border: none;
