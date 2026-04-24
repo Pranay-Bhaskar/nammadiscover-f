@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../store/AppContext';
 import heroVideo from '../assets/bg video.mp4';
 
-const particleCount = 18;
+const particleCount = 25; // Increased for richer atmosphere
 
 const Hero = () => {
     const { state, dispatch } = useApp();
@@ -34,14 +34,12 @@ const Hero = () => {
         t('Secret Trails', 'ರಹಸ್ಯ ಮಾರ್ಗಗಳು'),
     ];
 
-    // Parallax on scroll
     useEffect(() => {
         const onScroll = () => setScrollY(window.scrollY);
         window.addEventListener('scroll', onScroll, { passive: true });
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
-    // Mouse parallax
     useEffect(() => {
         const onMove = (e) => {
             if (!heroRef.current) return;
@@ -55,7 +53,6 @@ const Hero = () => {
         return () => window.removeEventListener('mousemove', onMove);
     }, []);
 
-    // Typewriter
     useEffect(() => {
         const phrase = phrases[phaseIdx];
         const speed = isDeleting ? 40 : 90;
@@ -81,384 +78,348 @@ const Hero = () => {
         return () => clearTimeout(timeout);
     }, [typeIdx, isDeleting, phaseIdx]);
 
-    // Rotating stat highlight
     useEffect(() => {
-        const timer = setInterval(() => setActiveStatIdx(i => (i + 1) % 4), 2200);
+        const timer = setInterval(() => setActiveStatIdx(i => (i + 1) % 4), 2800);
         return () => clearInterval(timer);
     }, []);
 
-    // Show/hide floating card based on viewport
-    useEffect(() => {
-        const toggle = () => {
-            if (floatingCardRef.current) {
-                floatingCardRef.current.style.display = window.innerWidth >= 900 ? 'block' : 'none';
-            }
-        };
-        toggle();
-        window.addEventListener('resize', toggle);
-        return () => window.removeEventListener('resize', toggle);
-    }, []);
-
     const stats = [
-        { num: '500+', label: t('Verified Spots', 'ಪರಿಶೀಲಿಸಿದ ಸ್ಥಳಗಳು'), icon: '📍' },
-        { num: '50k+', label: t('Happy Travelers', 'ಸಂತುಷ್ಟ ಪ್ರಯಾಣಿಕರು'), icon: '😊' },
-        { num: '200+', label: t('Local Guides', 'ಸ್ಥಳೀಯ ಮಾರ್ಗದರ್ಶಕರು'), icon: '🧭' },
-        { num: '4.9★', label: t('Avg Rating', 'ಸರಾಸರಿ ರೇಟಿಂಗ್'), icon: '⭐' },
-    ];
-
-    const floatingOrbs = [
-        { top: '15%', left: '8%', size: 320, color: 'rgba(255,107,53,0.12)', delay: 0 },
-        { top: '55%', left: '75%', size: 260, color: 'rgba(124,58,237,0.10)', delay: 2 },
-        { top: '75%', left: '20%', size: 180, color: 'rgba(0,212,170,0.08)', delay: 1 },
-        { top: '10%', left: '60%', size: 200, color: 'rgba(255,77,109,0.07)', delay: 3 },
-    ];
-
-    const travelTags = [
-        { emoji: '🏔️', text: t('Mountains', 'ಪರ್ವತಗಳು') },
-        { emoji: '🏖️', text: t('Beaches', 'ಕಡಲ ತೀರ') },
-        { emoji: '🏰', text: t('Forts', 'ಕೋಟೆಗಳು') },
-        { emoji: '🌿', text: t('Forest', 'ಅರಣ್ಯ') },
-        { emoji: '🍛', text: t('Food', 'ಆಹಾರ') },
-        { emoji: '🎨', text: t('Culture', 'ಸಂಸ್ಕೃತಿ') },
-    ];
-
-    const nearbyPicks = [
-        { emoji: '🏯', name: t('Bengaluru Fort', 'ಬೆಂಗಳೂರು ಕೋಟೆ'), dist: '2.1 km', tag: t('Heritage', 'ಪರಂಪರೆ') },
-        { emoji: '🌿', name: t('Cubbon Park', 'ಕಬ್ಬನ್ ಪಾರ್ಕ್'), dist: '3.4 km', tag: t('Nature', 'ಪ್ರಕೃತಿ') },
-        { emoji: '🍛', name: t('VV Puram Food St.', 'VV ಪುರಂ ಫುಡ್'), dist: '5.0 km', tag: t('Food', 'ಆಹಾರ') },
+        { num: '500+', label: t('Verified Spots', 'ಪರಿಶೀಲಿಸಿದ ಸ್ಥಳಗಳು'), icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> },
+        { num: '50k+', label: t('Happy Travelers', 'ಸಂತುಷ್ಟ ಪ್ರಯಾಣಿಕರು'), icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> },
+        { num: '200+', label: t('Local Guides', 'ಸ್ಥಳೀಯ ಮಾರ್ಗದರ್ಶಕರು'), icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg> },
+        { num: '4.9★', label: t('Avg Rating', 'ಸರಾಸರಿ ರೇಟಿಂಗ್'), icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> },
     ];
 
     return (
-        <section id="hero" ref={heroRef} style={{ position: 'relative', overflow: 'hidden', minHeight: '100vh' }}>
-            {/* ── Video + atmosphere layer ── */}
+        <section id="hero" ref={heroRef} className="premium-hero">
+            <style>{`
+                :root {
+                    --accent-gold: #FFD166;
+                    --accent-orange: #FF6B35;
+                    --glass-bg: rgba(255, 255, 255, 0.03);
+                    --glass-border: rgba(255, 255, 255, 0.1);
+                    --text-main: #FFFFFF;
+                    --text-dim: rgba(255, 255, 255, 0.6);
+                }
+
+                .premium-hero {
+                    position: relative;
+                    min-height: 100vh;
+                    overflow: hidden;
+                    background: #050505;
+                    font-family: 'Inter', -apple-system, sans-serif;
+                    color: var(--text-main);
+                }
+
+                .hero-video-wrap {
+                    position: absolute;
+                    inset: 0;
+                    z-index: 1;
+                }
+
+                .hero-video-overlay {
+                    position: absolute;
+                    inset: 0;
+                    background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%);
+                    z-index: 2;
+                }
+
+                .hero-inner {
+                    position: relative;
+                    z-index: 10;
+                    display: grid;
+                    grid-template-columns: 1.2fr 0.8fr;
+                    gap: 4rem;
+                    padding-top: 12vh;
+                    align-items: center;
+                }
+
+                .hero-tag {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 10px;
+                    background: var(--glass-bg);
+                    backdrop-filter: blur(12px);
+                    border: 1px solid var(--glass-border);
+                    padding: 8px 16px;
+                    border-radius: 100px;
+                    font-size: 0.85rem;
+                    font-weight: 500;
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
+                    margin-bottom: 2rem;
+                    color: var(--accent-gold);
+                }
+
+                .hero-title {
+                    font-size: clamp(3rem, 6vw, 5.5rem);
+                    line-height: 1.05;
+                    font-weight: 800;
+                    margin-bottom: 1.5rem;
+                    letter-spacing: -2px;
+                }
+
+                .hero-title .highlight {
+                    background: linear-gradient(120deg, var(--accent-orange), #FF4D6D);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                }
+
+                .hero-desc {
+                    font-size: 1.2rem;
+                    color: var(--text-dim);
+                    max-width: 550px;
+                    line-height: 1.6;
+                    margin-bottom: 2.5rem;
+                }
+
+                .hero-ctas {
+                    display: flex;
+                    gap: 1.5rem;
+                    margin-bottom: 3rem;
+                }
+
+                .btn-premium {
+                    padding: 16px 32px;
+                    border-radius: 12px;
+                    font-weight: 600;
+                    transition: all 0.3s ease;
+                    text-decoration: none;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+
+                .btn-primary-glow {
+                    background: var(--accent-orange);
+                    color: white;
+                    box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+                }
+
+                .btn-primary-glow:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 15px 40px rgba(255, 107, 53, 0.5);
+                }
+
+                .btn-glass {
+                    background: var(--glass-bg);
+                    backdrop-filter: blur(12px);
+                    border: 1px solid var(--glass-border);
+                    color: white;
+                }
+
+                .btn-glass:hover {
+                    background: rgba(255,255,255,0.1);
+                    border-color: rgba(255,255,255,0.3);
+                }
+
+                .hero-search-bar {
+                    background: rgba(255, 255, 255, 0.05);
+                    backdrop-filter: blur(25px);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    padding: 8px;
+                    border-radius: 20px;
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                    max-width: 800px;
+                    margin-top: 2rem;
+                }
+
+                .search-input-group {
+                    flex: 1;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    padding-left: 15px;
+                }
+
+                .search-input-group input {
+                    background: transparent;
+                    border: none;
+                    color: white;
+                    width: 100%;
+                    outline: none;
+                    font-size: 1rem;
+                }
+
+                .search-select {
+                    background: rgba(255,255,255,0.05);
+                    border: 1px solid var(--glass-border);
+                    color: white;
+                    padding: 8px 15px;
+                    border-radius: 12px;
+                    outline: none;
+                }
+
+                .hero-stats {
+                    display: flex;
+                    gap: 2rem;
+                    margin-top: 4rem;
+                }
+
+                .stat-card {
+                    padding: 20px;
+                    border-radius: 16px;
+                    background: var(--glass-bg);
+                    border: 1px solid var(--glass-border);
+                    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                    flex: 1;
+                }
+
+                .stat-card.active {
+                    background: rgba(255, 107, 53, 0.05);
+                    border-color: rgba(255, 107, 53, 0.4);
+                    transform: translateY(-5px);
+                }
+
+                .stat-card svg {
+                    color: var(--accent-orange);
+                    margin-bottom: 12px;
+                }
+
+                .stat-num {
+                    font-size: 1.5rem;
+                    font-weight: 700;
+                    display: block;
+                }
+
+                .stat-label {
+                    font-size: 0.75rem;
+                    color: var(--text-dim);
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+
+                @keyframes floatOrb {
+                    0%,100% { transform: translate(0, 0) scale(1); }
+                    50% { transform: translate(-20px, 20px) scale(1.1); }
+                }
+
+                @media (max-width: 1024px) {
+                    .hero-inner { grid-template-columns: 1fr; padding-top: 15vh; }
+                    .floating-visuals { display: none; }
+                }
+            `}</style>
+
             <div className="hero-video-wrap">
                 <video
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        transform: `translate(-50%, -50%) translateY(${scrollY * 0.18}px)`,
-                        zIndex: 1,
-                        filter: 'contrast(1.1) brightness(1.05)', // makes it pop
-                      }}
-                    >
-                      <source src={heroVideo} type="video/mp4" />
-                    </video>
-                <div  style={{
-                            position: 'absolute',
-                            inset: 0,
-                            background: 'rgba(0,0,0,0.18)',
-                            zIndex: 2,
-                          }} className="hero-video-overlay" />
-
-                {/* Radial colour bleeds */}
-                <div style={{ position:'absolute',inset:0,zIndex:2,background:'radial-gradient(ellipse 70% 60% at 30% 50%, rgba(255,107,53,0.18) 0%, transparent 70%)',pointerEvents:'none' }} />
-                <div style={{ position:'absolute',inset:0,zIndex:2,background:'radial-gradient(ellipse 50% 50% at 80% 30%, rgba(124,58,237,0.14) 0%, transparent 65%)',pointerEvents:'none' }} />
-
-                {/* Ambient orbs */}
-                {floatingOrbs.map((orb, i) => (
-                    <div key={i} style={{
-                        position:'absolute', top:orb.top, left:orb.left,
-                        width:orb.size, height:orb.size, borderRadius:'50%',
-                        background:`radial-gradient(circle, ${orb.color}, transparent 70%)`,
-                        filter:'blur(20px)',
-                        transform:`translate(${mousePos.x*(8+i*3)}px, ${mousePos.y*(6+i*2)}px)`,
-                        transition:'transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94)',
-                        zIndex:3, pointerEvents:'none',
-                        animation:`floatOrb ${6+i*1.5}s ease-in-out infinite`,
-                        animationDelay:`${orb.delay}s`,
-                    }} />
-                ))}
-
-                {/* Star particles */}
-                {Array.from({ length: particleCount }).map((_, i) => (
-                    <div key={i} style={{
-                        position:'absolute',
-                        top:`${10+Math.sin(i*137.5*Math.PI/180)*40+40}%`,
-                        left:`${(i/particleCount)*100}%`,
-                        width: i%3===0 ? 3 : 2, height: i%3===0 ? 3 : 2,
-                        borderRadius:'50%',
-                        background: i%3===0 ? 'rgba(255,209,102,0.6)' : 'rgba(255,255,255,0.25)',
-                        zIndex:3, pointerEvents:'none',
-                        animation:`twinkle ${2+(i%4)*0.7}s ease-in-out infinite`,
-                        animationDelay:`${(i*0.3)%3}s`,
-                    }} />
-                ))}
-
-                {/* Subtle grid */}
-                <svg style={{ position:'absolute',inset:0,width:'100%',height:'100%',zIndex:3,pointerEvents:'none',opacity:0.035 }}>
-                    <defs>
-                        <pattern id="heroGrid" width="80" height="80" patternUnits="userSpaceOnUse">
-                            <path d="M 80 0 L 0 0 0 80" fill="none" stroke="white" strokeWidth="0.5" />
-                        </pattern>
-                    </defs>
-                    <rect width="100%" height="100%" fill="url(#heroGrid)" />
-                </svg>
+                    autoPlay muted loop playsInline
+                    style={{
+                        position: 'absolute', top: '50%', left: '50%',
+                        width: '100%', height: '100%', objectFit: 'cover',
+                        transform: `translate(-50%, -50%) scale(${1 + scrollY * 0.0005})`,
+                        zIndex: 1, filter: 'brightness(0.8) contrast(1.1)'
+                    }}
+                >
+                    <source src={heroVideo} type="video/mp4" />
+                </video>
+                <div className="hero-video-overlay" />
             </div>
 
-            {/* ── Main hero inner ── */}
+            {/* Ambient Background Blur Elements */}
+            <div style={{
+                position: 'absolute', top: '20%', left: '10%',
+                width: '40vw', height: '40vw', borderRadius: '50%',
+                background: 'radial-gradient(circle, rgba(255,107,53,0.15) 0%, transparent 70%)',
+                filter: 'blur(80px)', zIndex: 3, animation: 'floatOrb 10s infinite'
+            }} />
+
             <div className="container hero-inner">
                 <div className="hero-content">
-
-                    {/* Pill badge */}
                     <div className="hero-tag">
-                        <span style={{ display:'inline-block', animation:'spin 3s linear infinite' }}>✨</span>
-                        {t('Authentic Karnataka Experiences', 'ಅಪ್ಪಟ ಕರ್ನಾಟಕದ ಅನುಭವಗಳು')}
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        {t('Premium Karnataka Experiences', 'ಪ್ರೀಮಿಯಂ ಕರ್ನಾಟಕ ಅನುಭವಗಳು')}
                     </div>
 
-                    {/* H1 with animated underline */}
                     <h1 className="hero-title">
                         {t('Explore', 'ಅನ್ವೇಷಿಸಿ')}{' '}
-                        <span className="highlight" style={{ position:'relative', display:'inline-block' }}>
+                        <span className="highlight">
                             {t(currentCity.name, currentCity.name)}
-                            <svg viewBox="0 0 200 12" style={{ position:'absolute',bottom:-4,left:0,width:'100%',overflow:'visible' }}>
-                                <defs>
-                                    <linearGradient id="uGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" stopColor="#FF6B35" />
-                                        <stop offset="100%" stopColor="#FF4D6D" />
-                                    </linearGradient>
-                                </defs>
-                                <path d="M4 8 Q50 2 100 8 Q150 14 196 6" fill="none" stroke="url(#uGrad)" strokeWidth="3" strokeLinecap="round"
-                                    style={{ strokeDasharray:220, strokeDashoffset:220, animation:'drawLine 1s 0.8s ease forwards' }} />
-                            </svg>
                         </span>
-                        <br />{t('Like a Local', 'ಸ್ಥಳೀಯರಂತೆ')}
+                        <br />
+                        {t('Like a Insider', 'ಒಬ್ಬ ಸ್ಥಳೀಯರಂತೆ')}
                     </h1>
 
-                    {/* Typewriter subline */}
-                    <div style={{ display:'flex',alignItems:'center',gap:'0.5rem',marginBottom:'0.75rem',animation:'fadeSlideUp 0.8s 0.35s ease both' }}>
-                        <span style={{ fontSize:'0.82rem',color:'rgba(255,255,255,0.45)' }}>{t('Discover','ಕಂಡುಕೊಳ್ಳಿ')} →</span>
-                        <span style={{
-                            fontSize:'0.9rem', fontWeight:700,
-                            background:'linear-gradient(90deg,#FFD166,#FF8C42)',
-                            WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text',
-                            minWidth:'200px',
-                        }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+                        <span style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--accent-gold)' }}>
                             {typedText}
-                            <span style={{ borderRight:'2px solid #FF8C42', marginLeft:1, animation:'blink 0.75s step-end infinite' }} />
+                            <span style={{ borderRight: '2px solid var(--accent-gold)', marginLeft: 2, animation: 'blink 0.8s infinite' }} />
                         </span>
                     </div>
 
                     <p className="hero-desc">{t(currentCity.overview, currentCity.overview)}</p>
 
-                    {/* Quick-filter tags */}
-                    <div style={{ display:'flex',flexWrap:'wrap',gap:'0.5rem',marginBottom:'1.5rem',animation:'fadeSlideUp 0.8s 0.5s ease both' }}>
-                        {travelTags.map((tag, i) => (
-                            <button key={i} style={{
-                                display:'inline-flex', alignItems:'center', gap:'0.35rem',
-                                padding:'0.3rem 0.85rem', borderRadius:20,
-                                background:'rgba(255,255,255,0.06)',
-                                border:'1px solid rgba(255,255,255,0.12)',
-                                color:'rgba(240,244,255,0.8)', fontSize:'0.78rem', fontWeight:600,
-                                cursor:'pointer', fontFamily:'inherit',
-                                transition:'all 0.25s cubic-bezier(0.4,0,0.2,1)',
-                                backdropFilter:'blur(8px)',
-                            }}
-                                onMouseEnter={e => { e.currentTarget.style.cssText += ';background:rgba(255,107,53,0.18)!important;border-color:rgba(255,107,53,0.5)!important;color:#FF8C42!important;transform:translateY(-2px)!important'; }}
-                                onMouseLeave={e => { e.currentTarget.style.cssText = e.currentTarget.style.cssText.replace(/;background[^;]+!important/g,'').replace(/;border-color[^;]+!important/g,'').replace(/;color[^;]+!important/g,'').replace(/;transform[^;]+!important/g,''); }}
-                            >
-                                <span>{tag.emoji}</span>{tag.text}
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* CTAs */}
-                    <div className="hero-ctas" style={{ animation:'fadeSlideUp 0.8s 0.6s ease both' }}>
-                        <a href="#discover-section" className="btn btn-primary" style={{ position:'relative',overflow:'hidden' }}>
-                            🚀 {t('Start Exploring','ಅನ್ವೇಷಣೆ ಆರಂಭಿಸಿ')}
-                            <span style={{
-                                position:'absolute',inset:0,
-                                background:'linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.18) 50%,transparent 100%)',
-                                transform:'translateX(-100%)',
-                                animation:'shimmerBtn 2.5s 1.5s ease-in-out infinite',
-                            }} />
+                    <div className="hero-ctas">
+                        <a href="#discover-section" className="btn-premium btn-primary-glow">
+                            {t('Start Exploring', 'ಅನ್ವೇಷಣೆ ಆರಂಭಿಸಿ')}
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                         </a>
-                        <a href="#map-section" className="btn btn-ghost">🗺️ {t('View Map','ನಕ್ಷೆ ನೋಡಿ')}</a>
-                        <a href="#ai-section" className="btn" style={{
-                            background:'linear-gradient(135deg,rgba(124,58,237,0.3),rgba(0,212,170,0.2))',
-                            border:'1px solid rgba(124,58,237,0.4)', color:'#fff', backdropFilter:'blur(8px)',
-                        }}>
-                            🤖 {t('AI Picks','AI ಆಯ್ಕೆಗಳು')}
+                        <a href="#ai-section" className="btn-premium btn-glass">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2V22M2 12H22M4.93 4.93L19.07 19.07M4.93 19.07L19.07 4.93"/></svg>
+                            {t('AI Itinerary', 'AI ಪ್ರವಾಸ ಯೋಜನೆ')}
                         </a>
                     </div>
 
-                    {/* Radius */}
-                    <div className="hero-radius-wrap" style={{ animation:'fadeSlideUp 0.8s 0.7s ease both' }}>
-                        <label>{t('Search Radius','ಹುಡುಕಾಟದ ವ್ಯಾಪ್ತಿ')}:</label>
-                        <input type="range" min="5" max="100" value={radius}
-                            onChange={(e) => setRadius(e.target.value)} id="radius-slider" />
-                        <span id="radius-val">{radius} km</span>
+                    {/* Integrated Premium Search */}
+                    <div className="hero-search-bar">
+                        <div className="search-input-group">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-dim)" strokeWidth="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <input type="text" placeholder={t('Where to next?', 'ಮುಂದಿನ ತಾಣ ಯಾವುದು?')} />
+                        </div>
+                        <select className="search-select" value={state.currentCity} onChange={(e) => dispatch({ type: 'SET_CITY', payload: e.target.value })}>
+                            {state.cities?.map(c => <option key={c.slug} value={c.slug}>{c.name}</option>)}
+                        </select>
+                        <button className="btn-premium btn-primary-glow" style={{ padding: '10px 20px' }}>
+                            {t('Search', 'ಹುಡುಕಿ')}
+                        </button>
                     </div>
 
-                    {/* Animated stats */}
-                    <div className="hero-stats" style={{ animation:'fadeSlideUp 0.8s 0.8s ease both' }}>
+                    <div className="hero-stats">
                         {stats.map((s, i) => (
-                            <div key={i} className="stat-item" style={{
-                                position:'relative', padding:'0.75rem 1rem', borderRadius:12,
-                                transition:'all 0.4s ease',
-                                background: activeStatIdx===i ? 'rgba(255,107,53,0.12)' : 'transparent',
-                                border: `1px solid ${activeStatIdx===i ? 'rgba(255,107,53,0.3)' : 'transparent'}`,
-                            }}>
-                                <div style={{ fontSize:'1.1rem', marginBottom:'0.1rem' }}>{s.icon}</div>
-                                <div className="hero-stat-num">{s.num}</div>
-                                <div className="hero-stat-label">{s.label}</div>
-                                {activeStatIdx===i && (
-                                    <div style={{ position:'absolute',bottom:0,left:'10%',right:'10%',height:2,background:'linear-gradient(90deg,#FF6B35,#FF4D6D)',borderRadius:2 }} />
-                                )}
+                            <div key={i} className={`stat-card ${activeStatIdx === i ? 'active' : ''}`}>
+                                {s.icon}
+                                <span className="stat-num">{s.num}</span>
+                                <span className="stat-label">{s.label}</span>
                             </div>
                         ))}
                     </div>
                 </div>
 
-                {/* ── Floating info card (desktop) ── */}
-                <div ref={floatingCardRef} style={{
-                    position:'absolute', right:'2rem', bottom:'10%', display:'none',
-                    transform:`translateY(-50%) translate(${mousePos.x*-6}px,${mousePos.y*-4}px)`,
-                    transition:'transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94)',
-                    zIndex:5, animation:'fadeSlideUp 1s 0.9s ease both',
+                {/* Floating Visual Panel (Desktop Only) */}
+                <div ref={floatingCardRef} className="floating-visuals" style={{
+                    transform: `translate(${mousePos.x * 15}px, ${mousePos.y * 15}px)`,
+                    transition: 'transform 0.4s ease-out'
                 }}>
                     <div style={{
-                        width:280, background:'rgba(8,13,26,0.72)',
-                        border:'1px solid rgba(255,255,255,0.12)', borderRadius:20, padding:'1.5rem',
-                        backdropFilter:'blur(24px)',
-                        boxShadow:'0 24px 64px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)',
+                        background: 'rgba(255,255,255,0.03)',
+                        backdropFilter: 'blur(30px)',
+                        padding: '30px',
+                        borderRadius: '32px',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        boxShadow: '0 40px 100px rgba(0,0,0,0.4)'
                     }}>
-                        {/* Mini map */}
-                        <div style={{
-                            height:110, borderRadius:12, marginBottom:'1rem', overflow:'hidden',
-                            background:'linear-gradient(135deg,rgba(0,212,170,0.15),rgba(124,58,237,0.2))',
-                            border:'1px solid rgba(255,255,255,0.08)',
-                            display:'flex', alignItems:'center', justifyContent:'center', position:'relative',
-                        }}>
-                            <svg viewBox="0 0 200 100" style={{ width:'100%',height:'100%',position:'absolute',inset:0,opacity:0.5 }}>
-                                <path d="M20,80 Q60,20 100,50 Q140,80 180,30" fill="none" stroke="#FF6B35" strokeWidth="2" strokeDasharray="4,4" />
-                                <circle cx="20" cy="80" r="5" fill="#FF6B35" /><circle cx="100" cy="50" r="4" fill="#FFD166" /><circle cx="180" cy="30" r="5" fill="#00D4AA" />
-                            </svg>
-                            <span style={{ fontSize:'2rem',zIndex:1 }}>🗺️</span>
+                        <div style={{ marginBottom: '20px', borderRadius: '20px', overflow: 'hidden', height: '200px', position: 'relative' }}>
+                             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(45deg, var(--accent-orange), #7C3AED)', opacity: 0.2 }} />
+                             <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                <path d="M0 50 Q 25 0 50 50 T 100 50" fill="none" stroke="var(--accent-gold)" strokeWidth="0.5" opacity="0.3" />
+                             </svg>
+                             <div style={{ position: 'absolute', bottom: '15px', left: '15px' }}>
+                                <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', opacity: 0.6 }}>Current Discoveries</div>
+                                <div style={{ fontSize: '1.2rem', fontWeight: 700 }}>{currentCity.name} Peaks</div>
+                             </div>
                         </div>
-
-                        <div style={{ fontSize:'0.72rem',color:'rgba(255,255,255,0.4)',marginBottom:'0.6rem',fontWeight:700,letterSpacing:'1.5px',textTransform:'uppercase' }}>
-                            {t('Top Picks Near You','ನಿಮ್ಮ ಬಳಿ ಉತ್ತಮ ಆಯ್ಕೆಗಳು')}
-                        </div>
-
-                        {nearbyPicks.map((item, i) => (
-                            <div key={i} style={{
-                                display:'flex', alignItems:'center', gap:'0.65rem',
-                                padding:'0.6rem 0.75rem', borderRadius:10, marginBottom:'0.4rem',
-                                background:'rgba(255,255,255,0.04)',
-                                border:'1px solid rgba(255,255,255,0.07)',
-                                cursor:'pointer', transition:'all 0.22s ease',
-                            }}
-                                onMouseEnter={e => Object.assign(e.currentTarget.style,{ background:'rgba(255,107,53,0.1)',borderColor:'rgba(255,107,53,0.25)',transform:'translateX(4px)' })}
-                                onMouseLeave={e => Object.assign(e.currentTarget.style,{ background:'rgba(255,255,255,0.04)',borderColor:'rgba(255,255,255,0.07)',transform:'translateX(0)' })}
-                            >
-                                <span style={{ fontSize:'1.25rem' }}>{item.emoji}</span>
-                                <div style={{ flex:1 }}>
-                                    <div style={{ fontSize:'0.8rem',fontWeight:600,color:'#F0F4FF' }}>{item.name}</div>
-                                    <div style={{ fontSize:'0.68rem',color:'rgba(255,255,255,0.38)' }}>{item.dist}</div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                            {currentCity.highlights?.map((h, i) => (
+                                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '10px', borderRadius: '12px', background: 'rgba(255,255,255,0.03)' }}>
+                                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent-gold)' }} />
+                                    <span style={{ fontSize: '0.9rem', fontWeight: 500 }}>{h}</span>
                                 </div>
-                                <span style={{ fontSize:'0.63rem',fontWeight:700,padding:'0.15rem 0.5rem',borderRadius:8,background:'rgba(0,212,170,0.15)',color:'#00D4AA' }}>{item.tag}</span>
-                            </div>
-                        ))}
-
-                        {/* Mini weather */}
-                        <div style={{
-                            marginTop:'0.85rem', padding:'0.7rem', borderRadius:12,
-                            background:'linear-gradient(135deg,rgba(255,107,53,0.12),rgba(255,77,109,0.08))',
-                            border:'1px solid rgba(255,107,53,0.2)',
-                            display:'flex', alignItems:'center', justifyContent:'space-between',
-                        }}>
-                            <div>
-                                <div style={{ fontSize:'0.65rem',color:'rgba(255,255,255,0.38)',fontWeight:700,letterSpacing:'1px' }}>
-                                    {t('TODAY','ಇಂದು')} • {currentCity.name}
-                                </div>
-                                <div style={{ fontSize:'0.8rem',fontWeight:700,color:'#F0F4FF',marginTop:2 }}>
-                                    ⛅ {t('Great day to explore!','ಅನ್ವೇಷಣೆಗೆ ಉತ್ತಮ ದಿನ!')}
-                                </div>
-                            </div>
-                            <div style={{ fontSize:'1.5rem',fontWeight:800,color:'#FFD166' }}>26°</div>
+                            ))}
                         </div>
                     </div>
                 </div>
-
-                {/* Location panel */}
-                <div className={`location-summary-panel ${showPanel ? 'open' : ''}`}>
-                    <h3 className="lsp-title">{currentCity.name}</h3>
-                    <p className="lsp-subtitle">{t('Quick Overview','ತ್ವರಿತ ಅವಲೋಕನ')}</p>
-                    <ul className="lsp-highlights">
-                        {currentCity.highlights?.map((h, i) => <li key={i}>{h}</li>)}
-                    </ul>
-                    <div className="lsp-best-time">🕒 {t('Best Time','ಅತ್ಯುತ್ತಮ ಸಮಯ')}: {currentCity.bestTime}</div>
-                    <button className="btn btn-xs btn-primary w-full" onClick={() => setShowPanel(false)}>
-                        {t('Close','ಮುಚ್ಚಿ')}
-                    </button>
-                </div>
             </div>
-
-            {/* ── Search bar  */}
-            <div className="hero-search-wrap" style={{ 
-                position: 'absolute', 
-                bottom: '5%', 
-                left: '50%', 
-                width: '100%', 
-                zIndex: 10 
-            }}>
-                <div className="hero-search">
-                    <span style={{ fontSize:'1.1rem' }}>🔍</span>
-                    <input type="text" placeholder={t('Search for "CTR Dosa" or "Hampi"...', '"CTR ದೋಸೆ" ಅಥವಾ "ಹಂಪಿ" ಎಂದು ಹುಡುಕಿ...')} />
-                    <div className="divider" />
-                    <select value={state.currentCity} onChange={(e) => dispatch({ type:'SET_CITY', payload:e.target.value })}>
-                        {state.cities?.map(c => <option key={c.slug} value={c.slug}>{c.name}</option>)}
-                    </select>
-                    <div className="divider" />
-                    <div style={{ display:'flex',gap:'0.3rem',alignItems:'center' }}>
-                        {['🏛️','🍜','🏕️'].map((emoji, i) => (
-                            <button key={i} style={{
-                                background:'rgba(255,107,53,0.1)', border:'1px solid rgba(255,107,53,0.2)',
-                                borderRadius:'50%', width:30, height:30, cursor:'pointer',
-                                display:'flex', alignItems:'center', justifyContent:'center', fontSize:'0.85rem',
-                                transition:'all 0.2s', fontFamily:'inherit',
-                            }}
-                                onMouseEnter={e => Object.assign(e.currentTarget.style,{ background:'rgba(255,107,53,0.25)',transform:'scale(1.12)' })}
-                                onMouseLeave={e => Object.assign(e.currentTarget.style,{ background:'rgba(255,107,53,0.1)',transform:'scale(1)' })}
-                            >{emoji}</button>
-                        ))}
-                    </div>
-                    <button className="btn btn-primary">{t('Search','ಹುಡುಕಿ')}</button>
-                </div>
-            </div>
-
-            {/* Keyframes */}
-            <style>{`
-                @keyframes floatOrb {
-                    0%,100%{transform:translateY(0)scale(1)}
-                    50%{transform:translateY(-22px)scale(1.05)}
-                }
-                @keyframes twinkle {
-                    0%,100%{opacity:.2;transform:scale(1)}
-                    50%{opacity:.9;transform:scale(1.6)}
-                }
-                @keyframes blink {
-                    0%,100%{opacity:1}50%{opacity:0}
-                }
-                @keyframes spin {
-                    0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}
-                }
-                @keyframes drawLine {
-                    to{stroke-dashoffset:0}
-                }
-                @keyframes shimmerBtn {
-                    0%{transform:translateX(-100%)}
-                    100%{transform:translateX(200%)}
-                }
-            `}</style>
         </section>
     );
 };
