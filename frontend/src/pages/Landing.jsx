@@ -193,10 +193,10 @@ const Landing = () => {
     const [guidesRef, guidesVisible] = useReveal(0.1);
     const [featRef, featVisible] = useReveal(0.1);
 
-    const c1 = useCounter(40, statsVisible);
-    const c2 = useCounter(200, statsVisible);
-    const c3 = useCounter(10, statsVisible);
-    const c4 = useCounter(96, statsVisible);
+    const c1 = useCounter(70, statsVisible);
+    const c2 = useCounter(20, statsVisible);
+    const c3 = useCounter(5, statsVisible);
+    const c4 = useCounter(85, statsVisible);
 
     useEffect(() => {
         const id = setInterval(() => setTestimonialIdx(i => (i + 1) % TESTIMONIALS.length), 4500);
