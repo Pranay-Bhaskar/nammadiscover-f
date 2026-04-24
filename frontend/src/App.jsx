@@ -5,7 +5,6 @@ import { AppProvider } from './store/AppContext';
 import { Toaster } from 'react-hot-toast';
 import { useLocation } from 'react-router-dom';
 
-
 // Layout & Components
 import Navbar from './components/Navbar';
 
@@ -35,6 +34,29 @@ const AdminRoute = ({ children }) => {
   return children;
 };
 
+
+// ✅ NEW: Scroll Handler (NO existing logic touched)
+const ScrollHandler = () => {
+  const location = useLocation();
+
+  React.useEffect(() => {
+    if (location.state?.scrollTo) {
+      const el = document.getElementById(location.state.scrollTo);
+
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [location]);
+
+  return null;
+};
+
+
 const MainLayout = ({ children }) => {
   const location = useLocation();
 
@@ -45,7 +67,9 @@ const MainLayout = ({ children }) => {
 
   return (
     <>
-      {!shouldHideNavbar && <Navbar />}   {/* ✅ FIX */}
+      <ScrollHandler />   {/* ✅ ADDED */}
+
+      {!shouldHideNavbar && <Navbar />}
 
       <main>{children}</main>
     </>
@@ -57,9 +81,17 @@ function App() {
     <AuthProvider>
       <AppProvider>
         <BrowserRouter>
-          <Toaster position="top-right" toastOptions={{
-            style: { borderRadius: '10px', background: '#1e293b', color: '#f1f5f9' },
-          }} />
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              style: {
+                borderRadius: '10px',
+                background: '#1e293b',
+                color: '#f1f5f9'
+              }
+            }}
+          />
+
           <MainLayout>
             <Routes>
               {/* Public */}
@@ -68,26 +100,60 @@ function App() {
               <Route path="/gallery" element={<GalleryPage />} />
 
               {/* Protected — general users */}
-              <Route path="/dashboard" element={
-                <ProtectedRoute><ExplorePage /></ProtectedRoute>
-              } />
-              <Route path="/my-videos" element={
-                <ProtectedRoute><MyVideos /></ProtectedRoute>
-              } />
-              <Route path="/explorer-studio" element={
-                <ProtectedRoute><ExplorerStudio /></ProtectedRoute>
-              } />
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <ExplorePage />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/my-videos"
+                element={
+                  <ProtectedRoute>
+                    <MyVideos />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/explorer-studio"
+                element={
+                  <ProtectedRoute>
+                    <ExplorerStudio />
+                  </ProtectedRoute>
+                }
+              />
 
               {/* Admin only */}
-              <Route path="/admin" element={
-                <AdminRoute><AdminDashboard /></AdminRoute>
-              } />
-              <Route path="/admin/dashboard" element={
-                <AdminRoute><AdminDashboard /></AdminRoute>
-              } />
-              <Route path="/admin/moderation" element={
-                <AdminRoute><AdminModeration /></AdminRoute>
-              } />
+              <Route
+                path="/admin"
+                element={
+                  <AdminRoute>
+                    <AdminDashboard />
+                  </AdminRoute>
+                }
+              />
+
+              <Route
+                path="/admin/dashboard"
+                element={
+                  <AdminRoute>
+                    <AdminDashboard />
+                  </AdminRoute>
+                }
+              />
+
+              <Route
+                path="/admin/moderation"
+                element={
+                  <AdminRoute>
+                    <AdminModeration />
+                  </AdminRoute>
+                }
+              />
 
               <Route path="/location/:id" element={<LocationDetailPage />} />
 
