@@ -489,7 +489,7 @@ const Landing = () => {
                                 <div key={i} className="about-member">
                                     <div className="about-member__avatar">{['👨', '👩', '🧑', '🧑', '🧑'][i]}</div>
                                     <span className="about-member__name">{name}</span>
-                                    <span className="about-member__role">{[t('Development', 'Development'), t('Design', 'ಡಿಸೈನ್'), t('Design', 'ಡಿಸೈನ್'), t('Development', 'Development'), t('Development', 'Development')][i]}</span>
+                                    <span className="about-member__role">{[t('Development', 'Development'), t('Design', 'ಡಿಸೈನ್'), t('Development', 'Development'), t('Design', 'ಡಿಸೈನ್'), t('Development', 'Development')][i]}</span>
                                 </div>
                             ))}
                         </div>
