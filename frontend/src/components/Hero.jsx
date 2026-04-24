@@ -13,6 +13,11 @@ const Hero = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [searchError, setSearchError] = useState('');
 
+  const [weather, setWeather] = useState(null);
+  const [weatherLoading, setWeatherLoading] = useState(true);
+  const [weatherError, setWeatherError] = useState('');
+  const [seasonalSuggestion, setSeasonalSuggestion] = useState('');
+
   const heroRef = useRef(null);
 
   const t = (en, kn) => (state.language === 'en' ? en : kn);
@@ -32,6 +37,79 @@ const Hero = () => {
     { num: '200+', label: t('Local Guides', 'ಸ್ಥಳೀಯ ಮಾರ್ಗದರ್ಶಕರು') },
     { num: '4.9★', label: t('Avg Rating', 'ಸರಾಸರಿ ರೇಟಿಂಗ್') },
   ];
+
+  // Fetch weather data
+  useEffect(() => {
+    const fetchWeather = async () => {
+      try {
+        setWeatherLoading(true);
+        
+        // Get coordinates for Bengaluru (default location)
+        const latitude = 12.9716;
+        const longitude = 77.5946;
+        
+        // Using Open-Meteo free weather API (no API key required)
+        const response = await fetch(
+          `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&temperature_unit=celsius`
+        );
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch weather');
+        }
+
+        const data = await response.json();
+        const weatherData = data.current;
+        
+        setWeather({
+          temperature: weatherData.temperature_2m,
+          humidity: weatherData.relative_humidity_2m,
+          weatherCode: weatherData.weather_code,
+          windSpeed: weatherData.wind_speed_10m,
+        });
+
+        // Generate seasonal suggestion based on weather
+        const temp = weatherData.temperature_2m;
+        const weatherCode = weatherData.weather_code;
+        
+        if (temp > 30) {
+          setSeasonalSuggestion(
+            state.language === 'en'
+              ? '☀️ Hot & Sunny | Perfect for: Western Ghats, Hill Stations, Waterfalls'
+              : '☀️ ಬಿಸಿ ಮತ್ತು ಬಿಸಿಲಿನ | ಸೂಕ್ತವಾಗಿದೆ: ಪಶ್ಚಿಮ ಘಟ್ಟಗಳು, ಗುಡ್ಡೆಯ ನಿಲ್ದಾಣಗಳು, ನೀರಿನ ಬಿದಿರುಗಳು'
+          );
+        } else if (temp < 20) {
+          setSeasonalSuggestion(
+            state.language === 'en'
+              ? '❄️ Cool & Pleasant | Perfect for: Trekking, Temples, Heritage Sites'
+              : '❄️ ತಾಜಾ ಮತ್ತು ಆನಂದದಾಯಕ | ಸೂಕ್ತವಾಗಿದೆ: ಟ್ರೆಕಿಂಗ್, ದೇವಾಲಯಗಳು, ಐತಿಹ್ಯ ಸ್ಥಳಗಳು'
+          );
+        } else if (weatherCode >= 51 && weatherCode <= 67) {
+          // Rainy weather codes
+          setSeasonalSuggestion(
+            state.language === 'en'
+              ? '🌧️ Rainy Season | Perfect for: Coffee Plantations, Green Valleys, Scenic Drives'
+              : '🌧️ ಮಳೆಯ ಋತು | ಸೂಕ್ತವಾಗಿದೆ: ಕಾಫಿ ತೈಲೀಕರಣ, ಹಸಿರು ಕಣಿವೆಗಳು, ದೃಶ್ಯಮಾನ ಚಲನೆಗಳು'
+          );
+        } else {
+          setSeasonalSuggestion(
+            state.language === 'en'
+              ? '🌤️ Perfect Weather | Ideal for: Exploring Everything!'
+              : '🌤️ ಸಂಪೂರ್ಣ ಹವಾಮಾನ | ಸೂಕ್ತವಾಗಿದೆ: ಎಲ್ಲವನ್ನು ಅನ್ವೇಷಿಸಿ!'
+          );
+        }
+
+        setWeatherError('');
+      } catch (error) {
+        console.error('Weather fetch error:', error);
+        setWeatherError('');
+        // Fail silently - don't disrupt the main app
+      } finally {
+        setWeatherLoading(false);
+      }
+    };
+
+    fetchWeather();
+  }, [state.language]);
 
   useEffect(() => {
     const onScroll = () => setScrollY(window.scrollY);
@@ -133,6 +211,72 @@ const Hero = () => {
           textAlign: 'center',
         }}
       >
+        {/* Weather & Seasonal Suggestion Banner */}
+        {!weatherLoading && weather && seasonalSuggestion && (
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '1.5rem',
+              padding: '1rem',
+              borderRadius: '16px',
+              background: 'rgba(255, 209, 102, 0.12)',
+              border: '1px solid rgba(255, 209, 102, 0.25)',
+              marginBottom: '1.5rem',
+              backdropFilter: 'blur(12px)',
+              flexDirection: 'column',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '1rem',
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.75rem',
+                }}
+              >
+                <span style={{ fontSize: '1.3rem' }}>🌡️</span>
+                <span
+                  style={{
+                    fontSize: '0.95rem',
+                    fontWeight: 600,
+                    color: '#ffd166',
+                  }}
+                >
+                  {weather.temperature}°C | Humidity: {weather.humidity}%
+                </span>
+              </div>
+              <div
+                style={{
+                  width: '1px',
+                  height: '24px',
+                  background: 'rgba(255,255,255,0.2)',
+                }}
+              />
+              <span
+                style={{
+                  fontSize: '0.95rem',
+                  fontWeight: 600,
+                  color: '#ffffff',
+                  maxWidth: '100%',
+                }}
+              >
+                {seasonalSuggestion}
+              </span>
+            </div>
+          </div>
+        )}
+
         <div
           style={{
             display: 'inline-flex',
