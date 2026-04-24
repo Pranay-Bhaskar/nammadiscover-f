@@ -14,6 +14,7 @@ placeApi.interceptors.request.use((config) => {
   return config;
 });
 
+// submits to locations collection
 export const createPlace = (data) => placeApi.post('/locations', data);
 
 export default placeApi;

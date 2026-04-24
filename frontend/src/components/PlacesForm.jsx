@@ -338,7 +338,9 @@ const initialForm = {
   description_en: "",
   description_kn: "",
   culturalStory_en: "",
+  culturalStory_kn: "",
   travelTips_en: "",
+  travelTips_kn: "",
   category: "",
   subcategory: "",
   city: "",
@@ -353,6 +355,11 @@ const initialForm = {
   bestTimeToVisit: "",
   entryFee: "",
   address: "",
+  budget: "",
+  yearsInOperation: "",
+  isFamilyRun: false,
+  verifiedLocal: false,
+  contactInfo: "",
 };
 
 export default function PlacesForm({ onSuccess }) {
@@ -383,10 +390,10 @@ export default function PlacesForm({ onSuccess }) {
   }, []);
 
   const handleField = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setForm((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
@@ -399,6 +406,10 @@ export default function PlacesForm({ onSuccess }) {
 
     if (!form.category.trim()) {
       return toast.error("Category is required");
+    }
+
+    if (!form.city.trim()) {
+      return toast.error("City is required");
     }
 
     if (!form.lat || !form.lng) {
@@ -426,17 +437,20 @@ export default function PlacesForm({ onSuccess }) {
         },
         culturalStory: {
           en: form.culturalStory_en.trim(),
+          kn: form.culturalStory_kn.trim(),
         },
         travelTips: {
           en: form.travelTips_en.trim(),
+          kn: form.travelTips_kn.trim(),
         },
-        category: form.category.trim(),
+
+        category: form.category.trim().toLowerCase(),
         subcategory: form.subcategory.trim(),
         city: form.city.trim(),
         district: form.district.trim(),
 
-        latitude: lat,
-        longitude: lng,
+        lat,
+        lng,
 
         location: {
           type: "Point",
@@ -456,17 +470,26 @@ export default function PlacesForm({ onSuccess }) {
         rating: form.rating ? Number(form.rating) : 0,
         authenticityScore: form.authenticityScore
           ? Number(form.authenticityScore)
+          : 80,
+
+        budget: form.budget ? Number(form.budget) : 0,
+        yearsInOperation: form.yearsInOperation
+          ? Number(form.yearsInOperation)
           : 0,
+
+        isFamilyRun: !!form.isFamilyRun,
+        verifiedLocal: !!form.verifiedLocal,
 
         openingHours: form.openingHours.trim(),
         bestTimeToVisit: form.bestTimeToVisit.trim(),
         entryFee: form.entryFee.trim(),
         address: form.address.trim(),
+        contactInfo: form.contactInfo.trim(),
       };
 
       await createPlace(payload);
 
-      toast.success("Place submitted! Awaiting approval.");
+      toast.success("Location submitted successfully!");
 
       if (onSuccess) {
         onSuccess();
@@ -475,7 +498,7 @@ export default function PlacesForm({ onSuccess }) {
       setForm(initialForm);
     } catch (err) {
       console.error(err);
-      toast.error(err?.response?.data?.error || "Failed to submit");
+      toast.error(err?.response?.data?.message || "Failed to submit");
     } finally {
       setLoading(false);
     }
@@ -489,7 +512,7 @@ export default function PlacesForm({ onSuccess }) {
       borderRadius: "var(--radius)",
       border: "1px solid var(--border)",
       boxShadow: "var(--shadow)",
-      maxWidth: "800px",
+      maxWidth: "900px",
       margin: "auto",
       transition: "var(--transition)",
     },
@@ -537,6 +560,13 @@ export default function PlacesForm({ onSuccess }) {
       outline: "none",
       resize: "vertical",
     },
+    checkboxWrap: {
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
+      color: "var(--text)",
+      fontSize: "14px",
+    },
     button: {
       background: "var(--gradient-sunset)",
       color: "#fff",
@@ -557,29 +587,31 @@ export default function PlacesForm({ onSuccess }) {
 
   return (
     <div style={styles.card}>
-      <h2 style={styles.title}>📍 Add a Place</h2>
+      <h2 style={styles.title}>📍 Add a Location</h2>
 
       <form onSubmit={handleSubmit} style={styles.form}>
-        <div style={styles.group}>
-          <label>Name (English)*</label>
-          <input
-            style={styles.input}
-            name="name_en"
-            value={form.name_en}
-            onChange={handleField}
-            placeholder="Enter place name in English"
-          />
-        </div>
+        <div style={styles.row}>
+          <div style={styles.group}>
+            <label>Name (English)*</label>
+            <input
+              style={styles.input}
+              name="name_en"
+              value={form.name_en}
+              onChange={handleField}
+              placeholder="Enter location name in English"
+            />
+          </div>
 
-        <div style={styles.group}>
-          <label>Name (Kannada)</label>
-          <input
-            style={styles.input}
-            name="name_kn"
-            value={form.name_kn}
-            onChange={handleField}
-            placeholder="Enter place name in Kannada"
-          />
+          <div style={styles.group}>
+            <label>Name (Kannada)</label>
+            <input
+              style={styles.input}
+              name="name_kn"
+              value={form.name_kn}
+              onChange={handleField}
+              placeholder="Enter location name in Kannada"
+            />
+          </div>
         </div>
 
         <div style={styles.row}>
@@ -590,7 +622,7 @@ export default function PlacesForm({ onSuccess }) {
               name="category"
               value={form.category}
               onChange={handleField}
-              placeholder="Food, Temple, Trek..."
+              placeholder="nature, food, heritage..."
             />
           </div>
 
@@ -601,7 +633,31 @@ export default function PlacesForm({ onSuccess }) {
               name="subcategory"
               value={form.subcategory}
               onChange={handleField}
-              placeholder="Dosa, Waterfall, Fort..."
+              placeholder="waterfall, dosa, fort..."
+            />
+          </div>
+        </div>
+
+        <div style={styles.row}>
+          <div style={styles.group}>
+            <label>City*</label>
+            <input
+              style={styles.input}
+              name="city"
+              value={form.city}
+              onChange={handleField}
+              placeholder="Bengaluru"
+            />
+          </div>
+
+          <div style={styles.group}>
+            <label>District</label>
+            <input
+              style={styles.input}
+              name="district"
+              value={form.district}
+              onChange={handleField}
+              placeholder="Bengaluru Urban"
             />
           </div>
         </div>
@@ -629,7 +685,7 @@ export default function PlacesForm({ onSuccess }) {
         </div>
 
         <div style={styles.group}>
-          <label>Cultural Story</label>
+          <label>Cultural Story (English)</label>
           <textarea
             style={styles.textarea}
             name="culturalStory_en"
@@ -640,13 +696,35 @@ export default function PlacesForm({ onSuccess }) {
         </div>
 
         <div style={styles.group}>
-          <label>Travel Tips</label>
+          <label>Cultural Story (Kannada)</label>
+          <textarea
+            style={styles.textarea}
+            name="culturalStory_kn"
+            value={form.culturalStory_kn}
+            onChange={handleField}
+            placeholder="ಸಾಂಸ್ಕೃತಿಕ ಹಿನ್ನೆಲೆ"
+          />
+        </div>
+
+        <div style={styles.group}>
+          <label>Travel Tips (English)</label>
           <textarea
             style={styles.textarea}
             name="travelTips_en"
             value={form.travelTips_en}
             onChange={handleField}
             placeholder="Best route, parking, food nearby..."
+          />
+        </div>
+
+        <div style={styles.group}>
+          <label>Travel Tips (Kannada)</label>
+          <textarea
+            style={styles.textarea}
+            name="travelTips_kn"
+            value={form.travelTips_kn}
+            onChange={handleField}
+            placeholder="ಪ್ರಯಾಣ ಸಲಹೆಗಳು"
           />
         </div>
 
@@ -674,30 +752,6 @@ export default function PlacesForm({ onSuccess }) {
               value={form.lng}
               onChange={handleField}
               placeholder="77.5946"
-            />
-          </div>
-        </div>
-
-        <div style={styles.row}>
-          <div style={styles.group}>
-            <label>City</label>
-            <input
-              style={styles.input}
-              name="city"
-              value={form.city}
-              onChange={handleField}
-              placeholder="Bengaluru"
-            />
-          </div>
-
-          <div style={styles.group}>
-            <label>District</label>
-            <input
-              style={styles.input}
-              name="district"
-              value={form.district}
-              onChange={handleField}
-              placeholder="Bengaluru Urban"
             />
           </div>
         </div>
@@ -742,12 +796,38 @@ export default function PlacesForm({ onSuccess }) {
             <label>Authenticity Score</label>
             <input
               type="number"
-              step="0.1"
+              step="1"
               style={styles.input}
               name="authenticityScore"
               value={form.authenticityScore}
               onChange={handleField}
-              placeholder="9.0"
+              placeholder="88"
+            />
+          </div>
+        </div>
+
+        <div style={styles.row}>
+          <div style={styles.group}>
+            <label>Budget</label>
+            <input
+              type="number"
+              style={styles.input}
+              name="budget"
+              value={form.budget}
+              onChange={handleField}
+              placeholder="0"
+            />
+          </div>
+
+          <div style={styles.group}>
+            <label>Years In Operation</label>
+            <input
+              type="number"
+              style={styles.input}
+              name="yearsInOperation"
+              value={form.yearsInOperation}
+              onChange={handleField}
+              placeholder="0"
             />
           </div>
         </div>
@@ -759,7 +839,7 @@ export default function PlacesForm({ onSuccess }) {
             name="openingHours"
             value={form.openingHours}
             onChange={handleField}
-            placeholder="6 AM - 10 PM"
+            placeholder="6:00 AM – 7:00 PM"
           />
         </div>
 
@@ -770,7 +850,7 @@ export default function PlacesForm({ onSuccess }) {
             name="bestTimeToVisit"
             value={form.bestTimeToVisit}
             onChange={handleField}
-            placeholder="Early morning"
+            placeholder="Oct–Feb"
           />
         </div>
 
@@ -796,6 +876,37 @@ export default function PlacesForm({ onSuccess }) {
           />
         </div>
 
+        <div style={styles.group}>
+          <label>Contact Info</label>
+          <input
+            style={styles.input}
+            name="contactInfo"
+            value={form.contactInfo}
+            onChange={handleField}
+            placeholder="Phone / email / website"
+          />
+        </div>
+
+        <label style={styles.checkboxWrap}>
+          <input
+            type="checkbox"
+            name="isFamilyRun"
+            checked={form.isFamilyRun}
+            onChange={handleField}
+          />
+          Family-run place
+        </label>
+
+        <label style={styles.checkboxWrap}>
+          <input
+            type="checkbox"
+            name="verifiedLocal"
+            checked={form.verifiedLocal}
+            onChange={handleField}
+          />
+          Verified by local contributor
+        </label>
+
         <button
           type="submit"
           style={{
@@ -804,7 +915,7 @@ export default function PlacesForm({ onSuccess }) {
           }}
           disabled={loading}
         >
-          {loading ? "Submitting..." : "🚀 Submit Place"}
+          {loading ? "Submitting..." : "🚀 Submit Location"}
         </button>
       </form>
     </div>
