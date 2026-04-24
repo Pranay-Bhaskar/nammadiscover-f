@@ -52,8 +52,7 @@ const TESTIMONIALS = [
     { name: 'Piyush', city: 'Bengaluru', text: 'Great concept, but right now the number of places feels limited and known. Would love to see more locations and content added.', rating: 3, avatar: '🧑' },
     { name: 'Rajesh', city: 'Bengaluru', text: 'The idea is strong, but the app could be smoother in terms of performance and navigation.', rating: 3, avatar: '🧑' },
     { name: 'Naveen', city: 'Bengaluru', text: 'Excited about this platform! Waiting to see AI-based recommendations and smarter suggestions in upcoming updates.', rating: 4, avatar: '🧑' },
-    { name: 'User', city: 'Bengaluru', text: 'The idea sounds good, but right now the platform feels incomplete. There aren’t enough places or content to explore, and the experience isn’t as smooth as expected. It needs more development before it becomes truly useful.', rating: 3, avatar: '🧑' },
-];
+    { name: 'Neeraj', city: 'Bengaluru', text: 'The idea sounds good, but right now the platform feels incomplete. There aren’t enough places or content to explore, and the experience isn’t as smooth as expected. It needs more development before it becomes truly useful.', rating: 3, avatar: '🧑' },
 ];
 
 const GUIDES = [
