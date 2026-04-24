@@ -561,7 +561,7 @@ const Landing = () => {
                 <div className="container testimonials-inner">
                     <div className="section-header section-header--center">
                         <p className="section-eyebrow">{t('Explorer Stories', 'ಅನ್ವೇಷಕರ ಕಥೆಗಳು')}</p>
-                        <h2 className="section-title">{t('What Travellers Say', 'ಪ್ರಯಾಣಿಕರು ಏನು ಹೇಳುತ್ತಾರೆ')}</h2>
+                        <h2 className="section-title">{t('What Users Say', 'ಪ್ರಯಾಣಿಕರು ಏನು ಹೇಳುತ್ತಾರೆ')}</h2>
                     </div>
                     <div className="tm-carousel">
                         <div className="tm-track" style={{ transform: `translateX(-${testimonialIdx * 100}%)` }}>
