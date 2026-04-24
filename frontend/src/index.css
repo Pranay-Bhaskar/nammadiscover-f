@@ -601,6 +601,7 @@ body.light .profile-dropdown .logout-btn:hover {
   color: #38bdf8; /* sky blue premium */
   margin-left: 4px;
   position: relative;
+  font-weight: 800;
 }
 
 /* subtle glow */
