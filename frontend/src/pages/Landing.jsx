@@ -475,15 +475,13 @@ const Landing = () => {
                         <p className="about-p">
                             {t(
                                 "There are countless hidden gems, small towns, and family-run businesses with stories that often go unnoticed. Our goal is to bring these places to light while preserving their authenticity and cultural value. This platform helps you explore Karnataka in a more meaningful way — not just by showing places on a map, but by sharing the stories behind them. Through verified videos and real experiences shared by explorers, you get to see places as they truly are.",
-                                "ಅನೇಕ ಮರೆಯಾದ ರತ್ನಗಳು, ಸಣ್ಣ ಪಟ್ಟಣಗಳು ಮತ್ತು ಕುಟುಂಬದಿಂದ ನಡೆಸಲ್ಪಡುವ ವ್ಯಾಪಾರಗಳು ಇವೆ, ಅವುಗಳ ಕಥೆಗಳು ಬಹಳಷ್ಟು ಬಾರಿ ಗಮನಕ್ಕೆ ಬರುವುದಿಲ್ಲ. ನಮ್ಮ ಉದ್ದೇಶವು ಈ ಸ್ಥಳಗಳನ್ನು ಬೆಳಕಿಗೆ ತಂದು, ಅವುಗಳ ಮೂಲತ್ವ ಮತ್ತು ಸಾಂಸ್ಕೃತಿಕ ಮೌಲ್ಯವನ್ನು ಕಾಪಾಡುವುದಾಗಿದೆ. ಈ ವೇದಿಕೆ ನಿಮಗೆ ಕರ್ನಾಟಕವನ್ನು ಹೆಚ್ಚು ಅರ್ಥಪೂರ್ಣವಾಗಿ ಅನ್ವೇಷಿಸಲು ಸಹಾಯ ಮಾಡುತ್ತದೆ — ನಕ್ಷೆಯಲ್ಲಿ ಸ್ಥಳಗಳನ್ನು ತೋರಿಸುವುದಷ್ಟೇ ಅಲ್ಲ, ಅವುಗಳ ಹಿಂದೆ ಇರುವ ಕಥೆಗಳನ್ನೂ ಹಂಚಿಕೊಳ್ಳುತ್ತದೆ. ಪರಿಶೀಲಿಸಲಾದ ವೀಡಿಯೊಗಳು ಮತ್ತು ಅನ್ವೇಷಕರಿಂದ ಹಂಚಿಕೊಳ್ಳಲ್ಪಟ್ಟ ನಿಜವಾದ ಅನುಭವಗಳ ಮೂಲಕ, ನೀವು ಸ್ಥಳಗಳನ್ನು ಅವುಗಳ ನಿಜ ಸ್ವರೂಪದಲ್ಲಿ ನೋಡಬಹುದು.
-"
+                                "ಅನೇಕ ಮರೆಯಾದ ರತ್ನಗಳು, ಸಣ್ಣ ಪಟ್ಟಣಗಳು ಮತ್ತು ಕುಟುಂಬದಿಂದ ನಡೆಸಲ್ಪಡುವ ವ್ಯಾಪಾರಗಳು ಇವೆ, ಅವುಗಳ ಕಥೆಗಳು ಬಹಳಷ್ಟು ಬಾರಿ ಗಮನಕ್ಕೆ ಬರುವುದಿಲ್ಲ. ನಮ್ಮ ಉದ್ದೇಶವು ಈ ಸ್ಥಳಗಳನ್ನು ಬೆಳಕಿಗೆ ತಂದು, ಅವುಗಳ ಮೂಲತ್ವ ಮತ್ತು ಸಾಂಸ್ಕೃತಿಕ ಮೌಲ್ಯವನ್ನು ಕಾಪಾಡುವುದಾಗಿದೆ. ಈ ವೇದಿಕೆ ನಿಮಗೆ ಕರ್ನಾಟಕವನ್ನು ಹೆಚ್ಚು ಅರ್ಥಪೂರ್ಣವಾಗಿ ಅನ್ವೇಷಿಸಲು ಸಹಾಯ ಮಾಡುತ್ತದೆ — ನಕ್ಷೆಯಲ್ಲಿ ಸ್ಥಳಗಳನ್ನು ತೋರಿಸುವುದಷ್ಟೇ ಅಲ್ಲ, ಅವುಗಳ ಹಿಂದೆ ಇರುವ ಕಥೆಗಳನ್ನೂ ಹಂಚಿಕೊಳ್ಳುತ್ತದೆ. ಪರಿಶೀಲಿಸಲಾದ ವೀಡಿಯೊಗಳು ಮತ್ತು ಅನ್ವೇಷಕರಿಂದ ಹಂಚಿಕೊಳ್ಳಲ್ಪಟ್ಟ ನಿಜವಾದ ಅನುಭವಗಳ ಮೂಲಕ, ನೀವು ಸ್ಥಳಗಳನ್ನು ಅವುಗಳ ನಿಜ ಸ್ವರೂಪದಲ್ಲಿ ನೋಡಬಹುದು."
                             )}
                         </p>
                         <p className="about-p">
                             {t(
                                 "We also make it easier to connect with local shopkeepers, artisans, and communities, so your journey goes beyond visiting — it becomes a genuine interaction with the people who make these places special. By focusing on authenticity, trust, and storytelling, we aim to create a space where travel is not just about destinations, but about understanding culture, supporting local businesses, and discovering the unseen side of Karnataka.",
-                                "ನಾವು ಸ್ಥಳೀಯ ಅಂಗಡಿಕಾರರು, ಕಲಾವಿದರು ಮತ್ತು ಸಮುದಾಯಗಳೊಂದಿಗೆ ಸಂಪರ್ಕ ಸಾಧಿಸುವುದನ್ನು ಸಹ ಸುಲಭಗೊಳಿಸುತ್ತೇವೆ, ಆದ್ದರಿಂದ ನಿಮ್ಮ ಪ್ರಯಾಣವು ಕೇವಲ ಭೇಟಿ ನೀಡುವುದನ್ನು ಮೀರಿ — ಈ ಸ್ಥಳಗಳನ್ನು ವಿಶೇಷವಾಗಿಸುವ ಜನರೊಂದಿಗೆ ನಿಜವಾದ ಸಂವಹನವಾಗುತ್ತದೆ. ಮೂಲತ್ವ, ನಂಬಿಕೆ ಮತ್ತು ಕಥನಗಳ ಮೇಲೆ ಗಮನ ಕೇಂದ್ರೀಕರಿಸುವ ಮೂಲಕ, ನಾವು ಪ್ರಯಾಣವನ್ನು ಕೇವಲ ಗಮ್ಯಸ್ಥಾನಗಳ ಬಗ್ಗೆ ಮಾತ್ರವಲ್ಲದೆ, ಸಂಸ್ಕೃತಿಯನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳುವುದು, ಸ್ಥಳೀಯ ವ್ಯಾಪಾರಗಳನ್ನು ಬೆಂಬಲಿಸುವುದು ಮತ್ತು ಕರ್ನಾಟಕದ ಕಾಣದ ಭಾಗವನ್ನು ಅನ್ವೇಷಿಸುವ ಬಗ್ಗೆ ಇರುವ ಒಂದು ವೇದಿಕೆಯನ್ನು ನಿರ್ಮಿಸಲು ಉದ್ದೇಶಿಸುತ್ತೇವೆ.
-"
+                                "ನಾವು ಸ್ಥಳೀಯ ಅಂಗಡಿಕಾರರು, ಕಲಾವಿದರು ಮತ್ತು ಸಮುದಾಯಗಳೊಂದಿಗೆ ಸಂಪರ್ಕ ಸಾಧಿಸುವುದನ್ನು ಸಹ ಸುಲಭಗೊಳಿಸುತ್ತೇವೆ, ಆದ್ದರಿಂದ ನಿಮ್ಮ ಪ್ರಯಾಣವು ಕೇವಲ ಭೇಟಿ ನೀಡುವುದನ್ನು ಮೀರಿ — ಈ ಸ್ಥಳಗಳನ್ನು ವಿಶೇಷವಾಗಿಸುವ ಜನರೊಂದಿಗೆ ನಿಜವಾದ ಸಂವಹನವಾಗುತ್ತದೆ. ಮೂಲತ್ವ, ನಂಬಿಕೆ ಮತ್ತು ಕಥನಗಳ ಮೇಲೆ ಗಮನ ಕೇಂದ್ರೀಕರಿಸುವ ಮೂಲಕ, ನಾವು ಪ್ರಯಾಣವನ್ನು ಕೇವಲ ಗಮ್ಯಸ್ಥಾನಗಳ ಬಗ್ಗೆ ಮಾತ್ರವಲ್ಲದೆ, ಸಂಸ್ಕೃತಿಯನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳುವುದು, ಸ್ಥಳೀಯ ವ್ಯಾಪಾರಗಳನ್ನು ಬೆಂಬಲಿಸುವುದು ಮತ್ತು ಕರ್ನಾಟಕದ ಕಾಣದ ಭಾಗವನ್ನು ಅನ್ವೇಷಿಸುವ ಬಗ್ಗೆ ಇರುವ ಒಂದು ವೇದಿಕೆಯನ್ನು ನಿರ್ಮಿಸಲು ಉದ್ದೇಶಿಸುತ್ತೇವೆ."
                             )}
                         </p>
                         <div className="about-team">
