@@ -343,12 +343,13 @@ const Login = () => {
                                 />
                             </div>
                             <div className="form-group">
-                                <select 
-                                    name="role" className="input" 
-                                    value={formData.role} onChange={handleChange}
+                                <select
+                                    name="role"
+                                    className="input"
+                                    value={formData.role}
+                                    onChange={handleChange}
                                 >
-                                    <option value="user" style={{background: '#111'}}>Explorer</option>
-                                    <option value="admin" style={{background: '#111'}}>Admin</option>
+                                    <option value="user" style={{ background: '#111' }}>Explorer</option>
                                 </select>
                             </div>
                             <button type="submit" className="btn">
