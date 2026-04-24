@@ -485,11 +485,11 @@ const Landing = () => {
                             )}
                         </p>
                         <div className="about-team">
-                            {['-', '-', '-'].map((name, i) => (
+                            {['Pranay', 'Nanditha', 'Nithesh', 'Purushottam', 'Nishant'].map((name, i) => (
                                 <div key={i} className="about-member">
-                                    <div className="about-member__avatar">{['👨', '👩', '🧑'][i]}</div>
+                                    <div className="about-member__avatar">{['👨', '👩', '🧑', '🧑', '🧑'][i]}</div>
                                     <span className="about-member__name">{name}</span>
-                                    <span className="about-member__role">{[t('CEO', 'CEO'), t('CTO', 'CTO'), t('Design', 'ಡಿಸೈನ್')][i]}</span>
+                                    <span className="about-member__role">{[t('CEO', 'CEO'), t('Design', 'ಡಿಸೈನ್'), t('Design', 'ಡಿಸೈನ್'), t('CTO', 'CTO')][i]}</span>
                                 </div>
                             ))}
                         </div>
