@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../store/AppContext';
 import heroVideo from '../assets/bg video.mp4';
 
-const particleCount = 18;
+const particleCount = 25; // Increased for more "sparkle"
 
 const Hero = () => {
     const { state, dispatch } = useApp();
@@ -34,14 +34,12 @@ const Hero = () => {
         t('Secret Trails', 'ರಹಸ್ಯ ಮಾರ್ಗಗಳು'),
     ];
 
-    // Parallax on scroll
     useEffect(() => {
         const onScroll = () => setScrollY(window.scrollY);
         window.addEventListener('scroll', onScroll, { passive: true });
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
-    // Mouse parallax
     useEffect(() => {
         const onMove = (e) => {
             if (!heroRef.current) return;
@@ -55,7 +53,6 @@ const Hero = () => {
         return () => window.removeEventListener('mousemove', onMove);
     }, []);
 
-    // Typewriter
     useEffect(() => {
         const phrase = phrases[phaseIdx];
         const speed = isDeleting ? 40 : 90;
@@ -81,17 +78,15 @@ const Hero = () => {
         return () => clearTimeout(timeout);
     }, [typeIdx, isDeleting, phaseIdx]);
 
-    // Rotating stat highlight
     useEffect(() => {
         const timer = setInterval(() => setActiveStatIdx(i => (i + 1) % 4), 2200);
         return () => clearInterval(timer);
     }, []);
 
-    // Show/hide floating card based on viewport
     useEffect(() => {
         const toggle = () => {
             if (floatingCardRef.current) {
-                floatingCardRef.current.style.display = window.innerWidth >= 900 ? 'block' : 'none';
+                floatingCardRef.current.style.display = window.innerWidth >= 1024 ? 'block' : 'none';
             }
         };
         toggle();
@@ -99,366 +94,334 @@ const Hero = () => {
         return () => window.removeEventListener('resize', toggle);
     }, []);
 
-    const stats = [
-        { num: '500+', label: t('Verified Spots', 'ಪರಿಶೀಲಿಸಿದ ಸ್ಥಳಗಳು'), icon: '📍' },
-        { num: '50k+', label: t('Happy Travelers', 'ಸಂತುಷ್ಟ ಪ್ರಯಾಣಿಕರು'), icon: '😊' },
-        { num: '200+', label: t('Local Guides', 'ಸ್ಥಳೀಯ ಮಾರ್ಗದರ್ಶಕರು'), icon: '🧭' },
-        { num: '4.9★', label: t('Avg Rating', 'ಸರಾಸರಿ ರೇಟಿಂಗ್'), icon: '⭐' },
-    ];
+    // PREMIUM SVG ICONS
+    const Icons = {
+        Verified: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>,
+        Users: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>,
+        Compass: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>,
+        Star: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>,
+        Search: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>,
+        Sparkle: () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path></svg>
+    };
 
-    const floatingOrbs = [
-        { top: '15%', left: '8%', size: 320, color: 'rgba(255,107,53,0.12)', delay: 0 },
-        { top: '55%', left: '75%', size: 260, color: 'rgba(124,58,237,0.10)', delay: 2 },
-        { top: '75%', left: '20%', size: 180, color: 'rgba(0,212,170,0.08)', delay: 1 },
-        { top: '10%', left: '60%', size: 200, color: 'rgba(255,77,109,0.07)', delay: 3 },
+    const stats = [
+        { num: '500+', label: t('Verified Spots', 'ಪರಿಶೀಲಿಸಿದ ಸ್ಥಳಗಳು'), icon: <Icons.Verified /> },
+        { num: '50k+', label: t('Happy Travelers', 'ಸಂತುಷ್ಟ ಪ್ರಯಾಣಿಕರು'), icon: <Icons.Users /> },
+        { num: '200+', label: t('Local Guides', 'ಸ್ಥಳೀಯ ಮಾರ್ಗದರ್ಶಕರು'), icon: <Icons.Compass /> },
+        { num: '4.9', label: t('Avg Rating', 'ಸರಾಸರಿ ರೇಟಿಂಗ್'), icon: <Icons.Star /> },
     ];
 
     const travelTags = [
-        { emoji: '🏔️', text: t('Mountains', 'ಪರ್ವತಗಳು') },
-        { emoji: '🏖️', text: t('Beaches', 'ಕಡಲ ತೀರ') },
-        { emoji: '🏰', text: t('Forts', 'ಕೋಟೆಗಳು') },
-        { emoji: '🌿', text: t('Forest', 'ಅರಣ್ಯ') },
-        { emoji: '🍛', text: t('Food', 'ಆಹಾರ') },
-        { emoji: '🎨', text: t('Culture', 'ಸಂಸ್ಕೃತಿ') },
+        { icon: '🏔️', text: t('Mountains', 'ಪರ್ವತಗಳು') },
+        { icon: '🏖️', text: t('Beaches', 'ಕಡಲ ತೀರ') },
+        { icon: '🏰', text: t('Forts', 'ಕೋಟೆಗಳು') },
+        { icon: '🌿', text: t('Forest', 'ಅರಣ್ಯ') },
+        { icon: '🍛', text: t('Food', 'ಆಹಾರ') },
     ];
 
     const nearbyPicks = [
-        { emoji: '🏯', name: t('Bengaluru Fort', 'ಬೆಂಗಳೂರು ಕೋಟೆ'), dist: '2.1 km', tag: t('Heritage', 'ಪರಂಪರೆ') },
-        { emoji: '🌿', name: t('Cubbon Park', 'ಕಬ್ಬನ್ ಪಾರ್ಕ್'), dist: '3.4 km', tag: t('Nature', 'ಪ್ರಕೃತಿ') },
-        { emoji: '🍛', name: t('VV Puram Food St.', 'VV ಪುರಂ ಫುಡ್'), dist: '5.0 km', tag: t('Food', 'ಆಹಾರ') },
+        { name: t('Bengaluru Fort', 'ಬೆಂಗಳೂರು ಕೋಟೆ'), dist: '2.1 km', tag: 'Heritage' },
+        { name: t('Cubbon Park', 'ಕಬ್ಬನ್ ಪಾರ್ಕ್'), dist: '3.4 km', tag: 'Nature' },
+        { name: t('VV Puram Food St.', 'VV ಪುರಂ ಫುಡ್'), dist: '5.0 km', tag: 'Food' },
     ];
 
     return (
-        <section id="hero" ref={heroRef} style={{ position: 'relative', overflow: 'hidden', minHeight: '100vh' }}>
-            {/* ── Video + atmosphere layer ── */}
+        <section id="hero" ref={heroRef} className="premium-hero-container">
+            {/* ── OVERRIDDEN STYLES ── */}
+            <style>{`
+                .premium-hero-container {
+                    position: relative;
+                    overflow: hidden;
+                    min-height: 100vh;
+                    background: #020617;
+                    font-family: 'Inter', -apple-system, sans-serif;
+                }
+
+                .hero-video-wrap video {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transform: translate(-50%, -50%) scale(1.1);
+                    filter: saturate(1.2) brightness(0.6);
+                    z-index: 1;
+                }
+
+                .hero-overlay-master {
+                    position: absolute;
+                    inset: 0;
+                    z-index: 2;
+                    background: radial-gradient(circle at center, transparent 0%, rgba(2, 6, 23, 0.7) 100%),
+                                linear-gradient(to bottom, rgba(2, 6, 23, 0.4) 0%, #020617 95%);
+                }
+
+                .hero-tag {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 10px;
+                    background: rgba(255, 255, 255, 0.05);
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    padding: 8px 16px;
+                    border-radius: 100px;
+                    color: #94a3b8;
+                    font-size: 13px;
+                    font-weight: 500;
+                    letter-spacing: 0.5px;
+                    margin-bottom: 24px;
+                    transition: 0.3s;
+                }
+
+                .hero-tag:hover {
+                    background: rgba(255, 255, 255, 0.1);
+                    border-color: #FF6B35;
+                    color: #fff;
+                }
+
+                .hero-title {
+                    font-size: clamp(2.5rem, 6vw, 4.5rem);
+                    font-weight: 800;
+                    line-height: 1.1;
+                    color: #f8fafc;
+                    margin-bottom: 20px;
+                }
+
+                .highlight {
+                    color: transparent;
+                    -webkit-text-stroke: 1px rgba(255,255,255,0.2);
+                    background: linear-gradient(90deg, #FF6B35, #FF4D6D);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    position: relative;
+                }
+
+                .hero-desc {
+                    max-width: 600px;
+                    font-size: 18px;
+                    color: #94a3b8;
+                    line-height: 1.6;
+                    margin-bottom: 32px;
+                }
+
+                /* GLASS SEARCH BOX */
+                .premium-search-box {
+                    display: flex;
+                    align-items: center;
+                    background: rgba(15, 23, 42, 0.6);
+                    backdrop-filter: blur(20px);
+                    border: 1px solid rgba(255, 255, 255, 0.08);
+                    padding: 10px;
+                    border-radius: 20px;
+                    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+                    max-width: 900px;
+                    width: 95%;
+                    margin: 0 auto;
+                    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                }
+
+                .premium-search-box:focus-within {
+                    border-color: rgba(255, 107, 53, 0.4);
+                    transform: translateY(-5px);
+                }
+
+                .search-input-wrap {
+                    display: flex;
+                    align-items: center;
+                    flex: 2;
+                    padding-left: 15px;
+                    gap: 12px;
+                }
+
+                .search-input-wrap input {
+                    background: transparent;
+                    border: none;
+                    outline: none;
+                    color: #fff;
+                    width: 100%;
+                    font-size: 15px;
+                }
+
+                .premium-divider {
+                    width: 1px;
+                    height: 30px;
+                    background: rgba(255,255,255,0.1);
+                    margin: 0 15px;
+                }
+
+                .city-select {
+                    background: transparent;
+                    border: none;
+                    color: #cbd5e1;
+                    font-weight: 600;
+                    cursor: pointer;
+                    outline: none;
+                }
+
+                .premium-btn-main {
+                    background: linear-gradient(135deg, #FF6B35, #FF4D6D);
+                    color: white;
+                    padding: 12px 28px;
+                    border-radius: 14px;
+                    font-weight: 700;
+                    border: none;
+                    cursor: pointer;
+                    transition: 0.3s;
+                    box-shadow: 0 10px 20px rgba(255, 107, 53, 0.2);
+                }
+
+                .premium-btn-main:hover {
+                    transform: scale(1.05);
+                    box-shadow: 0 15px 30px rgba(255, 107, 53, 0.4);
+                }
+
+                /* FLOATING INFO CARD */
+                .premium-card {
+                    background: linear-gradient(165deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    backdrop-filter: blur(30px);
+                    border-radius: 24px;
+                    padding: 24px;
+                    width: 320px;
+                    box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+                }
+
+                .pick-item {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 12px;
+                    border-radius: 12px;
+                    transition: 0.2s;
+                    margin-bottom: 8px;
+                    background: rgba(255, 255, 255, 0.03);
+                }
+
+                .pick-item:hover {
+                    background: rgba(255, 255, 255, 0.08);
+                    transform: translateX(5px);
+                }
+
+                @keyframes floatOrb {
+                    0%, 100% { transform: translate(0, 0) scale(1); }
+                    50% { transform: translate(20px, -30px) scale(1.1); }
+                }
+
+                @keyframes drawLine {
+                    to { stroke-dashoffset: 0; }
+                }
+
+                @media (max-width: 768px) {
+                    .premium-search-box { flex-direction: column; gap: 15px; padding: 20px; }
+                    .premium-divider { display: none; }
+                    .search-input-wrap { width: 100%; padding: 0; }
+                    .city-select { width: 100%; text-align: center; }
+                }
+            `}</style>
+
+            {/* ── Background Layer ── */}
             <div className="hero-video-wrap">
-                <video
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        transform: `translate(-50%, -50%) translateY(${scrollY * 0.18}px)`,
-                        zIndex: 1,
-                        filter: 'contrast(1.1) brightness(1.05)', // makes it pop
-                      }}
-                    >
-                      <source src={heroVideo} type="video/mp4" />
-                    </video>
-                <div  style={{
-                            position: 'absolute',
-                            inset: 0,
-                            background: 'rgba(0,0,0,0.18)',
-                            zIndex: 2,
-                          }} className="hero-video-overlay" />
-
-                {/* Radial colour bleeds */}
-                <div style={{ position:'absolute',inset:0,zIndex:2,background:'radial-gradient(ellipse 70% 60% at 30% 50%, rgba(255,107,53,0.18) 0%, transparent 70%)',pointerEvents:'none' }} />
-                <div style={{ position:'absolute',inset:0,zIndex:2,background:'radial-gradient(ellipse 50% 50% at 80% 30%, rgba(124,58,237,0.14) 0%, transparent 65%)',pointerEvents:'none' }} />
-
-                {/* Ambient orbs */}
-                {floatingOrbs.map((orb, i) => (
-                    <div key={i} style={{
-                        position:'absolute', top:orb.top, left:orb.left,
-                        width:orb.size, height:orb.size, borderRadius:'50%',
-                        background:`radial-gradient(circle, ${orb.color}, transparent 70%)`,
-                        filter:'blur(20px)',
-                        transform:`translate(${mousePos.x*(8+i*3)}px, ${mousePos.y*(6+i*2)}px)`,
-                        transition:'transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94)',
-                        zIndex:3, pointerEvents:'none',
-                        animation:`floatOrb ${6+i*1.5}s ease-in-out infinite`,
-                        animationDelay:`${orb.delay}s`,
-                    }} />
-                ))}
-
-                {/* Star particles */}
-                {Array.from({ length: particleCount }).map((_, i) => (
-                    <div key={i} style={{
-                        position:'absolute',
-                        top:`${10+Math.sin(i*137.5*Math.PI/180)*40+40}%`,
-                        left:`${(i/particleCount)*100}%`,
-                        width: i%3===0 ? 3 : 2, height: i%3===0 ? 3 : 2,
-                        borderRadius:'50%',
-                        background: i%3===0 ? 'rgba(255,209,102,0.6)' : 'rgba(255,255,255,0.25)',
-                        zIndex:3, pointerEvents:'none',
-                        animation:`twinkle ${2+(i%4)*0.7}s ease-in-out infinite`,
-                        animationDelay:`${(i*0.3)%3}s`,
-                    }} />
-                ))}
-
-                {/* Subtle grid */}
-                <svg style={{ position:'absolute',inset:0,width:'100%',height:'100%',zIndex:3,pointerEvents:'none',opacity:0.035 }}>
-                    <defs>
-                        <pattern id="heroGrid" width="80" height="80" patternUnits="userSpaceOnUse">
-                            <path d="M 80 0 L 0 0 0 80" fill="none" stroke="white" strokeWidth="0.5" />
-                        </pattern>
-                    </defs>
-                    <rect width="100%" height="100%" fill="url(#heroGrid)" />
-                </svg>
+                <video autoPlay muted loop playsInline style={{ transform: `translate(-50%, -50%) translateY(${scrollY * 0.1}px)` }}>
+                    <source src={heroVideo} type="video/mp4" />
+                </video>
+                <div className="hero-overlay-master" />
             </div>
 
-            {/* ── Main hero inner ── */}
-            <div className="container hero-inner">
-                <div className="hero-content">
+            {/* ── Main Layout ── */}
+            <div className="container" style={{ position: 'relative', zIndex: 10, paddingTop: '10vh' }}>
+                <div className="hero-inner" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    
+                    {/* Left Content */}
+                    <div className="hero-content">
+                        <div className="hero-tag">
+                            <Icons.Sparkle />
+                            {t('PREMIUM TRAVEL EXPERIENCES', 'ಅಪ್ಪಟ ಕರ್ನಾಟಕದ ಅನುಭವಗಳು')}
+                        </div>
 
-                    {/* Pill badge */}
-                    <div className="hero-tag">
-                        <span style={{ display:'inline-block', animation:'spin 3s linear infinite' }}>✨</span>
-                        {t('Authentic Karnataka Experiences', 'ಅಪ್ಪಟ ಕರ್ನಾಟಕದ ಅನುಭವಗಳು')}
-                    </div>
+                        <h1 className="hero-title">
+                            {t('Discover', 'ಅನ್ವೇಷಿಸಿ')}{' '}
+                            <span className="highlight">
+                                {currentCity.name}
+                                <svg viewBox="0 0 200 12" style={{ position: 'absolute', bottom: -10, left: 0, width: '100%', opacity: 0.8 }}>
+                                    <path d="M4 8 Q50 2 100 8 Q150 14 196 6" fill="none" stroke="#FF6B35" strokeWidth="4" strokeLinecap="round" style={{ strokeDasharray: 220, strokeDashoffset: 220, animation: 'drawLine 1.5s forwards' }} />
+                                </svg>
+                            </span>
+                            <br />
+                            <span style={{ fontWeight: 300 }}>{t('Like Never Before', 'ಹೊಸ ದೃಷ್ಟಿಕೋನದಲ್ಲಿ')}</span>
+                        </h1>
 
-                    {/* H1 with animated underline */}
-                    <h1 className="hero-title">
-                        {t('Explore', 'ಅನ್ವೇಷಿಸಿ')}{' '}
-                        <span className="highlight" style={{ position:'relative', display:'inline-block' }}>
-                            {t(currentCity.name, currentCity.name)}
-                            <svg viewBox="0 0 200 12" style={{ position:'absolute',bottom:-4,left:0,width:'100%',overflow:'visible' }}>
-                                <defs>
-                                    <linearGradient id="uGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" stopColor="#FF6B35" />
-                                        <stop offset="100%" stopColor="#FF4D6D" />
-                                    </linearGradient>
-                                </defs>
-                                <path d="M4 8 Q50 2 100 8 Q150 14 196 6" fill="none" stroke="url(#uGrad)" strokeWidth="3" strokeLinecap="round"
-                                    style={{ strokeDasharray:220, strokeDashoffset:220, animation:'drawLine 1s 0.8s ease forwards' }} />
-                            </svg>
-                        </span>
-                        <br />{t('Like a Local', 'ಸ್ಥಳೀಯರಂತೆ')}
-                    </h1>
+                        <p className="hero-desc">{t(currentCity.overview, currentCity.overview)}</p>
 
-                    {/* Typewriter subline */}
-                    <div style={{ display:'flex',alignItems:'center',gap:'0.5rem',marginBottom:'0.75rem',animation:'fadeSlideUp 0.8s 0.35s ease both' }}>
-                        <span style={{ fontSize:'0.82rem',color:'rgba(255,255,255,0.45)' }}>{t('Discover','ಕಂಡುಕೊಳ್ಳಿ')} →</span>
-                        <span style={{
-                            fontSize:'0.9rem', fontWeight:700,
-                            background:'linear-gradient(90deg,#FFD166,#FF8C42)',
-                            WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text',
-                            minWidth:'200px',
-                        }}>
-                            {typedText}
-                            <span style={{ borderRight:'2px solid #FF8C42', marginLeft:1, animation:'blink 0.75s step-end infinite' }} />
-                        </span>
-                    </div>
-
-                    <p className="hero-desc">{t(currentCity.overview, currentCity.overview)}</p>
-
-                    {/* Quick-filter tags */}
-                    <div style={{ display:'flex',flexWrap:'wrap',gap:'0.5rem',marginBottom:'1.5rem',animation:'fadeSlideUp 0.8s 0.5s ease both' }}>
-                        {travelTags.map((tag, i) => (
-                            <button key={i} style={{
-                                display:'inline-flex', alignItems:'center', gap:'0.35rem',
-                                padding:'0.3rem 0.85rem', borderRadius:20,
-                                background:'rgba(255,255,255,0.06)',
-                                border:'1px solid rgba(255,255,255,0.12)',
-                                color:'rgba(240,244,255,0.8)', fontSize:'0.78rem', fontWeight:600,
-                                cursor:'pointer', fontFamily:'inherit',
-                                transition:'all 0.25s cubic-bezier(0.4,0,0.2,1)',
-                                backdropFilter:'blur(8px)',
-                            }}
-                                onMouseEnter={e => { e.currentTarget.style.cssText += ';background:rgba(255,107,53,0.18)!important;border-color:rgba(255,107,53,0.5)!important;color:#FF8C42!important;transform:translateY(-2px)!important'; }}
-                                onMouseLeave={e => { e.currentTarget.style.cssText = e.currentTarget.style.cssText.replace(/;background[^;]+!important/g,'').replace(/;border-color[^;]+!important/g,'').replace(/;color[^;]+!important/g,'').replace(/;transform[^;]+!important/g,''); }}
-                            >
-                                <span>{tag.emoji}</span>{tag.text}
+                        {/* CTAs */}
+                        <div style={{ display: 'flex', gap: '15px', marginBottom: '40px' }}>
+                            <button className="premium-btn-main">
+                                {t('Start Journey', 'ಪ್ರಯಾಣ ಆರಂಭಿಸಿ')}
                             </button>
-                        ))}
-                    </div>
-
-                    {/* CTAs */}
-                    <div className="hero-ctas" style={{ animation:'fadeSlideUp 0.8s 0.6s ease both' }}>
-                        <a href="#discover-section" className="btn btn-primary" style={{ position:'relative',overflow:'hidden' }}>
-                            🚀 {t('Start Exploring','ಅನ್ವೇಷಣೆ ಆರಂಭಿಸಿ')}
-                            <span style={{
-                                position:'absolute',inset:0,
-                                background:'linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.18) 50%,transparent 100%)',
-                                transform:'translateX(-100%)',
-                                animation:'shimmerBtn 2.5s 1.5s ease-in-out infinite',
-                            }} />
-                        </a>
-                        <a href="#map-section" className="btn btn-ghost">🗺️ {t('View Map','ನಕ್ಷೆ ನೋಡಿ')}</a>
-                        <a href="#ai-section" className="btn" style={{
-                            background:'linear-gradient(135deg,rgba(124,58,237,0.3),rgba(0,212,170,0.2))',
-                            border:'1px solid rgba(124,58,237,0.4)', color:'#fff', backdropFilter:'blur(8px)',
-                        }}>
-                            🤖 {t('AI Picks','AI ಆಯ್ಕೆಗಳು')}
-                        </a>
-                    </div>
-
-                    {/* Radius */}
-                    <div className="hero-radius-wrap" style={{ animation:'fadeSlideUp 0.8s 0.7s ease both' }}>
-                        <label>{t('Search Radius','ಹುಡುಕಾಟದ ವ್ಯಾಪ್ತಿ')}:</label>
-                        <input type="range" min="5" max="100" value={radius}
-                            onChange={(e) => setRadius(e.target.value)} id="radius-slider" />
-                        <span id="radius-val">{radius} km</span>
-                    </div>
-
-                    {/* Animated stats */}
-                    <div className="hero-stats" style={{ animation:'fadeSlideUp 0.8s 0.8s ease both' }}>
-                        {stats.map((s, i) => (
-                            <div key={i} className="stat-item" style={{
-                                position:'relative', padding:'0.75rem 1rem', borderRadius:12,
-                                transition:'all 0.4s ease',
-                                background: activeStatIdx===i ? 'rgba(255,107,53,0.12)' : 'transparent',
-                                border: `1px solid ${activeStatIdx===i ? 'rgba(255,107,53,0.3)' : 'transparent'}`,
-                            }}>
-                                <div style={{ fontSize:'1.1rem', marginBottom:'0.1rem' }}>{s.icon}</div>
-                                <div className="hero-stat-num">{s.num}</div>
-                                <div className="hero-stat-label">{s.label}</div>
-                                {activeStatIdx===i && (
-                                    <div style={{ position:'absolute',bottom:0,left:'10%',right:'10%',height:2,background:'linear-gradient(90deg,#FF6B35,#FF4D6D)',borderRadius:2 }} />
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* ── Floating info card (desktop) ── */}
-                <div ref={floatingCardRef} style={{
-                    position:'absolute', right:'2rem', bottom:'10%', display:'none',
-                    transform:`translateY(-50%) translate(${mousePos.x*-6}px,${mousePos.y*-4}px)`,
-                    transition:'transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94)',
-                    zIndex:5, animation:'fadeSlideUp 1s 0.9s ease both',
-                }}>
-                    <div style={{
-                        width:280, background:'rgba(8,13,26,0.72)',
-                        border:'1px solid rgba(255,255,255,0.12)', borderRadius:20, padding:'1.5rem',
-                        backdropFilter:'blur(24px)',
-                        boxShadow:'0 24px 64px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)',
-                    }}>
-                        {/* Mini map */}
-                        <div style={{
-                            height:110, borderRadius:12, marginBottom:'1rem', overflow:'hidden',
-                            background:'linear-gradient(135deg,rgba(0,212,170,0.15),rgba(124,58,237,0.2))',
-                            border:'1px solid rgba(255,255,255,0.08)',
-                            display:'flex', alignItems:'center', justifyContent:'center', position:'relative',
-                        }}>
-                            <svg viewBox="0 0 200 100" style={{ width:'100%',height:'100%',position:'absolute',inset:0,opacity:0.5 }}>
-                                <path d="M20,80 Q60,20 100,50 Q140,80 180,30" fill="none" stroke="#FF6B35" strokeWidth="2" strokeDasharray="4,4" />
-                                <circle cx="20" cy="80" r="5" fill="#FF6B35" /><circle cx="100" cy="50" r="4" fill="#FFD166" /><circle cx="180" cy="30" r="5" fill="#00D4AA" />
-                            </svg>
-                            <span style={{ fontSize:'2rem',zIndex:1 }}>🗺️</span>
+                            <button style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', padding: '12px 24px', borderRadius: '14px', fontWeight: '600', cursor: 'pointer', backdropFilter: 'blur(10px)' }}>
+                                {t('View Map', 'ನಕ್ಷೆ ನೋಡಿ')}
+                            </button>
                         </div>
 
-                        <div style={{ fontSize:'0.72rem',color:'rgba(255,255,255,0.4)',marginBottom:'0.6rem',fontWeight:700,letterSpacing:'1.5px',textTransform:'uppercase' }}>
-                            {t('Top Picks Near You','ನಿಮ್ಮ ಬಳಿ ಉತ್ತಮ ಆಯ್ಕೆಗಳು')}
+                        {/* Interactive Stats */}
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px', maxWidth: '600px' }}>
+                            {stats.map((s, i) => (
+                                <div key={i} style={{ opacity: activeStatIdx === i ? 1 : 0.4, transition: '0.4s', textAlign: 'left' }}>
+                                    <div style={{ color: '#FF6B35', marginBottom: '5px' }}>{s.icon}</div>
+                                    <div style={{ fontSize: '20px', fontWeight: '800', color: '#fff' }}>{s.num}</div>
+                                    <div style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '1px' }}>{s.label}</div>
+                                </div>
+                            ))}
                         </div>
+                    </div>
 
+                    {/* Right Content - Floating Card */}
+                    <div ref={floatingCardRef} className="premium-card">
+                        <div style={{ textTransform: 'uppercase', fontSize: '10px', letterSpacing: '2px', color: '#FF6B35', fontWeight: 800, marginBottom: '15px' }}>
+                            {t('NEARBY GEMS', 'ನಿಮ್ಮ ಸುತ್ತಲಿನ ಸ್ಥಳಗಳು')}
+                        </div>
                         {nearbyPicks.map((item, i) => (
-                            <div key={i} style={{
-                                display:'flex', alignItems:'center', gap:'0.65rem',
-                                padding:'0.6rem 0.75rem', borderRadius:10, marginBottom:'0.4rem',
-                                background:'rgba(255,255,255,0.04)',
-                                border:'1px solid rgba(255,255,255,0.07)',
-                                cursor:'pointer', transition:'all 0.22s ease',
-                            }}
-                                onMouseEnter={e => Object.assign(e.currentTarget.style,{ background:'rgba(255,107,53,0.1)',borderColor:'rgba(255,107,53,0.25)',transform:'translateX(4px)' })}
-                                onMouseLeave={e => Object.assign(e.currentTarget.style,{ background:'rgba(255,255,255,0.04)',borderColor:'rgba(255,255,255,0.07)',transform:'translateX(0)' })}
-                            >
-                                <span style={{ fontSize:'1.25rem' }}>{item.emoji}</span>
-                                <div style={{ flex:1 }}>
-                                    <div style={{ fontSize:'0.8rem',fontWeight:600,color:'#F0F4FF' }}>{item.name}</div>
-                                    <div style={{ fontSize:'0.68rem',color:'rgba(255,255,255,0.38)' }}>{item.dist}</div>
+                            <div key={i} className="pick-item">
+                                <div>
+                                    <div style={{ color: '#fff', fontSize: '14px', fontWeight: 600 }}>{item.name}</div>
+                                    <div style={{ color: '#64748b', fontSize: '12px' }}>{item.dist} away</div>
                                 </div>
-                                <span style={{ fontSize:'0.63rem',fontWeight:700,padding:'0.15rem 0.5rem',borderRadius:8,background:'rgba(0,212,170,0.15)',color:'#00D4AA' }}>{item.tag}</span>
+                                <div style={{ background: 'rgba(255,107,53,0.1)', color: '#FF6B35', padding: '4px 8px', borderRadius: '6px', fontSize: '10px', fontWeight: 700 }}>
+                                    {item.tag}
+                                </div>
                             </div>
                         ))}
-
-                        {/* Mini weather */}
-                        <div style={{
-                            marginTop:'0.85rem', padding:'0.7rem', borderRadius:12,
-                            background:'linear-gradient(135deg,rgba(255,107,53,0.12),rgba(255,77,109,0.08))',
-                            border:'1px solid rgba(255,107,53,0.2)',
-                            display:'flex', alignItems:'center', justifyContent:'space-between',
-                        }}>
-                            <div>
-                                <div style={{ fontSize:'0.65rem',color:'rgba(255,255,255,0.38)',fontWeight:700,letterSpacing:'1px' }}>
-                                    {t('TODAY','ಇಂದು')} • {currentCity.name}
-                                </div>
-                                <div style={{ fontSize:'0.8rem',fontWeight:700,color:'#F0F4FF',marginTop:2 }}>
-                                    ⛅ {t('Great day to explore!','ಅನ್ವೇಷಣೆಗೆ ಉತ್ತಮ ದಿನ!')}
-                                </div>
-                            </div>
-                            <div style={{ fontSize:'1.5rem',fontWeight:800,color:'#FFD166' }}>26°</div>
+                        <div style={{ marginTop: '20px', padding: '15px', borderRadius: '15px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)' }}>
+                            <div style={{ fontSize: '12px', color: '#94a3b8' }}>Weather Today</div>
+                            <div style={{ fontSize: '24px', fontWeight: 800, color: '#fff' }}>26°C <span style={{ fontSize: '14px', fontWeight: 400, color: '#FFD166' }}>Partly Cloudy</span></div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                {/* Location panel */}
-                <div className={`location-summary-panel ${showPanel ? 'open' : ''}`}>
-                    <h3 className="lsp-title">{currentCity.name}</h3>
-                    <p className="lsp-subtitle">{t('Quick Overview','ತ್ವರಿತ ಅವಲೋಕನ')}</p>
-                    <ul className="lsp-highlights">
-                        {currentCity.highlights?.map((h, i) => <li key={i}>{h}</li>)}
-                    </ul>
-                    <div className="lsp-best-time">🕒 {t('Best Time','ಅತ್ಯುತ್ತಮ ಸಮಯ')}: {currentCity.bestTime}</div>
-                    <button className="btn btn-xs btn-primary w-full" onClick={() => setShowPanel(false)}>
-                        {t('Close','ಮುಚ್ಚಿ')}
+            {/* ── Search Bar Floating Footer ── */}
+            <div style={{ position: 'absolute', bottom: '40px', width: '100%', zIndex: 100 }}>
+                <div className="premium-search-box">
+                    <div className="search-input-wrap">
+                        <Icons.Search />
+                        <input type="text" placeholder={t('Where to next? Try "Hampi"...', 'ನಿಮ್ಮ ಮುಂದಿನ ನಿಲ್ದಾಣ ಎಲ್ಲಿದೆ?')} />
+                    </div>
+                    <div className="premium-divider" />
+                    <div style={{ padding: '0 15px' }}>
+                        <select className="city-select" value={state.currentCity} onChange={(e) => dispatch({ type: 'SET_CITY', payload: e.target.value })}>
+                            {state.cities?.map(c => <option key={c.slug} value={c.slug}>{c.name}</option>)}
+                        </select>
+                    </div>
+                    <div className="premium-divider" />
+                    <button className="premium-btn-main" style={{ padding: '10px 30px' }}>
+                        {t('Explore', 'ಹುಡುಕಿ')}
                     </button>
                 </div>
             </div>
 
-            {/* ── Search bar  */}
-            <div className="hero-search-wrap" style={{ 
-                position: 'absolute', 
-                bottom: '5%', 
-                left: '50%', 
-                width: '100%', 
-                zIndex: 10 
-            }}>
-                <div className="hero-search">
-                    <span style={{ fontSize:'1.1rem' }}>🔍</span>
-                    <input type="text" placeholder={t('Search for "CTR Dosa" or "Hampi"...', '"CTR ದೋಸೆ" ಅಥವಾ "ಹಂಪಿ" ಎಂದು ಹುಡುಕಿ...')} />
-                    <div className="divider" />
-                    <select value={state.currentCity} onChange={(e) => dispatch({ type:'SET_CITY', payload:e.target.value })}>
-                        {state.cities?.map(c => <option key={c.slug} value={c.slug}>{c.name}</option>)}
-                    </select>
-                    <div className="divider" />
-                    <div style={{ display:'flex',gap:'0.3rem',alignItems:'center' }}>
-                        {['🏛️','🍜','🏕️'].map((emoji, i) => (
-                            <button key={i} style={{
-                                background:'rgba(255,107,53,0.1)', border:'1px solid rgba(255,107,53,0.2)',
-                                borderRadius:'50%', width:30, height:30, cursor:'pointer',
-                                display:'flex', alignItems:'center', justifyContent:'center', fontSize:'0.85rem',
-                                transition:'all 0.2s', fontFamily:'inherit',
-                            }}
-                                onMouseEnter={e => Object.assign(e.currentTarget.style,{ background:'rgba(255,107,53,0.25)',transform:'scale(1.12)' })}
-                                onMouseLeave={e => Object.assign(e.currentTarget.style,{ background:'rgba(255,107,53,0.1)',transform:'scale(1)' })}
-                            >{emoji}</button>
-                        ))}
-                    </div>
-                    <button className="btn btn-primary">{t('Search','ಹುಡುಕಿ')}</button>
-                </div>
-            </div>
-
-            {/* Keyframes */}
-            <style>{`
-                @keyframes floatOrb {
-                    0%,100%{transform:translateY(0)scale(1)}
-                    50%{transform:translateY(-22px)scale(1.05)}
-                }
-                @keyframes twinkle {
-                    0%,100%{opacity:.2;transform:scale(1)}
-                    50%{opacity:.9;transform:scale(1.6)}
-                }
-                @keyframes blink {
-                    0%,100%{opacity:1}50%{opacity:0}
-                }
-                @keyframes spin {
-                    0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}
-                }
-                @keyframes drawLine {
-                    to{stroke-dashoffset:0}
-                }
-                @keyframes shimmerBtn {
-                    0%{transform:translateX(-100%)}
-                    100%{transform:translateX(200%)}
-                }
-            `}</style>
+            {/* Ambient Background Elements */}
+            <div style={{ position: 'absolute', top: '20%', left: '10%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(255,107,53,0.08) 0%, transparent 70%)', filter: 'blur(60px)', zIndex: 3, animation: 'floatOrb 10s infinite' }} />
+            <div style={{ position: 'absolute', bottom: '10%', right: '5%', width: '300px', height: '300px', background: 'radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 70%)', filter: 'blur(60px)', zIndex: 3, animation: 'floatOrb 15s infinite reverse' }} />
         </section>
     );
 };
