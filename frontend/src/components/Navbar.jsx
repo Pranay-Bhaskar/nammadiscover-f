@@ -85,6 +85,7 @@ const Navbar = () => {
     const handleLogout = () => {
         setProfileOpen(false);
         logout();
+        navigate('/', { replace: true });
     };
 
     const isHome = location.pathname === '/dashboard';
