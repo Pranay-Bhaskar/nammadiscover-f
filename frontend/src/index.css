@@ -591,7 +591,7 @@ body.light .profile-dropdown .logout-btn:hover {
   font-size: 1.35rem;
   font-weight: 700;
   white-space: nowrap;
-  background: var(--gradient-sunset);
+  background: #66ff00;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
