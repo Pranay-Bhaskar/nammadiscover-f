@@ -89,6 +89,7 @@ const Navbar = () => {
             logout();
         }, 0);
     };
+    
     const isHome = location.pathname === '/dashboard';
 
     const extraStyles = (
