@@ -296,7 +296,7 @@
 .phone__verified-line {
   font-size: 0.78rem;
   font-weight: 700;
-  color: var(--text-dark);
+  color: #0a0a0a;
   line-height: 1.4;
 }
 
