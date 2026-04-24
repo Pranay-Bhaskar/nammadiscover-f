@@ -191,7 +191,7 @@ const Navbar = () => {
 
             <div className="container nav-inner">
                 <Link to="/dashboard" className="nav-logo">
-                    Namma<span>Discover</span>
+                  Namma<span className="logo-accent">Discover</span>
                 </Link>
 
                 <div className={`nav-links ${mobileMenuOpen ? 'mobile-active' : ''}`}>

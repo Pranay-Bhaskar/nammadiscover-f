@@ -586,7 +586,7 @@ body.light .profile-dropdown .logout-btn:hover {
   gap: 1rem;
 }
 
-.nav-logo {
+/* .nav-logo {
   font-family: var(--font-head);
   font-size: 1.35rem;
   font-weight: 700;
@@ -595,6 +595,22 @@ body.light .profile-dropdown .logout-btn:hover {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+} */
+
+.logo-accent {
+  color: #38bdf8; /* sky blue premium */
+  margin-left: 4px;
+  position: relative;
+}
+
+/* subtle glow */
+.logo-accent::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(56,189,248,0.4) 0%, transparent 70%);
+  filter: blur(10px);
+  z-index: -1;
 }
 
 .nav-links {
