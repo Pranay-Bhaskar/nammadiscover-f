@@ -6,9 +6,14 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 const Navbar = () => {
     const { state, dispatch } = useApp();
     const { user, logout } = useAuth();
+
     const [scrolled, setScrolled] = useState(false);
     const [profileOpen, setProfileOpen] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+    // ✅ NEW (does not affect existing logic)
+    const [activeSection, setActiveSection] = useState('');
+
     const location = useLocation();
     const navigate = useNavigate();
     const profileRef = useRef(null);
@@ -16,7 +21,26 @@ const Navbar = () => {
     const hideNavbarRoutes = ['/', '/login', '/signup'];
 
     useEffect(() => {
-        const handleScroll = () => setScrolled(window.scrollY > 50);
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 50);
+
+            // ✅ NEW: section tracking
+            const sections = ['discover-section', 'map-section'];
+            let current = '';
+
+            sections.forEach((id) => {
+                const el = document.getElementById(id);
+                if (el) {
+                    const top = el.offsetTop - 120;
+                    if (window.scrollY >= top) {
+                        current = id;
+                    }
+                }
+            });
+
+            setActiveSection(current);
+        };
+
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
@@ -65,7 +89,6 @@ const Navbar = () => {
 
     const isHome = location.pathname === '/dashboard';
 
-    // 🎨 UPDATED STYLING FOR LOGO & MOBILE OVERFLOW
     const extraStyles = (
         <style>{`
             .nav-inner {
@@ -79,14 +102,14 @@ const Navbar = () => {
             .nav-logo {
                 white-space: nowrap;
                 flex-shrink: 1;
-                font-size: 1.5rem; /* Desktop size */
+                font-size: 1.5rem;
             }
 
             .nav-actions {
                 display: flex;
                 align-items: center;
                 gap: 10px;
-                flex-shrink: 0; /* Prevents actions from being pushed off screen */
+                flex-shrink: 0;
             }
 
             .coming-soon-badge {
@@ -128,9 +151,7 @@ const Navbar = () => {
             @media (max-width: 768px) {
                 #hamburger { display: block; }
                 
-                .nav-logo {
-                    font-size: 1.1rem; /* Shrink logo on mobile */
-                }
+                .nav-logo { font-size: 1.1rem; }
 
                 .nav-links {
                     display: ${mobileMenuOpen ? 'flex' : 'none'};
@@ -146,9 +167,7 @@ const Navbar = () => {
                     z-index: 999;
                 }
 
-                .profile-label {
-                    display: none; /* Hide 'Username' text on small phones to save space */
-                }
+                .profile-label { display: none; }
             }
         `}</style>
     );
@@ -163,25 +182,44 @@ const Navbar = () => {
             style={{
                 background: scrolled ? undefined : 'transparent',
                 borderBottom: scrolled ? undefined : 'none',
-                position: 'fixed', width: '100%', zIndex: 1000
+                position: 'fixed',
+                width: '100%',
+                zIndex: 1000
             }}
         >
             {extraStyles}
+
             <div className="container nav-inner">
                 <Link to="/dashboard" className="nav-logo">
                     Namma<span>Discover</span>
                 </Link>
 
                 <div className={`nav-links ${mobileMenuOpen ? 'mobile-active' : ''}`}>
-                    <Link to="/dashboard" className={`nav-link${isHome ? ' active' : ''}`} onClick={() => setMobileMenuOpen(false)}>
+                    
+                    {/* ✅ HOME */}
+                    <Link
+                        to="/dashboard"
+                        className={`nav-link${isHome && !activeSection ? ' active' : ''}`}
+                        onClick={() => setMobileMenuOpen(false)}
+                    >
                         {t('Home', 'ಮುಖಪುಟ')}
                     </Link>
 
-                    <button type="button" className="nav-link" onClick={() => goToSection('discover-section')}>
+                    {/* ✅ DISCOVER */}
+                    <button
+                        type="button"
+                        className={`nav-link${activeSection === 'discover-section' ? ' active' : ''}`}
+                        onClick={() => goToSection('discover-section')}
+                    >
                         {t('Discover', 'ಅನ್ವೇಷಿಸಿ')}
                     </button>
 
-                    <button type="button" className="nav-link" onClick={() => goToSection('map-section')}>
+                    {/* ✅ MAP */}
+                    <button
+                        type="button"
+                        className={`nav-link${activeSection === 'map-section' ? ' active' : ''}`}
+                        onClick={() => goToSection('map-section')}
+                    >
                         {t('Map', 'ನಕ್ಷೆ')}
                     </button>
 
@@ -229,7 +267,11 @@ const Navbar = () => {
 
                                     <button type="button" className="profile-dropdown-item" onClick={toggleTheme}>
                                         <span>{state.theme === 'dark' ? '☀️' : '🌙'}</span>
-                                        <span>{state.theme === 'dark' ? t('Light Mode', 'ಲೈಟ್ ಮೋಡ್') : t('Dark Mode', 'ಡಾರ್ಕ್ ಮೋಡ್')}</span>
+                                        <span>
+                                            {state.theme === 'dark'
+                                                ? t('Light Mode', 'ಲೈಟ್ ಮೋಡ್')
+                                                : t('Dark Mode', 'ಡಾರ್ಕ್ ಮೋಡ್')}
+                                        </span>
                                     </button>
 
                                     {user?.role === 'admin' && (
@@ -252,9 +294,9 @@ const Navbar = () => {
                         </Link>
                     )}
 
-                    <button 
-                        id="hamburger" 
-                        type="button" 
+                    <button
+                        id="hamburger"
+                        type="button"
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                     >
                         {mobileMenuOpen ? '✕' : '☰'}
