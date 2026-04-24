@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { getVideos, getExplorers } from '../services/videoService';
+import { getVideos, getExplorers, getVideoById } from '../services/videoService';
 import { useAuth } from '../context/AuthContext';
 import './VideoGallery.css';
 
@@ -454,7 +454,7 @@ function VideoSection({ videos, loading, error, categoryFilter, setCategoryFilte
 //   );
 // }
 
-/* ─── Main Export: VideoGallery ─────────────────────────────────────────────── */
+/* ─── Main Export: VideoGallery ─────────────────────────────────────────────── 
 export default function VideoGallery() {
   const { user } = useAuth();
   const [videos, setVideos] = useState([]);
@@ -509,6 +509,98 @@ export default function VideoGallery() {
         categoryFilter={categoryFilter} setCategoryFilter={setCategoryFilter}
         search={search} setSearch={setSearch}
         onSelectVideo={setSelectedVideo}
+      />
+      {/* <LocalExplorers explorers={explorers} /> *
+
+      {selectedVideo && <VideoModal video={selectedVideo} onClose={() => setSelectedVideo(null)} />}
+    </div>
+  );
+}
+
+*/
+
+
+
+
+// new
+
+
+
+export default function VideoGallery() {
+  const { user } = useAuth();
+  const [videos, setVideos] = useState([]);
+  const [explorers, setExplorers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [search, setSearch] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('');
+
+  const fetchVideos = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError('');
+      const params = { status: 'approved' };
+      if (categoryFilter) params.category = categoryFilter;
+      const res = await getVideos(params);
+      setVideos(Array.isArray(res?.data) ? res.data : []);
+    } catch (err) {
+      console.error('Fetch Error:', err);
+      setError('Could not connect to the server.');
+      setVideos([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [categoryFilter]);
+
+  useEffect(() => { fetchVideos(); }, [fetchVideos]);
+
+  useEffect(() => {
+    const fetchExplorers = async () => {
+      try {
+        const res = await getExplorers();
+        setExplorers(Array.isArray(res?.data) ? res.data : []);
+      } catch (e) {
+        console.error('Fetch explorers error:', e);
+      }
+    };
+    fetchExplorers();
+  }, []);
+
+  const scrollToVideos = () =>
+    document.getElementById('gallery-section')?.scrollIntoView({ behavior: 'smooth' });
+
+  // NEW: Handle video selection with view increment
+  const handleSelectVideo = async (video) => {
+    try {
+      // Call GET /api/videos/:id which increments views on backend
+      const res = await getVideoById(video._id);
+      const updatedVideo = res?.data;
+
+      // Update modal with fresh data
+      setSelectedVideo(updatedVideo);
+
+      // Update the video in the list so card + stats update immediately
+      setVideos((prev) =>
+        prev.map((v) => (v._id === updatedVideo._id ? updatedVideo : v))
+      );
+    } catch (err) {
+      console.error('Failed to fetch video details:', err);
+      // Fallback to cached video if API fails
+      setSelectedVideo(video);
+    }
+  };
+
+  return (
+    <div className="vg-root">
+      <Ticker />
+      <DiscoveryGrid onFilter={setCategoryFilter} scrollToVideos={scrollToVideos} />
+      <StatsStrip videos={videos} />
+      <VideoSection
+        videos={videos} loading={loading} error={error}
+        categoryFilter={categoryFilter} setCategoryFilter={setCategoryFilter}
+        search={search} setSearch={setSearch}
+        onSelectVideo={handleSelectVideo} 
       />
       {/* <LocalExplorers explorers={explorers} /> */}
 
