@@ -6,7 +6,6 @@ const AISection = () => {
 
     const [selections, setSelections] = useState([]);
     const [picks, setPicks] = useState([]);
-    const [loading, setLoading] = useState(false);
 
     const t = (en, kn) => state.language === 'en' ? en : kn;
 
@@ -25,164 +24,158 @@ const AISection = () => {
     };
 
     const getRecommendations = () => {
-        setLoading(true);
+        const recommended = locations
+            .filter(loc => {
+                const tags = loc.tags.map(t => t.toLowerCase());
+                return selections.some(
+                    s =>
+                        tags.includes(s) ||
+                        loc.category.toLowerCase().includes(s)
+                );
+            })
+            .slice(0, 3);
 
-        setTimeout(() => {
-            const recommended = locations
-                .filter(loc => {
-                    const tags = loc.tags.map(t => t.toLowerCase());
-                    return selections.some(
-                        s =>
-                            tags.includes(s) ||
-                            loc.category.toLowerCase().includes(s)
-                    );
-                })
-                .slice(0, 3);
-
-            setPicks(recommended);
-            setLoading(false);
-        }, 1800); // fake AI delay
+        setPicks(recommended);
     };
 
     return (
         <section id="ai-section" className="section ai-disabled">
 
+            {/* 🔥 INLINE CSS */}
             <style>{`
                 .ai-disabled {
                     position: relative;
+                    overflow: hidden;
                 }
 
+                /* 🔥 Blur entire content */
+                .ai-blur {
+                    filter: blur(6px);
+                    opacity: 0.4;
+                    pointer-events: none;
+                    user-select: none;
+                }
+
+                /* 🔥 Overlay */
+                .ai-overlay {
+                    position: absolute;
+                    inset: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                    z-index: 5;
+                }
+
+                /* 🔥 Coming soon badge (main focus) */
                 .coming-badge {
-                    margin-left: 10px;
-                    padding: 4px 10px;
-                    font-size: 10px;
-                    font-weight: 700;
+                    padding: 8px 18px;
+                    font-size: 12px;
+                    font-weight: 800;
+                    letter-spacing: 0.6px;
+                    text-transform: uppercase;
+
                     background: linear-gradient(45deg, #6366f1, #8b5cf6);
-                    border-radius: 20px;
+                    color: #fff;
+
+                    border-radius: 30px;
+                    box-shadow: 0 0 25px rgba(139, 92, 246, 0.6);
+
+                    margin-bottom: 12px;
                 }
 
-                .quiz-option {
-                    padding: 8px 14px;
-                    border-radius: 20px;
-                    border: 1px solid rgba(255,255,255,0.2);
-                    background: transparent;
-                    color: white;
-                    cursor: pointer;
-                    transition: 0.3s;
-                }
-
-                .quiz-option:hover {
-                    background: rgba(255,255,255,0.1);
-                }
-
-                .quiz-option.selected {
-                    background: #38bdf8;
-                    color: black;
-                }
-
-                .ai-loader {
+                .coming-text {
+                    font-size: 1rem;
+                    opacity: 0.85;
                     text-align: center;
+                    max-width: 300px;
+                }
+
+                /* subtle animated glow */
+                .coming-badge {
+                    animation: glow 2s infinite ease-in-out;
+                }
+
+                @keyframes glow {
+                    0% { box-shadow: 0 0 10px rgba(139,92,246,0.4); }
+                    50% { box-shadow: 0 0 30px rgba(139,92,246,0.8); }
+                    100% { box-shadow: 0 0 10px rgba(139,92,246,0.4); }
+                }
+
+                /* optional skeleton preview */
+                .preview-cards {
+                    display: flex;
+                    gap: 10px;
                     margin-top: 20px;
-                    font-size: 14px;
-                    opacity: 0.8;
-                    animation: pulse 1.5s infinite;
                 }
 
-                @keyframes pulse {
-                    0% { opacity: 0.5; }
-                    50% { opacity: 1; }
-                    100% { opacity: 0.5; }
-                }
-
-                .skeleton-card {
-                    height: 80px;
-                    border-radius: 12px;
+                .preview-card {
+                    width: 80px;
+                    height: 60px;
+                    border-radius: 10px;
                     background: linear-gradient(
                         90deg,
-                        rgba(255,255,255,0.05) 25%,
-                        rgba(255,255,255,0.1) 50%,
-                        rgba(255,255,255,0.05) 75%
+                        rgba(255,255,255,0.05),
+                        rgba(255,255,255,0.15),
+                        rgba(255,255,255,0.05)
                     );
                     background-size: 200% 100%;
                     animation: shimmer 1.5s infinite;
-                    margin-top: 10px;
                 }
 
                 @keyframes shimmer {
                     0% { background-position: -200% 0; }
                     100% { background-position: 200% 0; }
                 }
-
-                .ai-pick-card {
-                    padding: 14px;
-                    border-radius: 12px;
-                    margin-top: 10px;
-                    background: rgba(255,255,255,0.05);
-                    transition: 0.3s;
-                }
-
-                .ai-pick-card:hover {
-                    transform: translateY(-3px);
-                    background: rgba(255,255,255,0.1);
-                }
             `}</style>
 
             <div className="container">
-                <div className="section-head text-center">
-                    <div className="section-label">
-                        {t('NammaBot AI', 'ನಮ್ಮಬೋಟ್ AI')}
-                        <span className="coming-badge">
-                            {t('Coming Soon', 'ಶೀಘ್ರದಲ್ಲೇ')}
-                        </span>
+                
+                {/* 🔥 BLURRED CONTENT */}
+                <div className="ai-blur">
+                    <div className="section-head text-center">
+                        <div className="section-label">
+                            {t('NammaBot AI', 'ನಮ್ಮಬೋಟ್ AI')}
+                        </div>
+
+                        <h2 className="section-title">
+                            {t('Personalized Picks Just For You', 'ನಿಮಗಾಗಿಯೇ ವೈಯಕ್ತೀಕರಿಸಿದ ಆಯ್ಕೆಗಳು')}
+                        </h2>
                     </div>
 
-                    <h2 className="section-title">
-                        {t('Personalized Picks Just For You', 'ನಿಮಗಾಗಿಯೇ ವೈಯಕ್ತೀಕರಿಸಿದ ಆಯ್ಕೆಗಳು')}
-                    </h2>
-                </div>
-
-                <div className="quiz-card">
-                    <h3>{t('What defines your travel style?', 'ನಿಮ್ಮ ಪ್ರಯಾಣದ ಶೈಲಿ ಯಾವುದು?')}</h3>
-
-                    <div className="quiz-options">
-                        {options.map(opt => (
-                            <button
-                                key={opt.id}
-                                className={`quiz-option ${selections.includes(opt.id) ? 'selected' : ''}`}
-                                onClick={() => toggleOption(opt.id)}
-                            >
-                                {opt.label}
-                            </button>
-                        ))}
-                    </div>
-
-                    <button className="btn btn-primary" onClick={getRecommendations}>
-                        {t('Generate My AI Picks', 'ನನ್ನ AI ಆಯ್ಕೆಗಳನ್ನು ತಯಾರಿಸಿ')}
-                    </button>
-
-                    {loading && (
-                        <>
-                            <div className="ai-loader">
-                                🤖 {t('Analyzing your vibe...', 'ನಿಮ್ಮ ಶೈಲಿಯನ್ನು ವಿಶ್ಲೇಷಿಸಲಾಗುತ್ತಿದೆ...')}
-                            </div>
-
-                            <div className="skeleton-card"></div>
-                            <div className="skeleton-card"></div>
-                            <div className="skeleton-card"></div>
-                        </>
-                    )}
-
-                    {!loading && picks.length > 0 && (
-                        <div className="ai-picks">
-                            {picks.map(loc => (
-                                <div key={loc._id} className="ai-pick-card">
-                                    <div>✨ {t('Perfect for your style', 'ನಿಮ್ಮ ಶೈಲಿಗೆ ಸೂಕ್ತವಾಗಿದೆ')}</div>
-                                    <div>{loc.displayName || loc.name?.en}</div>
-                                    <div>{loc.city} • {loc.category}</div>
-                                </div>
+                    <div className="quiz-card">
+                        <div className="quiz-options">
+                            {options.map(opt => (
+                                <button key={opt.id} className="quiz-option">
+                                    {opt.label}
+                                </button>
                             ))}
                         </div>
-                    )}
+
+                        <button className="btn btn-primary">
+                            {t('Generate My AI Picks', 'ನನ್ನ AI ಆಯ್ಕೆಗಳನ್ನು ತಯಾರಿಸಿ')}
+                        </button>
+
+                        <div className="preview-cards">
+                            <div className="preview-card"></div>
+                            <div className="preview-card"></div>
+                            <div className="preview-card"></div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* 🔥 VISIBLE OVERLAY */}
+                <div className="ai-overlay">
+                    <div className="coming-badge">
+                        {t('Coming Soon', 'ಶೀಘ್ರದಲ್ಲೇ')}
+                    </div>
+
+                    <div className="coming-text">
+                        {t(
+                            'AI-powered travel recommendations are on the way. Stay tuned!',
+                            'AI ಆಧಾರಿತ ಪ್ರವಾಸ ಸಲಹೆಗಳು ಶೀಘ್ರದಲ್ಲೇ ಬರುತ್ತಿವೆ.'
+                        )}
+                    </div>
                 </div>
             </div>
         </section>
