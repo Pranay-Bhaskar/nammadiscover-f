@@ -188,7 +188,7 @@ const STATS = [
         <circle cx="12" cy="9" r="2.5" />
       </svg>
     ),
-    value: '500+',
+    value: '70+',
     label: 'Hidden Places',
   },
   {
@@ -198,7 +198,7 @@ const STATS = [
         <polygon points="10,9 16,12 10,15" fill="currentColor" stroke="none" />
       </svg>
     ),
-    value: '1000+',
+    value: '4+',
     label: 'Stories & Videos',
   },
   {
@@ -210,8 +210,8 @@ const STATS = [
         <path d="M13 19c0-3.31 2.69-6 6-6h.5" />
       </svg>
     ),
-    value: '300+',
-    label: 'Local Connects',
+    value: '20+',
+    label: 'Users',
   },
 ];
  
@@ -266,10 +266,7 @@ const Landing = () => {
 
             {/* ══ HERO ══ */}
             <section className="hero">
-      <div
-        className="hero__bg"
-        style={{ backgroundImage: `url(${heroBg})` }}
-      />
+      <div className="hero__bg" style={{ backgroundImage: `url(${heroBg})` }}/>
       <div className="hero__overlay" />
  
       <div className="hero__content container">
