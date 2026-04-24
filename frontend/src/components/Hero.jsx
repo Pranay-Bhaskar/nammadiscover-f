@@ -257,7 +257,7 @@ const Hero = () => {
 
     //new
 
-   const handleSearch = async () => {
+    const handleSearch = async () => {
     if (!searchQuery.trim()) return;
 
     setIsSearching(true);
@@ -273,41 +273,36 @@ const Hero = () => {
         longitude: String(userLocation.lng),
         });
 
-        const backendUrl = `http://localhost:5000/api/places/search?${params.toString()}`;
+        const API_BASE = import.meta.env.VITE_API_URL;
+        const backendUrl = `${API_BASE}/api/places/search?${params.toString()}`;
 
         console.log('Calling backend:', backendUrl);
 
-        const response = await fetch(backendUrl, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        });
+        const response = await fetch(backendUrl);
 
         if (!response.ok) {
-        throw new Error(`Search failed with status ${response.status}`);
+        const text = await response.text();
+        throw new Error(`Backend error ${response.status}: ${text}`);
         }
 
         const data = await response.json();
-        console.log('Backend response:', data);
-
         const places = data.places || [];
 
         setSearchResults(places);
 
         if (places.length === 0) {
-        setSearchError('No places found. Try a different search term.');
+        setSearchError('No places found');
         }
     } catch (error) {
         console.error('Search error:', error);
-        setSearchError('Failed to search places');
+        setSearchError(error.message || 'Failed to search places');
         setSearchResults([]);
     } finally {
         setIsSearching(false);
     }
-  };
+    };
 
-  
+
   // Open location in Google Maps
   const openLocationInMaps = (place) => {
     const placeName = typeof place.name === 'object' ? place.name?.en || place.name?.kn : place.name;
