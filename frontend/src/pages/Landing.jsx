@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useApp } from '../store/AppContext';
 import './Home.css';
+import './Hero.css';
 
 /* ── tiny scroll-reveal hook ── */
 function useReveal(threshold = 0.15) {
@@ -178,6 +179,48 @@ const Footer = ({ t }) => (
     </footer>
 );
 
+const STATS = [
+  {
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+        <circle cx="12" cy="9" r="2.5" />
+      </svg>
+    ),
+    value: '500+',
+    label: 'Hidden Places',
+  },
+  {
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <rect x="2" y="4" width="20" height="16" rx="3" />
+        <polygon points="10,9 16,12 10,15" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+    value: '1000+',
+    label: 'Stories & Videos',
+  },
+  {
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <circle cx="9" cy="7" r="3" />
+        <circle cx="16" cy="7" r="3" />
+        <path d="M3 19c0-3.31 2.69-6 6-6h1" />
+        <path d="M13 19c0-3.31 2.69-6 6-6h.5" />
+      </svg>
+    ),
+    value: '300+',
+    label: 'Local Connects',
+  },
+];
+ 
+const MAP_PINS = [
+  { top: '28%', left: '62%', label: '8' },
+  { top: '42%', left: '22%', label: '12' },
+  { top: '38%', left: '72%', label: '3' },
+  { top: '65%', left: '38%', label: '5' },
+];
+
 /* ══ MAIN LANDING ══════════════════════════════════════════════════ */
 const Landing = () => {
     const { state, dispatch } = useApp();
@@ -222,85 +265,174 @@ const Landing = () => {
 
             {/* ══ HERO ══ */}
             <section className="hero">
-                <div className="hero__grain" aria-hidden="true" />
-                <div className="hero__blob hero__blob--1" aria-hidden="true" />
-                <div className="hero__blob hero__blob--2" aria-hidden="true" />
-                <div className="hero__blob hero__blob--3" aria-hidden="true" />
-                <div className="hero__bg-kn" aria-hidden="true">ಕರ್ನಾಟಕ</div>
-                <div className="hero__ring hero__ring--1" aria-hidden="true" />
-                <div className="hero__ring hero__ring--2" aria-hidden="true" />
-                <div className="hero__ring hero__ring--3" aria-hidden="true" />
-
-                {/* <div className="hero__float hero__float--1">🏯 Hampi</div> */}
-                <div className="hero__float hero__float--2">☕ Coorg</div>
-                {/* <div className="hero__float hero__float--3">★ 4.9</div> */}
-                <div className="hero__float hero__float--4">🛕 Belur</div>
-                <div className="hero__float hero__float--5">🌿 1,200+ Locals</div>
-
-                <div className="hero__content container">
-                    <div className="hero__left">
-                        <div className="badge-primary">
-                            <span className="badge-dot" />
-                            {t('Authenticity First · Since 2026', 'ಅಪ್ಪಟತನವೇ ಮೊದಲು · 2026 ರಿಂದ')}
-                        </div>
-                        <h1 className="hero__title">
-                            <span className="hero__word hero__word--1">{t('Rediscover', 'ಮರುಶೋಧಿಸಿ')}</span>
-                            <span className="hero__word hero__word--2 text-gradient">Karnataka</span>
-                            <span className="hero__word hero__word--3 hero__italic">
-                                {t('Through Local Eyes', 'ಸ್ಥಳೀಯರ ಕಣ್ಣಿನಿಂದ')}
-                            </span>
-                        </h1>
-                        <p className="hero__subtitle">
-                            {t(
-                                "Escape tourist traps. Connect with family-run gems, heritage spots, and verified local guides across Karnataka's 30 districts.",
-                                "ಪ್ರವಾಸಿ ಮೋಸದಿಂದ ಪಾರಾಗಿ. ಕರ್ನಾಟಕದ 30 ಜಿಲ್ಲೆಗಳ ಕುಟುಂಬ ರತ್ನಗಳು ಮತ್ತು ಸ್ಥಳೀಯ ಮಾರ್ಗದರ್ಶಕರೊಂದಿಗೆ ಸಂಪರ್ಕ ಸಾಧಿಸಿ."
-                            )}
-                        </p>
-                        <div className="hero__actions">
-                            <Link to="/login" className="btn btn-primary btn-hero">
-                                {t('Start Exploring', 'ಅನ್ವೇಷಿಸಲು ಪ್ರಾರಂಭಿಸಿ')}
-                                <span className="btn-arrow">→</span>
-                            </Link>
-                            <a href="#discover-section" className="btn btn-ghost">
-                                {t('See the Spots', 'ತಾಣಗಳನ್ನು ನೋಡಿ')}
-                            </a>
-                        </div>
-                        <div className="hero__trust">
-                            <div className="trust-avatars">
-                                {['🧑', '👩', '👨', '👩', '🧑'].map((e, i) => (
-                                    <span key={i} className="trust-avatar">{e}</span>
-                                ))}
-                            </div>
-                            <div>
-                                <div className="trust-stars">★★★★★</div>
-                                <div className="trust-label">
-                                    {t('1,200+ locals sharing Karnataka', '1,200+ ಸ್ಥಳೀಯರು ಕರ್ನಾಟಕ ಹಂಚಿಕೊಳ್ಳುತ್ತಿದ್ದಾರೆ')}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="hero__right">
-                        <div className="hero__card-stack">
-                            {SPOTS.slice(0, 3).map((s, i) => (
-                                <div key={i} className={`hero-stack__card hero-stack__card--${i}`}
-                                    style={{ background: s.gradient }}>
-                                    <div className="hero-stack__emoji">{s.emoji}</div>
-                                    <div className="hero-stack__title">{s.title}</div>
-                                    <div className="hero-stack__sub">📍 {s.sub}</div>
-                                    {s.verified && <div className="hero-stack__badge">✓ {t('Verified', 'ಪರಿಶೀಲಿಸಿದ')}</div>}
-                                    <div className="hero-stack__rating">★ {s.rating}</div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+      {/* ── Background landscape image ── */}
+      {/* Replace the src below with your actual image path or use a CSS background-image */}
+      <div
+        className="hero__bg"
+        /* style={{ backgroundImage: `url(${heroBg})` }} */
+      />
+      <div className="hero__overlay" />
+ 
+      <div className="hero__content container">
+        {/* ════ LEFT ════ */}
+        <div className="hero__left">
+          <div className="badge-primary">
+            <span className="badge-dot" />
+            {t('Discover the Real Karnataka', 'ಅಪ್ಪಟ ಕರ್ನಾಟಕ ಅನ್ವೇಷಿಸಿ')}
+          </div>
+ 
+          <h1 className="hero__title">
+            <span className="hero__line">
+              {t('Explore Hidden Places.', 'ಅಡಗಿದ ತಾಣಗಳ ಅನ್ವೇಷಿಸಿ.')}
+            </span>
+            <span className="hero__line">
+              {t('Connect with Locals.', 'ಸ್ಥಳೀಯರೊಂದಿಗೆ ಸಂಪರ್ಕ.')}
+            </span>
+            <span className="hero__line text-gradient">
+              {t('Experience Authenticity.', 'ಅಪ್ಪಟತನ ಅನುಭವಿಸಿ.')}
+            </span>
+          </h1>
+ 
+          <p className="hero__subtitle">
+            {t(
+              'Find offbeat destinations, untold stories and real experiences curated by explorers and locals across ',
+              'ಅನ್ವೇಷಕರು ಮತ್ತು ಸ್ಥಳೀಯರಿಂದ ಆಯ್ದ ಅಪ್ರಸಿದ್ಧ ತಾಣಗಳು, ಅಜ್ಞಾತ ಕಥೆಗಳು ಮತ್ತು ನೈಜ ಅನುಭವಗಳನ್ನು ಹುಡುಕಿ ',
+            )}
+            <span className="text-gradient">{t('Karnataka', 'ಕರ್ನಾಟಕ')}</span>
+            {t('.', '.')}
+          </p>
+ 
+          <div className="hero__actions">
+            <Link to="/login" className="btn btn-primary btn-hero">
+              {t('Explore Now', 'ಅನ್ವೇಷಿಸಿ')}
+              <span className="btn-arrow">→</span>
+            </Link>
+            <a href="#discover-section" className="btn btn-ghost">
+              {t('See the Spots', 'ತಾಣಗಳನ್ನು ನೋಡಿ')}
+            </a>
+          </div>
+ 
+          <div className="hero__stats">
+            {STATS.map((s, i) => (
+              <div key={i} className="hero__stat">
+                <div className="hero__stat-icon">{s.icon}</div>
+                <div>
+                  <div className="hero__stat-value">{s.value}</div>
+                  <div className="hero__stat-label">{t(s.label, s.label)}</div>
                 </div>
-
-                {/* <div className="hero__scroll-hint">
-                    <div className="scroll-mouse"><div className="scroll-wheel" /></div>
-                    <span>{t('scroll to discover', 'ಕೆಳಗೆ ಸ್ಕ್ರಾಲ್ ಮಾಡಿ')}</span>
-                </div> */}
-            </section>
+              </div>
+            ))}
+          </div>
+        </div>
+ 
+        {/* ════ RIGHT — Phone Mockup ════ */}
+        <div className="hero__right">
+          <div className="hero__phone-wrap">
+            {/* Verified badge floating card */}
+            <div className="phone__verified-card">
+              <div className="phone__verified-icon">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M12 2L3 7v5c0 5.25 3.8 10.15 9 11.35C17.2 22.15 21 17.25 21 12V7L12 2z"
+                    fill="#2d6a4f"
+                  />
+                  <polyline points="9,12 11,14 15,10" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+              </div>
+              <div>
+                <div className="phone__verified-line">Verified Stories.</div>
+                <div className="phone__verified-line">Real Experiences.</div>
+              </div>
+            </div>
+ 
+            {/* Phone frame */}
+            <div className="hero__phone">
+              <div className="phone__notch" />
+              <div className="phone__screen">
+                {/* Map area */}
+                <div className="phone__map">
+                  <div className="phone__map-header">
+                    <span className="phone__city">
+                      Chikmagalur
+                      <svg viewBox="0 0 10 6" width="10" height="6" style={{ marginLeft: 4 }}>
+                        <path d="M0 0l5 6 5-6z" fill="currentColor" />
+                      </svg>
+                    </span>
+                    <div className="phone__map-icons">
+                      <span>🔍</span>
+                      <span>🔔</span>
+                    </div>
+                  </div>
+                  {/* Map grid lines */}
+                  <div className="map__grid" />
+                  {/* Pins */}
+                  {MAP_PINS.map((p, i) => (
+                    <div
+                      key={i}
+                      className="map__pin"
+                      style={{ top: p.top, left: p.left }}
+                    >
+                      {p.label}
+                    </div>
+                  ))}
+                  <div className="map__pin map__pin--active" style={{ top: '52%', left: '52%' }}>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="#fff">
+                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+                    </svg>
+                  </div>
+                </div>
+ 
+                {/* Bottom card */}
+                <div className="phone__card">
+                  <div className="phone__card-img">
+                    {/* Replace with: <img src={mullayanBg} alt="Mullayanagiri" /> */}
+                    <div className="phone__card-img-placeholder" />
+                    <div className="phone__play-btn">
+                      <svg viewBox="0 0 24 24" fill="#fff" width="18" height="18">
+                        <circle cx="12" cy="12" r="12" fill="rgba(0,0,0,0.45)" />
+                        <polygon points="10,8 18,12 10,16" fill="#fff" />
+                      </svg>
+                    </div>
+                    <div className="phone__gem-badge">Hidden Gem</div>
+                  </div>
+                  <div className="phone__card-body">
+                    <div className="phone__card-title">Mullayanagiri Trails</div>
+                    <div className="phone__card-desc">
+                      Breathtaking views, peaceful vibes and a trek worth remembering.
+                    </div>
+                    <div className="phone__card-footer">
+                      <div className="phone__author">
+                        <div className="phone__avatar">🧑</div>
+                        <span>By Local Explorer</span>
+                      </div>
+                      <span className="phone__heart">♡</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+      {/* ════ Trust Bar ════ */}
+      <div className="hero__trust-bar">
+        <div className="trust-avatars">
+          {['🧑', '👩', '👨', '👩', '🧑'].map((e, i) => (
+            <span key={i} className="trust-avatar">
+              {e}
+            </span>
+          ))}
+        </div>
+        <div className="trust-text">
+          {t('Loved by explorers and travelers across India', 'ಭಾರತದ ಪ್ರವಾಸಿಗರ ಮೆಚ್ಚಿನ ಆಯ್ಕೆ')}
+        </div>
+        <div className="trust-rating">
+          <span className="trust-stars">★★★★★</span>
+          <span className="trust-score">4.8/5</span>
+        </div>
+      </div>
+    </section>
 
             {/* ══ DUAL TICKER ══ */}
             <div className="ticker-outer">
