@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useApp } from '../store/AppContext';
 import './Home.css';
 import './Hero.css';
+import heroBg from '../assets/karnataka-hero.jpg';
 
 /* ── tiny scroll-reveal hook ── */
 function useReveal(threshold = 0.15) {
@@ -265,11 +266,9 @@ const Landing = () => {
 
             {/* ══ HERO ══ */}
             <section className="hero">
-      {/* ── Background landscape image ── */}
-      {/* Replace the src below with your actual image path or use a CSS background-image */}
       <div
         className="hero__bg"
-        /* style={{ backgroundImage: `url(${heroBg})` }} */
+        style={{ backgroundImage: `url(${heroBg})` }}
       />
       <div className="hero__overlay" />
  
