@@ -84,10 +84,11 @@ const Navbar = () => {
 
     const handleLogout = () => {
         setProfileOpen(false);
-        logout();
         navigate('/', { replace: true });
+        setTimeout(() => {
+            logout();
+        }, 0);
     };
-
     const isHome = location.pathname === '/dashboard';
 
     const extraStyles = (
