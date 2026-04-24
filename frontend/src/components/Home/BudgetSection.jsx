@@ -11,9 +11,61 @@ const BudgetSection = () => {
     const filtered = locations.filter(loc => loc.budget <= budget).slice(0, 8);
 
     return (
-        <section id="budget-section" className="section section-alt">
+        <section id="budget-section" className="section section-alt budget-disabled">
+
             <style>{`
-                /* INFINITE SCROLL LOGIC */
+                /* 🔥 DISABLED WRAPPER */
+                .budget-disabled {
+                    position: relative;
+                    overflow: hidden;
+                }
+
+                .budget-blur {
+                    filter: blur(5px);
+                    opacity: 0.4;
+                    pointer-events: none;
+                    user-select: none;
+                }
+
+                /* 🔥 OVERLAY */
+                .budget-overlay {
+                    position: absolute;
+                    inset: 0;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 5;
+                    text-align: center;
+                }
+
+                .coming-badge {
+                    padding: 8px 18px;
+                    font-size: 12px;
+                    font-weight: 800;
+                    letter-spacing: 0.6px;
+                    text-transform: uppercase;
+                    background: linear-gradient(45deg, #f59e0b, #ef4444);
+                    color: #fff;
+                    border-radius: 30px;
+                    box-shadow: 0 0 25px rgba(239, 68, 68, 0.6);
+                    margin-bottom: 12px;
+                    animation: glow 2s infinite ease-in-out;
+                }
+
+                .coming-text {
+                    font-size: 1rem;
+                    opacity: 0.85;
+                    max-width: 320px;
+                }
+
+                @keyframes glow {
+                    0% { box-shadow: 0 0 10px rgba(239,68,68,0.4); }
+                    50% { box-shadow: 0 0 30px rgba(239,68,68,0.8); }
+                    100% { box-shadow: 0 0 10px rgba(239,68,68,0.4); }
+                }
+
+                /* 🔥 SCROLL GRID */
                 .budget-grid-wrapper {
                     overflow: hidden;
                     position: relative;
@@ -26,7 +78,6 @@ const BudgetSection = () => {
                     gap: 1.5rem;
                     width: max-content;
                     animation: budgetScrollLoop 40s linear infinite;
-                    will-change: transform;
                 }
 
                 .budget-grid:hover {
@@ -42,15 +93,9 @@ const BudgetSection = () => {
                     min-width: 300px;
                     max-width: 320px;
                     flex-shrink: 0;
-                    transition: all 0.4s ease;
                 }
 
-                .budget-grid > *:hover {
-                    transform: translateY(-10px) scale(1.02);
-                    z-index: 5;
-                }
-
-                /* EDGE FADE EFFECT */
+                /* EDGE FADE */
                 .budget-grid-wrapper::before,
                 .budget-grid-wrapper::after {
                     content: "";
@@ -72,7 +117,20 @@ const BudgetSection = () => {
                     background: linear-gradient(to left, #080d1a, transparent);
                 }
 
-                /* MOBILE RESPONSIVENESS */
+                /* 🔥 FAKE SLIDER LOOK */
+                .fake-slider {
+                    height: 6px;
+                    border-radius: 10px;
+                    background: linear-gradient(to right, #38bdf8 40%, rgba(255,255,255,0.1) 40%);
+                    margin-top: 10px;
+                }
+
+                .budget-note {
+                    font-size: 0.85rem;
+                    opacity: 0.7;
+                    margin-top: 8px;
+                }
+
                 @media (max-width: 768px) {
                     .budget-grid {
                         animation: none;
@@ -80,50 +138,57 @@ const BudgetSection = () => {
                         width: 100%;
                         padding: 0 1rem;
                     }
-                    .budget-grid-wrapper::before,
-                    .budget-grid-wrapper::after {
-                        display: none;
-                    }
                 }
             `}</style>
 
             <div className="container">
-                <div className="section-head">
-                    <div className="section-label">{t('Smart Budget', 'ಸ್ಮಾರ್ಟ್ ಬಜೆಟ್')}</div>
-                    <h2 className="section-title">{t('Plan by Your Pocket', 'ನಿಮ್ಮ ಜೇಬಿಗೆ ಅನುಗುಣವಾಗಿ ಯೋಜಿಸಿ')}</h2>
-                </div>
 
-                <div className="budget-card-main">
-                    <div className="budget-range-wrap" style={{ marginBottom: '2rem' }}>
-                        <label htmlFor="budget-slider">
-                            {t('Your max budget per spot', 'ಒಂದು ಸ್ಥಳದ ಗರಿಷ್ಠ ಬಜೆಟ್')}:
-                        </label>
-                        <input
-                            id="budget-slider"
-                            type="range"
-                            min="50"
-                            max="5000"
-                            step="50"
-                            value={budget}
-                            onChange={(e) => setBudget(e.target.value)}
-                        />
-                        <span id="budget-val">₹{budget}</span>
+                {/* 🔥 BLURRED CONTENT */}
+                <div className="budget-blur">
+                    <div className="section-head">
+                        <div className="section-label">
+                            {t('Smart Budget', 'ಸ್ಮಾರ್ಟ್ ಬಜೆಟ್')}
+                        </div>
+                        <h2 className="section-title">
+                            {t('Plan by Your Pocket', 'ನಿಮ್ಮ ಜೇಬಿಗೆ ಅನುಗುಣವಾಗಿ ಯೋಜಿಸಿ')}
+                        </h2>
                     </div>
 
-                    {filtered.length > 0 ? (
+                    <div className="budget-card-main">
+
+                        {/* 🔥 FAKE SLIDER */}
+                        <div style={{ marginBottom: '2rem' }}>
+                            <label>
+                                {t('Your max budget per spot', 'ಒಂದು ಸ್ಥಳದ ಗರಿಷ್ಠ ಬಜೆಟ್')}:
+                            </label>
+                            <div className="fake-slider"></div>
+                            <div className="budget-note">
+                                ₹500 → {t('Budget optimized picks', 'ಬಜೆಟ್‌ಗೆ ಹೊಂದುವ ಆಯ್ಕೆಗಳು')}
+                            </div>
+                        </div>
+
                         <div className="budget-grid-wrapper">
                             <div className="budget-grid">
-
                                 {[...filtered, ...filtered].map((loc, i) => (
                                     <SpotCard key={`${loc._id}-${i}`} spot={loc} />
                                 ))}
                             </div>
                         </div>
-                    ) : (
-                        <div style={{ textAlign: 'center', padding: '3rem', opacity: 0.6 }}>
-                            <p>{t('No spots found in this budget. Try increasing it!', 'ಈ ಬಜೆಟ್‌ನಲ್ಲಿ ಯಾವುದೇ ಸ್ಥಳಗಳು ಕಂಡುಬಂದಿಲ್ಲ. ಅದನ್ನು ಹೆಚ್ಚಿಸಲು ಪ್ರಯತ್ನಿಸಿ!')}</p>
-                        </div>
-                    )}
+                    </div>
+                </div>
+
+                {/* 🔥 OVERLAY */}
+                <div className="budget-overlay">
+                    <div className="coming-badge">
+                        {t('Coming Soon', 'ಶೀಘ್ರದಲ್ಲೇ')}
+                    </div>
+
+                    <div className="coming-text">
+                        {t(
+                            'Smart budget-based travel planning is on the way. Discover the best places within your budget.',
+                            'ನಿಮ್ಮ ಬಜೆಟ್‌ಗೆ ಹೊಂದುವ ಸ್ಥಳಗಳನ್ನು ಶೀಘ್ರದಲ್ಲೇ ಕಂಡುಹಿಡಿಯಿರಿ.'
+                        )}
+                    </div>
                 </div>
             </div>
         </section>
