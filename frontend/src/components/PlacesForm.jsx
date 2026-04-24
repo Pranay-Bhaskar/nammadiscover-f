@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // Added useEffect
 import { createPlace } from "../services/placeService";
 import toast from "react-hot-toast";
 
@@ -27,6 +27,27 @@ export default function PlacesForm({ onSuccess }) {
   });
 
   const [loading, setLoading] = useState(false);
+
+  // ✨ AUTOMATIC LOCATION FETCHING
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setForm((prev) => ({
+            ...prev,
+            lat: position.coords.latitude.toString(),
+            lng: position.coords.longitude.toString(),
+          }));
+          toast.success("Location detected automatically!");
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+          toast.error("Could not auto-fetch location. Please enter manually.");
+        },
+        { enableHighAccuracy: true }
+      );
+    }
+  }, []);
 
   const handleField = (e) => {
     const { name, value } = e.target;
@@ -64,8 +85,8 @@ export default function PlacesForm({ onSuccess }) {
         district: form.district,
         latitude: lat,
         longitude: lng,
-        tags: form.tags.split(",").map(t => t.trim()).filter(Boolean),
-        images: form.images.split(",").map(i => i.trim()).filter(Boolean),
+        tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean),
+        images: form.images.split(",").map((i) => i.trim()).filter(Boolean),
         rating: Number(form.rating || 0),
         authenticityScore: Number(form.authenticityScore || 0),
         openingHours: form.openingHours,
@@ -102,7 +123,6 @@ export default function PlacesForm({ onSuccess }) {
         entryFee: "",
         address: "",
       });
-
     } catch (err) {
       toast.error(err.response?.data?.error || "Failed to submit");
     } finally {
@@ -112,89 +132,89 @@ export default function PlacesForm({ onSuccess }) {
 
   // 🎨 STYLES
   const styles = {
-  card: {
-    background: "var(--glass)",
-    backdropFilter: "blur(14px)",
-    padding: "24px",
-    borderRadius: "var(--radius)",
-    border: "1px solid var(--border)",
-    boxShadow: "var(--shadow)",
-    maxWidth: "800px",
-    margin: "auto",
-    transition: "var(--transition)",
-  },
+    card: {
+      background: "var(--glass)",
+      backdropFilter: "blur(14px)",
+      padding: "24px",
+      borderRadius: "var(--radius)",
+      border: "1px solid var(--border)",
+      boxShadow: "var(--shadow)",
+      maxWidth: "800px",
+      margin: "auto",
+      transition: "var(--transition)",
+    },
 
-  title: {
-    fontSize: "22px",
-    fontWeight: "600",
-    marginBottom: "20px",
-    fontFamily: "var(--font-head)",
-    color: "var(--text)",
-  },
+    title: {
+      fontSize: "22px",
+      fontWeight: "600",
+      marginBottom: "20px",
+      fontFamily: "var(--font-head)",
+      color: "var(--text)",
+    },
 
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "16px",
-  },
+    form: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "16px",
+    },
 
-  row: {
-    display: "flex",
-    gap: "16px",
-  },
+    row: {
+      display: "flex",
+      gap: "16px",
+    },
 
-  group: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "6px",
-    flex: 1,
-  },
+    group: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "6px",
+      flex: 1,
+    },
 
-  input: {
-    padding: "10px 12px",
-    border: "1px solid var(--border)",
-    borderRadius: "var(--radius-sm)",
-    fontSize: "14px",
-    background: "var(--glass-2)",
-    color: "var(--text)",
-    outline: "none",
-  },
+    input: {
+      padding: "10px 12px",
+      border: "1px solid var(--border)",
+      borderRadius: "var(--radius-sm)",
+      fontSize: "14px",
+      background: "var(--glass-2)",
+      color: "var(--text)",
+      outline: "none",
+    },
 
-  textarea: {
-    padding: "10px 12px",
-    border: "1px solid var(--border)",
-    borderRadius: "var(--radius-sm)",
-    fontSize: "14px",
-    minHeight: "80px",
-    background: "var(--glass-2)",
-    color: "var(--text)",
-    outline: "none",
-  },
+    textarea: {
+      padding: "10px 12px",
+      border: "1px solid var(--border)",
+      borderRadius: "var(--radius-sm)",
+      fontSize: "14px",
+      minHeight: "80px",
+      background: "var(--glass-2)",
+      color: "var(--text)",
+      outline: "none",
+    },
 
-  button: {
-    background: "var(--gradient-sunset)",
-    color: "#fff",
-    padding: "12px",
-    border: "none",
-    borderRadius: "var(--radius-sm)",
-    fontWeight: "600",
-    cursor: "pointer",
-    transition: "var(--transition)",
-    boxShadow: "var(--glow-or)",
-  },
+    button: {
+      background: "var(--gradient-sunset)",
+      color: "#fff",
+      padding: "12px",
+      border: "none",
+      borderRadius: "var(--radius-sm)",
+      fontWeight: "600",
+      cursor: "pointer",
+      transition: "var(--transition)",
+      boxShadow: "var(--glow-or)",
+    },
 
-  disabledBtn: {
-    opacity: 0.6,
-    cursor: "not-allowed",
-    boxShadow: "none",
-  }
-};
+    disabledBtn: {
+      opacity: 0.6,
+      cursor: "not-allowed",
+      boxShadow: "none",
+    },
+  };
+
   return (
     <div style={styles.card}>
       <h2 style={styles.title}>📍 Add a Place</h2>
 
       <form onSubmit={handleSubmit} style={styles.form}>
-
         {/* NAME */}
         <div style={styles.group}>
           <label>Name (English)*</label>
@@ -225,7 +245,7 @@ export default function PlacesForm({ onSuccess }) {
           <textarea style={styles.textarea} name="description_en" value={form.description_en} onChange={handleField} />
         </div>
 
-        {/* LOCATION */}
+        {/* LOCATION - Now auto-filled by useEffect */}
         <div style={styles.row}>
           <div style={styles.group}>
             <label>Latitude*</label>
@@ -287,13 +307,12 @@ export default function PlacesForm({ onSuccess }) {
         <button
           style={{
             ...styles.button,
-            ...(loading ? styles.disabledBtn : {})
+            ...(loading ? styles.disabledBtn : {}),
           }}
           disabled={loading}
         >
           {loading ? "Submitting..." : "🚀 Submit Place"}
         </button>
-
       </form>
     </div>
   );
