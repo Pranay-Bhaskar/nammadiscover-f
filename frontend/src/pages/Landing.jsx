@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useApp } from '../store/AppContext';
 import './Home.css';
 import './Hero.css';
-import heroBg from '../assets/karnataka-hero.jpg';
+import heroBg from '../assets/karnataka-hero.png';
 
 /* ── tiny scroll-reveal hook ── */
 function useReveal(threshold = 0.15) {
