@@ -46,10 +46,14 @@ const SPOTS = [
 ];
 
 const TESTIMONIALS = [
-    { name: 'Priya Nair', city: 'Bengaluru → Coorg', text: 'NammaDiscover changed how I travel. I met a coffee farmer who invited us to his family dinner. That evening was worth more than any resort stay.', rating: 5, avatar: '👩' },
-    { name: 'Arjun Hegde', city: 'Mumbai → Hampi', text: "My guide Ravi showed me cave temples not on any map. Zero tourists, pure magic. I've used a dozen travel apps — none come close to this.", rating: 5, avatar: '👨' },
-    { name: 'Divya Krishnamurthy', city: 'Hyderabad → Hassan', text: 'The bilingual listing for Belur was incredible — Kannada descriptions unlocked stories the English ones missed entirely. Masterpiece of a product.', rating: 5, avatar: '👩' },
-    { name: 'Suresh Patil', city: 'Pune → Dharwad', text: 'NammaBot told me about a Yakshagana performance in a village 12 km off the highway. Slept under stars afterwards. Unreal.', rating: 5, avatar: '🧑' },
+    { name: 'Satish', city: 'Bengaluru', text: 'Really interesting idea! I like how the platform focuses on authentic places instead of the usual tourist spots.', rating: 5, avatar: '👨' },
+    { name: 'Sanket', city: 'Bengaluru', text: "The map feature is super useful, and the video upload with approval makes the content feel trustworthy and not random.", rating: 5, avatar: '👨' },
+    { name: 'Saritha Quinn', city: 'Bengaluru', text: 'Namma Discover - Most Links are not Clickable. Irresponsive UI.', rating: 3, avatar: '👩' },
+    { name: 'Piyush', city: 'Bengaluru', text: 'Great concept, but right now the number of places feels limited and known. Would love to see more locations and content added.', rating: 3, avatar: '🧑' },
+    { name: 'Rajesh', city: 'Bengaluru', text: 'The idea is strong, but the app could be smoother in terms of performance and navigation.', rating: 3, avatar: '🧑' },
+    { name: 'Naveen', city: 'Bengaluru', text: 'Excited about this platform! Waiting to see AI-based recommendations and smarter suggestions in upcoming updates.', rating: 4, avatar: '🧑' },
+    { name: 'User', city: 'Bengaluru', text: 'The idea sounds good, but right now the platform feels incomplete. There aren’t enough places or content to explore, and the experience isn’t as smooth as expected. It needs more development before it becomes truly useful.', rating: 3, avatar: '🧑' },
+];
 ];
 
 const GUIDES = [
