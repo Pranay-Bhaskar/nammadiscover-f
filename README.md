@@ -3,7 +3,6 @@
 
 [![Vercel Deployment](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=flat-square&logo=vercel)](https://namma-discover.vercel.app)
 [![Render Deployment](https://img.shields.io/badge/Deployed%20on-Render-blue?style=flat-square&logo=render)](https://namma-discover.onrender.com)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](./LICENSE)
 [![Contributors](https://img.shields.io/github/contributors/Pranay-Bhaskar/nammadiscover-f?style=flat-square&color=blue)](https://github.com/Pranay-Bhaskar/nammadiscover-f/graphs/contributors)
 
 
