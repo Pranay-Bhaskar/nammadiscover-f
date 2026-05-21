@@ -10,15 +10,13 @@
 
 NammaDiscover Frontend is the client application for **NammaDiscover**, a Karnataka-focused discovery platform that helps users explore authentic places, connect with local guides, browse community-driven content, and access AI-assisted travel discovery through a modern web interface.
 
-</div>
-
-## Overview
-
 This repository contains the frontend codebase for the NammaDiscover platform. It is responsible for the user-facing experience, including authentication screens, landing pages, dashboards, exploration flows, media browsing, and role-based interfaces for general users and administrators.
 
 The frontend is designed to work with the NammaDiscover backend API and is deployed on Vercel.
 
 **Live Application:** [namma-discover.vercel.app](https://namma-discover.vercel.app)
+
+</div>
 
 ## Features
 
@@ -120,8 +118,5 @@ This repository depends on the NammaDiscover backend repository for:
 
 ## License
 
-Add your preferred license here, for example:
-
-```text
 MIT License
-```
+
