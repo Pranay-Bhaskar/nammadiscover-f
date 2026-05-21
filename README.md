@@ -112,9 +112,3 @@ This repository depends on the NammaDiscover backend repository for:
 - Location and content APIs
 - Media and moderation workflows
 - Admin operations
-
-
-## License
-
-MIT License
-
